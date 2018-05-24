@@ -14,7 +14,7 @@ export default class Account extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: '#ecf9fe', }}>
+            <View style={{ flex: 1, backgroundColor: '#277dac', }}>
                 <NormalHeader navigation={this.props.navigation} title='Tài khoản' />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Account</Text>
