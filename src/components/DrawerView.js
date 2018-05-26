@@ -38,8 +38,8 @@ class DrawerView extends Component {
                         </Button>
                     </ScrollView>
                     <Button large style={{ backgroundColor: '#277dac', position: 'absolute', bottom: 0, left: 0, right: 0, }} full transparent iconLeft onPress={() => alert('logout')}>
-                        <Icon style={[{ color: 'white' }, sty1]} name='ios-log-out-outline' />
-                        <Text uppercase={false} style={[{ marginLeft: 10, color: 'white', fontSize: responsiveFontSize(2.2) }, sty1]}>Đăng xuất</Text>
+                        <Icon style={[{ color: 'white' }]} name='ios-log-out-outline' />
+                        <Text uppercase={false} style={[{ marginLeft: 10, color: 'white', fontSize: responsiveFontSize(2.2) }]}>Đăng xuất</Text>
                     </Button>
                 </Container>
             </SafeAreaView>
