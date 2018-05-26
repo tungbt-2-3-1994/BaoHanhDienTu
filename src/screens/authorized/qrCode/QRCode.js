@@ -86,7 +86,13 @@ class QRCode extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <NormalHeader navigation={this.props.navigation} title='Bảo hành điện tử' />
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: 'white' }}>
+                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/up.png')} />
+                </Animated.View>
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: 'white' }}>
+                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/down.png')} />
+                </Animated.View>
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
                 <View style={styles.container}>
                     {this.props.nav.routes[0].index === 2 && this.state.isShow &&
                         <RNCamera
@@ -107,12 +113,7 @@ class QRCode extends Component {
 
 
                 </View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: 'white' }}>
-                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/up.png')} />
-                </Animated.View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: 'white' }}>
-                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/down.png')} />
-                </Animated.View>
+
             </View>
         );
     }
