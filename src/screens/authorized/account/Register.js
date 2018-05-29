@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, Modal, Platform, KeyboardAvoidingView } from 'react-native';
-import TextHeader from '../../../components/TextHeader';
+import BackHeader from '../../../components/BackHeader';
 import { width, height } from '../../../constants/dimensions';
 
 import { Icon, Button } from 'native-base';
@@ -18,7 +18,7 @@ export default class Account extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#277dad', }}>
-                <TextHeader navigation={this.props.navigation} title='ĐĂNG KÝ' />
+                <BackHeader navigation={this.props.navigation} title='ĐĂNG KÝ' />
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: 'white', fontSize: responsiveFontSize(2.3), textAlign: 'center', }}>Với mạng xã hội</Text>
                     <SocialIcon

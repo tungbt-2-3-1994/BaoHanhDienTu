@@ -113,10 +113,7 @@ class QRCode extends Component {
 
                         </RNCamera>
                     }
-
-
                 </View>
-
             </View>
         );
     }

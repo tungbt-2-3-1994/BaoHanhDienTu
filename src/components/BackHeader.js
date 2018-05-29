@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StatusBar, View } from 'react-native';
 
-import { Header, Button, Icon, Text, Container, Input, Item, InputGroup, Left, Right } from 'native-base';
+import { Header, Button, Body, Icon, Text, Container, Input, Item, InputGroup, Left, Right } from 'native-base';
 
 import { width } from '../constants/dimensions';
 
@@ -20,10 +20,9 @@ class BackHeader extends Component {
                         <Icon name='arrow-back' style={{ color: 'white' }} />
                     </Button>
                 </Left>
-                <Item style={{ backgroundColor: 'white', flex: 10 }}>
-                    <Icon name='ios-search' />
-                    <Input placeholder='Tìm kiếm' style={{ fontSize: responsiveFontSize(1.6) }} />
-                </Item>
+                <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
+                </Body>
                 <Right style={{ flex: 0.5 }}></Right>
             </Header>
         );
