@@ -51,8 +51,11 @@ class QRCode extends Component {
         ).start();
     }
 
-    componentWillReceiveProps(nextState, nextProps) {
+    componentWillMount() {
+        console.log('asasas')
+    }
 
+    componentWillReceiveProps(nextProps) {
     }
 
     async onBarCodeRead(scanResult) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, FlatList, TouchableOpacity, ActivityIndicator, ScrollView, TouchableHighlight } from 'react-native';
-import CommonHeader from '../../../components/CommonHeader';
+import NormalHeader from '../../../components/NormalHeader';
 
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
@@ -98,7 +98,7 @@ class Categories extends Component {
 
         return (
             <View style={styles.container}>
-                <CommonHeader navigation={this.props.navigation} onPress={this.onPress} />
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH'/>
                 <View style={{ flex: 1, paddingHorizontal: 4 }}>
                     <View style={{ width: width, height: height / 5 }}>
                         {(this.props.categories.loading === false && this.props.categories.categories.length !== 0) ?
