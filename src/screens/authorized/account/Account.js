@@ -51,7 +51,7 @@ export default class Account extends Component {
                             <Button bordered light style={styles.btnStyle}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                             </Button>
-                            <Button bordered light style={styles.btnStyle}>
+                            <Button bordered light style={styles.btnStyle} onPress={() => this.props.navigation.navigate('Register')}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng ký</Text>
                             </Button>
                         </View>

@@ -26,7 +26,7 @@ class TextHeader extends Component {
                     <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
                 </Body>
                 <Right style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    
+
                 </Right>
             </Header>
         );

@@ -41,7 +41,7 @@ import CommonHeader from '../components/CommonHeader';
 import HomeStack from './HomeStack';
 import ProductsStack from './ProductStack';
 import QRCodeStack from './QRCodeStack';
-import Account from '../screens/authorized/account/Account';
+import AccountStack from './AccountStack';
 import SearchStack from './SearchStack';
 
 export default MainTab = TabNavigator(
@@ -71,7 +71,7 @@ export default MainTab = TabNavigator(
             }
         },
         AccountStack: {
-            screen: Account,
+            screen: AccountStack,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => IconTab('ios-contact', tintColor, 30, 4, 'Tài khoản')
             }
