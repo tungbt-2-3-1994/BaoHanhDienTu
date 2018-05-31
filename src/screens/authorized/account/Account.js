@@ -19,8 +19,8 @@ export default class Account extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#277dad', }}>
                 <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image style={{ alignSelf: 'center', width: width, height: width / 2 }} source={require('../../../assets/imgs/logo.png')} />
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                    <Image style={{ alignSelf: 'center', width: 2 * height / 5, height: height / 5 }} source={require('../../../assets/imgs/logo.png')} />
                     <View style={{ borderWidth: 1, borderColor: 'white', width: width - 20, paddingHorizontal: 10, paddingVertical: 25, alignItems: 'center', marginTop: 20 }}>
                         <Input
                             containerStyle={{ width: 2 * width / 3 }}
@@ -56,7 +56,7 @@ export default class Account extends Component {
                             </Button>
                         </View>
                     </View>
-                    <View style={{ width: width, height: width / 2, justifyContent: 'center', paddingLeft: width / 8 }}>
+                    <View style={{ width: width, height: width / 3, justifyContent: 'center', paddingLeft: width / 8 }}>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Hotline: 0988.565.286 - 0941.375.866</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Mail: admin@giaiphapbaohanhdientu.com</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Website: www.giaiphapbaohanhdientu.com</Text>

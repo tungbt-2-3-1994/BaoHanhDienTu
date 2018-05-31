@@ -29,15 +29,17 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
   <key>NSCameraUsageDescription</key>
-  <string>Use to scan barcodes</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string></string>
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Get speech from user</string>
+  <string>Your message to user when the camera is accessed for the first time</string>
   <key>NSPhotoLibraryUsageDescription</key>
-  <string>Get to images</string>
-  <key>UIAppFonts</key>
+  <string>Your message to user when the photo library is accessed for the first time</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Your message to user when the microphone is accessed for the first time</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Access to the photo library</string>
+	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
