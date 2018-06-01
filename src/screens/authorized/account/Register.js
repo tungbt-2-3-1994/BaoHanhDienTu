@@ -23,13 +23,15 @@ export default class Account extends Component {
     }
 
     onRegister = () => {
+        console.log(this.state.password);
+        console.log(this.state.confirm_password);
         if (!validateEmail(this.state.email)) {
             this.setState({ error_email: 'Email không hợp lệ' });
         } else {
-            if (this.state.password.length < 7) {
+            if (this.state.password.length < 8) {
                 this.setState({ error_password: 'Mật khẩu phải dài hơn 8 ký tự' });
             } else {
-                if (this.state.password.localeCompare(this.state.confirm_password) != 0) {
+                if (this.state.password !== this.state.confirm_password) {
                     this.setState({ error_confirm_password: 'Mật khẩu không trùng nhau' });
                 } else {
                     alert('login');
@@ -97,7 +99,7 @@ export default class Account extends Component {
                             placeholderTextColor='white'
                             secureTextEntry={!this.state.checked}
                             underlineColorAndroid='transparent'
-                            onChangeText={(text) => { this.setState({ password: text }) }}
+                            onChangeText={(text) => { this.setState({ confirm_password: text }) }}
                             returnKeyType='done'
                             ref={(input) => this.confirmPassword = input}
                             onSubmitEditing={() => this.onRegister()}
