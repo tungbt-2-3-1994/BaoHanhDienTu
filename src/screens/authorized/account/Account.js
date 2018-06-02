@@ -6,20 +6,26 @@ import { width, height } from '../../../constants/dimensions';
 import { Icon, Button } from 'native-base';
 import { Input } from 'react-native-elements';
 import { responsiveFontSize } from '../../../utils/helpers';
+import { validateEmail } from '../../../utils/validateEmail';
 
 export default class Account extends Component {
     static navigationOptions = {
     }
 
     state = {
+        email: '',
+        password: ''
+    }
 
+    onLogin = () => {
+        alert(`onLogin with ${this.state.email}, ${this.state.password}`);
     }
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: '#277dad', }}>
+            <KeyboardAvoidingView behavior='padding' scrollEnabled={false} style={{ flex: 1, backgroundColor: '#277dad', }}>
                 <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                     <Image style={{ alignSelf: 'center', width: 2 * height / 5, height: height / 5 }} source={require('../../../assets/imgs/logo.png')} />
                     <View style={{ borderWidth: 1, borderColor: 'white', width: width - 20, paddingHorizontal: 10, paddingVertical: 25, alignItems: 'center', marginTop: 20 }}>
                         <Input
@@ -31,6 +37,11 @@ export default class Account extends Component {
                             errorStyle={{ color: 'red' }}
                             errorMessage='  '
                             placeholderTextColor='white'
+                            keyboardType='email-address'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            onSubmitEditing={() => this.password.focus()}
+                            onChangeText={(text) => this.setState({ email: text })}
                         />
                         <Input
                             containerStyle={{ width: 2 * width / 3 }}
@@ -41,6 +52,10 @@ export default class Account extends Component {
                             errorStyle={{ color: 'red' }}
                             placeholderTextColor='white'
                             secureTextEntry={true}
+                            returnKeyType='done'
+                            ref={(input) => this.password = input}
+                            onSubmitEditing={() => this.onLogin()}
+                            onChangeText={(text) => this.setState({ password: text })}
                         />
                         <View style={{ flexDirection: 'row', width: 2 * width / 3, justifyContent: 'flex-end', marginTop: 10 }}>
                             <TouchableOpacity style={{ backgroundColor: 'transparent' }}>
@@ -48,7 +63,7 @@ export default class Account extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-between', marginTop: 20 }}>
-                            <Button bordered light style={styles.btnStyle}>
+                            <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                             </Button>
                             <Button bordered light style={styles.btnStyle} onPress={() => this.props.navigation.navigate('Register')}>
@@ -61,8 +76,8 @@ export default class Account extends Component {
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Mail: admin@giaiphapbaohanhdientu.com</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Website: www.giaiphapbaohanhdientu.com</Text>
                     </View>
-                </KeyboardAvoidingView>
-            </View>
+                </View>
+            </KeyboardAvoidingView>
         );
     }
 }

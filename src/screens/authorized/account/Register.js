@@ -53,72 +53,74 @@ export default class Account extends Component {
                         type='facebook'
                     />
                     <Text style={{ marginTop: 30, color: 'rgba(255, 255, 255, 0.4)', fontSize: responsiveFontSize(2.1), textAlign: 'center', }}>------------Hoặc------------</Text>
-                    <View style={{ alignItems: 'center', marginTop: 40 }}>
-                        <Input
-                            containerStyle={{ width: 5 * width / 6, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
-                            inputContainerStyle={{ borderColor: 'transparent' }}
-                            inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
-                            leftIcon={<Icon name='ios-mail' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
-                            placeholder='Email'
-                            errorStyle={{ color: 'red' }}
-                            errorMessage={this.state.error_email}
-                            placeholderTextColor='white'
-                            keyboardType='email-address'
-                            onChangeText={(text) => { this.setState({ email: text }) }}
-                            underlineColorAndroid='transparent'
-                            returnKeyType='next'
-                            onFocus={() => this.setState({ error_email: '' })}
-                            onSubmitEditing={() => this.password.focus()}
-                        />
-                        <Input
-                            containerStyle={{ marginTop: 10, width: 5 * width / 6, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
-                            inputContainerStyle={{ borderColor: 'transparent' }}
-                            inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
-                            leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
-                            placeholder='Mật khẩu'
-                            errorStyle={{ color: 'red' }}
-                            errorMessage={this.state.error_password}
-                            placeholderTextColor='white'
-                            secureTextEntry={!this.state.checked}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => { this.setState({ password: text }) }}
-                            returnKeyType='next'
-                            onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
-                            ref={(input) => this.password = input}
-                            onSubmitEditing={() => this.confirmPassword.focus()}
-                        />
-                        <Input
-                            containerStyle={{ marginTop: 10, width: 5 * width / 6, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
-                            inputContainerStyle={{ borderColor: 'transparent' }}
-                            inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
-                            leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
-                            placeholder='Xác nhận mật khẩu'
-                            errorStyle={{ color: 'red' }}
-                            errorMessage={this.state.error_confirm_password}
-                            onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
-                            placeholderTextColor='white'
-                            secureTextEntry={!this.state.checked}
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => { this.setState({ confirm_password: text }) }}
-                            returnKeyType='done'
-                            ref={(input) => this.confirmPassword = input}
-                            onSubmitEditing={() => this.onRegister()}
-                        />
-                        <View style={{ flexDirection: 'row', width: 6 * width / 7, justifyContent: 'flex-start', marginTop: 5 }}>
-                            <CheckBox
-                                containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent', paddingHorizontal: 0 }}
-                                textStyle={{ color: !this.state.checked ? 'rgba(255, 255, 255, 0.5)' : 'white' }}
-                                title='Hiển thị mật khẩu'
-                                iconType='font-awesome'
-                                checkedIcon='check-square'
-                                uncheckedIcon='square'
-                                checkedColor='white'
-                                uncheckedColor='rgba(255, 255, 255, 0.5)'
-                                checked={this.state.checked}
-                                onPress={() => this.setState({ checked: !this.state.checked })}
+                    <View style={{ alignItems: 'center', marginTop: 30 }}>
+                        <View style={{ borderWidth: 1, borderColor: 'white', paddingHorizontal: 10, paddingTop: 20, marginBottom: 5, alignItems: 'center', marginTop: 10, marginBottom: 20 }}>
+                            <Input
+                                containerStyle={{ width: 4 * width / 5, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
+                                inputContainerStyle={{ borderColor: 'transparent' }}
+                                inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
+                                leftIcon={<Icon name='ios-mail' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
+                                placeholder='Email'
+                                errorStyle={{ color: 'red' }}
+                                errorMessage={this.state.error_email}
+                                placeholderTextColor='white'
+                                keyboardType='email-address'
+                                onChangeText={(text) => { this.setState({ email: text }) }}
+                                underlineColorAndroid='transparent'
+                                returnKeyType='next'
+                                onFocus={() => this.setState({ error_email: '' })}
+                                onSubmitEditing={() => this.password.focus()}
                             />
+                            <Input
+                                containerStyle={{ marginTop: 10, width: 4 * width / 5, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
+                                inputContainerStyle={{ borderColor: 'transparent' }}
+                                inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
+                                leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
+                                placeholder='Mật khẩu'
+                                errorStyle={{ color: 'red' }}
+                                errorMessage={this.state.error_password}
+                                placeholderTextColor='white'
+                                secureTextEntry={!this.state.checked}
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => { this.setState({ password: text }) }}
+                                returnKeyType='next'
+                                onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
+                                ref={(input) => this.password = input}
+                                onSubmitEditing={() => this.confirmPassword.focus()}
+                            />
+                            <Input
+                                containerStyle={{ marginTop: 10, width: 4 * width / 5, borderWidth: 1, borderColor: 'white', borderRadius: 20 }}
+                                inputContainerStyle={{ borderColor: 'transparent' }}
+                                inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
+                                leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
+                                placeholder='Xác nhận mật khẩu'
+                                errorStyle={{ color: 'red' }}
+                                errorMessage={this.state.error_confirm_password}
+                                onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
+                                placeholderTextColor='white'
+                                secureTextEntry={!this.state.checked}
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => { this.setState({ confirm_password: text }) }}
+                                returnKeyType='done'
+                                ref={(input) => this.confirmPassword = input}
+                                onSubmitEditing={() => this.onRegister()}
+                            />
+                            <View style={{ flexDirection: 'row', width: 5 * width / 6, justifyContent: 'flex-start', marginTop: 5 }}>
+                                <CheckBox
+                                    containerStyle={{ backgroundColor: 'transparent', borderColor: 'transparent', paddingHorizontal: 0 }}
+                                    textStyle={{ color: !this.state.checked ? 'rgba(255, 255, 255, 0.5)' : 'white' }}
+                                    title='Hiển thị mật khẩu'
+                                    iconType='font-awesome'
+                                    checkedIcon='check-square'
+                                    uncheckedIcon='square'
+                                    checkedColor='white'
+                                    uncheckedColor='rgba(255, 255, 255, 0.5)'
+                                    checked={this.state.checked}
+                                    onPress={() => this.setState({ checked: !this.state.checked })}
+                                />
+                            </View>
                         </View>
-                        <Button full bordered light style={{ backgroundColor: '#3fa7c7', borderRadius: 20 }} onPress={() => this.onRegister()}>
+                        <Button full bordered light style={{ backgroundColor: '#3fa7c7', borderRadius: 30 }} onPress={() => this.onRegister()}>
                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(2) }}>Đăng ký</Text>
                         </Button>
                     </View>

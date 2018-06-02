@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, TextInput, ActivityIndicator } from 'react-native';
-import CommonHeader from '../../../components/CommonHeader';
+import NormalHeader from '../../../components/NormalHeader';
 
 import { width, height } from '../../../constants/dimensions';
 
@@ -80,7 +80,7 @@ class Search extends Component {
 
         return (
             <View style={styles.container}>
-                <CommonHeader navigation={this.props.navigation} onPress={this.onPress} />
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH'/>
                 <View style={{ flex: 1 }}>
                     <ScrollView>
                         <View style={{ width: width, height: height / 5 }}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, WebView, TouchableHighlight, ScrollView, FlatList, ActivityIndicator } from 'react-native';
-import CommonHeader from '../../../components/CommonHeader';
+import NormalHeader from '../../../components/NormalHeader';
 
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
@@ -165,7 +165,7 @@ export default class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <CommonHeader navigation={this.props.navigation} onPress={this.onPress} />
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
                 <View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
                     <ScrollView>
                         <View style={{ width: width, height: height / 5 }}>
@@ -221,7 +221,7 @@ export default class Home extends Component {
                                         )
                                         :
                                         (this.state.latest_sidings.slice(0, 3).map((news, index) =>
-                                            <AllNews website={news.link} navigation={this.props.navigation} key={news.id} title={news.title} detail={news.content} uri={news.image} content={news.content}/>)
+                                            <AllNews website={news.link} navigation={this.props.navigation} key={news.id} title={news.title} detail={news.content} uri={news.image} content={news.content} />)
                                         )}
                             </View>
                             <View style={{ backgroundColor: 'white', marginTop: 10 }}>
