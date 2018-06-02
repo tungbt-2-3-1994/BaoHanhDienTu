@@ -34,13 +34,20 @@ class NormalHeader extends Component {
                         <IconBadge
                             MainElement={
                                 <View style={{ width: 20, height: 20, margin: 6, }}>
-                                    <Icon name='ios-notifications' style={{ color: 'white', fontSize: responsiveFontSize(2.8) }} />
+                                    <Icon name='ios-notifications' style={{ color: 'white', fontSize: responsiveFontSize(2.4) }} />
                                 </View>
                             }
                             BadgeElement={
-                                <Text style={{ color: '#FFFFFF' }}>0</Text>
+                                <Text style={{ color: 'white' }}>{this.props.count}</Text>
                             }
-                        // Hidden={this.state.BadgeCount == 0}
+                            // IconBadgeStyle={
+                            //     {
+                            //         width: 20,
+                            //         height: 20,
+                            //         backgroundColor: 'white'
+                            //     }
+                            // }
+                            Hidden={this.props.count === 0}
                         />
                     </TouchableOpacity>
                 </Right>

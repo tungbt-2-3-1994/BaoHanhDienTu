@@ -95,7 +95,7 @@ class QRCode extends Component {
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: 'white' }}>
                     <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/down.png')} />
                 </Animated.View>
-                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1}/>
                 <View style={styles.container}>
                     {this.props.nav.routes[0].index === 2 && this.state.isShow &&
                         <RNCamera

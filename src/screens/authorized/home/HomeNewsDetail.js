@@ -20,7 +20,7 @@ class HomeNewsDetail extends Component {
                 <TextHeader navigation={this.props.navigation} title='Tin tức' />
                 <View style={{ flex: 1 }}>
                     <ScrollView>
-                        <Image style={{ width: width, height: height / 4, resizeMode: 'stretch' }} source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${uri}` }} />
+                        <Image style={{ width: width, height: height / 4, resizeMode: 'contain' }} source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${uri}` }} />
                         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
                             <Text style={{ marginTop: 5, textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: 'bold' }}>{title}</Text>
                             <Text style={{ marginTop: 10, textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>{content}</Text>

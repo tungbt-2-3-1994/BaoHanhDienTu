@@ -80,7 +80,7 @@ class Search extends Component {
 
         return (
             <View style={styles.container}>
-                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH'/>
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1}/>
                 <View style={{ flex: 1 }}>
                     <ScrollView>
                         <View style={{ width: width, height: height / 5 }}>

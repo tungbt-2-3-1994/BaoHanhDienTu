@@ -59,11 +59,11 @@ export default class Account extends Component {
                         />
                         <View style={{ flexDirection: 'row', width: 2 * width / 3, justifyContent: 'flex-end', marginTop: 10 }}>
                             <TouchableOpacity style={{ backgroundColor: 'transparent' }}>
-                                <Text style={{ fontSize: responsiveFontSize(1.3), color: 'white' }}>Quên mật khẩu</Text>
+                                <Text style={{ fontSize: responsiveFontSize(1.3), color: 'white' }}>Quên mật khẩu?</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-between', marginTop: 20 }}>
-                            <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
+                            <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                             </Button>
                             <Button bordered light style={styles.btnStyle} onPress={() => this.props.navigation.navigate('Register')}>

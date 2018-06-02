@@ -23,8 +23,6 @@ export default class Account extends Component {
     }
 
     onRegister = () => {
-        console.log(this.state.password);
-        console.log(this.state.confirm_password);
         if (!validateEmail(this.state.email)) {
             this.setState({ error_email: 'Email không hợp lệ' });
         } else {
