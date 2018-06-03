@@ -79,7 +79,7 @@ export default class ViewAll extends Component {
                         keyExtractor={(item, index) => item.name + index}
                         ListEmptyComponent={this.renderEmpty}
                         onEndReached={this.handleLoadMore}
-                        onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0}
+                        onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.1}
                         removeClippedSubviews={true}
                         ListFooterComponent={this.renderFooter}
                     />

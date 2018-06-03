@@ -60,7 +60,7 @@ export default class Account extends Component {
                                 leftIcon={<Icon name='ios-mail' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
                                 placeholder='Email'
                                 errorStyle={{ color: 'red' }}
-                                errorMessage={this.state.error_email}
+                                errorMessage={this.state.error_email === '' ? null : this.state.error_email}
                                 placeholderTextColor='white'
                                 keyboardType='email-address'
                                 onChangeText={(text) => { this.setState({ email: text }) }}
@@ -76,7 +76,7 @@ export default class Account extends Component {
                                 leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
                                 placeholder='Mật khẩu'
                                 errorStyle={{ color: 'red' }}
-                                errorMessage={this.state.error_password}
+                                errorMessage={this.state.error_password === '' ? null : this.state.error_password}
                                 placeholderTextColor='white'
                                 secureTextEntry={!this.state.checked}
                                 underlineColorAndroid='transparent'
@@ -93,7 +93,7 @@ export default class Account extends Component {
                                 leftIcon={<Icon name='ios-lock' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
                                 placeholder='Xác nhận mật khẩu'
                                 errorStyle={{ color: 'red' }}
-                                errorMessage={this.state.error_confirm_password}
+                                errorMessage={this.state.error_confirm_password === '' ? null : this.state.error_confirm_password}
                                 onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
                                 placeholderTextColor='white'
                                 secureTextEntry={!this.state.checked}

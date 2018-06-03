@@ -10,6 +10,9 @@ import { responsiveFontSize } from '../../../utils/helpers';
 
 import { Card, CardItem, Left, Body, Right, Button, Icon } from 'native-base';
 
+import ImageProgress from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
+
 const ListHeader = ({ title }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingTop: 10, marginBottom: 10 }}>
@@ -69,7 +72,7 @@ const AllNews = ({ uri, title, detail, website, navigation, content }) => {
 const fake_data = [
     { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
     { 'name': 'Cam sành', 'price': 50000, 'uri': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJy2M6n9XjUk54XDhtetxN3eHiR8jhiM-I3-lYo8WcvRIagAAcw' },
-    { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'http://i.9mobi.vn/cf/images/2015/03/nkk/nhung-hinh-anh-dep-20.jpg' },
+    { 'name': 'Bóng đèn', 'price': 60000, 'uri': 'http://i.9mobi.vn/cf/images/2015/03/nkk/nhung-hinh-anh-dep-20.jpg' },
     { 'name': 'Bóng đèn', 'price': 80000, 'uri': 'http://i.9mobi.vn/cf/images/2015/03/nkk/nhung-hinh-anh-dep-20.jpg' },
     { 'name': 'Bóng đèn', 'price': 90000, 'uri': 'http://i.9mobi.vn/cf/images/2015/03/nkk/nhung-hinh-anh-dep-20.jpg' },
     { 'name': 'Bóng đèn', 'price': 90000, 'uri': 'http://i.9mobi.vn/cf/images/2015/03/nkk/nhung-hinh-anh-dep-20.jpg' },
@@ -78,13 +81,22 @@ const fake_data = [
 const HotProducts = ({ item }) => {
     return (
         <TouchableOpacity onPress={() => alert(item.name)} style={{ width: (width - 15) / 3, height: null, flex: 1, marginRight: 5, marginBottom: 5 }}>
-            <Image source={{ uri: item.uri }} style={{ height: (width - 15) / 3, width: (width - 15) / 3, resizeMode: 'stretch' }} />
+            <ImageProgress
+                source={{ uri: item.uri }}
+                style={{ height: (width - 15) / 3, width: (width - 15) / 3, }}
+                indicator={Progress.Pie}
+                indicatorProps={{
+                    size: 20,
+                    borderWidth: 0,
+                    unfilledColor: '#42b0ed'
+                }}
+            />
             <Text style={{ padding: 3, textAlign: 'center', fontSize: responsiveFontSize(1.5) }}>
                 {item.name}
             </Text>
             <Text style={{ padding: 3, textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5), color: 'red' }}>
                 {item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ
-                    </Text>
+            </Text>
         </TouchableOpacity>
     );
 }
@@ -111,7 +123,7 @@ export default class Home extends Component {
         fetch('http://vatapcheck.com.vn/api/v1/tidings-hot')
             .then(response => response.json())
             .then(responseData => {
-                console.log('tin hot', responseData);
+                // console.log('tin hot', responseData);
                 if (responseData.code === 200) {
                     this.setState({
                         hot_sidings: responseData.data.tidingHots
@@ -127,7 +139,7 @@ export default class Home extends Component {
         fetch('http://vatapcheck.com.vn/api/v1/tidings')
             .then(response => response.json())
             .then(responseData => {
-                console.log('as', responseData)
+                // console.log('as', responseData)
                 if (responseData.code === 200) {
                     this.setState({
                         latest_sidings: responseData.data.tidings

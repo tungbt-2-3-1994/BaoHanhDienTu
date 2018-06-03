@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import TextHeader from '../../../components/TextHeader';
+import BackHeader from '../../../components/BackHeader';
 import { width } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
@@ -36,7 +36,7 @@ export default class ViewMoreNews extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#eceaeb', }}>
-                <TextHeader navigation={this.props.navigation} title='Tất cả tin tức' />
+                <BackHeader navigation={this.props.navigation} title='Tất cả tin tức' />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
                     <FlatList

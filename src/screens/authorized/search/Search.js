@@ -12,6 +12,9 @@ import ImageSlider from 'react-native-image-slider';
 
 import { connect } from 'react-redux';
 
+import ImageProgress from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
+
 const ListHeader = ({ title, moreEvent }) => {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingTop: 10, marginBottom: 5 }}>
@@ -80,7 +83,7 @@ class Search extends Component {
 
         return (
             <View style={styles.container}>
-                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1}/>
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
                 <View style={{ flex: 1 }}>
                     <ScrollView>
                         <View style={{ width: width, height: height / 5 }}>
@@ -121,7 +124,16 @@ class Search extends Component {
                                         <Card style={{ width: (width - 20) / 3 }}>
                                             <View >
                                                 <Body style={{}}>
-                                                    <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }} style={{ height: 2 * (width - 20) / 9, width: (width - 20) / 3, flex: 1, resizeMode: 'contain' }} />
+                                                    <ImageProgress
+                                                        source={{ uri: `http://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }}
+                                                        style={{ height: 2 * (width - 20) / 9, width: (width - 20) / 3, flex: 1, }}
+                                                        indicator={Progress.Pie}
+                                                        indicatorProps={{
+                                                            size: 20,
+                                                            borderWidth: 0,
+                                                            unfilledColor: '#42b0ed'
+                                                        }}
+                                                    />
                                                     <Text style={{ paddingHorizontal: 5, fontWeight: 'bold', paddingVertical: 15, alignItems: 'center', textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5) }}>
                                                         {item.name}
                                                     </Text>

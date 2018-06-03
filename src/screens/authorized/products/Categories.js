@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, FlatList, TouchableOpacity, ActivityIndicator, ScrollView, TouchableHighlight } from 'react-native';
+import { View, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, TouchableHighlight } from 'react-native';
 import NormalHeader from '../../../components/NormalHeader';
 
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
@@ -14,6 +14,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import ImageSlider from 'react-native-image-slider';
+
+import ImageProgress from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
+
 
 const ListHeader = ({ title }) => {
     return (
@@ -110,9 +114,9 @@ class Categories extends Component {
                                     // It's important to put style here because it's got offset inside
                                     <View key={index} style={[style, styles.customSlide]}>
                                         <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} style={styles.background} />
-                                        <View style={styles.foreground}>
+                                        {/* <View style={styles.foreground}>
                                             <Image style={{ width: 3 * height / 20, height: 3 * height / 20, borderRadius: 3 * height / 40 }} source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} />
-                                        </View>
+                                        </View> */}
                                     </View>
                                 )}
                                 customButtons={() => { return null }}
@@ -133,7 +137,16 @@ class Categories extends Component {
                                     <Card style={{ width: (width - 20) / 3 }}>
                                         <View>
                                             <Body>
-                                                <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, resizeMode: 'stretch' }} />
+                                                <ImageProgress
+                                                    source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }}
+                                                    style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, }}
+                                                    indicator={Progress.Pie}
+                                                    indicatorProps={{
+                                                        size: 20,
+                                                        borderWidth: 0,
+                                                        unfilledColor: '#42b0ed'
+                                                    }}
+                                                />
                                                 <Text style={{ textAlign: 'center', padding: 3, opacity: 0.9, fontSize: responsiveFontSize(1.5) }}>
                                                     {item.name}
                                                 </Text>

@@ -19,21 +19,42 @@ const addListener = createReduxBoundAddListener("root");
 class AppWithNavigationState extends React.Component {
 
     componentWillMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.backPressed);
+        BackHandler.addEventListener('hardwareBackPress', this._handleBackPress);
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.backPressed);
+        BackHandler.removeEventListener('hardwareBackPress', this._handleBackPress);
     }
 
-    backPressed = () => {
-        // alert('aasas');
-        // const { dispatch, nav } = this.props;
-        // if (nav.index < 0 || typeof (nav.index) === 'undefined') {
-        //     return false;
-        // }
-        // dispatch(NavigationActions.back());
-        // return true;
+    _isDrawerOpen = nav => nav.routes[0].index === 1
+
+    _shouldCloseApp = nav => {
+        console.log(nav);
+        if (nav.index > 0) return false;
+
+        if (nav.routes) {
+            return nav.routes.every(this._shouldCloseApp);
+        }
+
+        return true;
+    }
+
+    _goBack = () => this.props.dispatch(NavigationActions.back())
+
+    _closeDrawer = () => this.props.dispatch(NavigationActions.navigate({
+        routeName: "DrawerClose"
+    }))
+
+    _handleBackPress = () => {
+        if (this._isDrawerOpen(this.props.nav)) {
+            this._closeDrawer()
+            return true
+        }
+        if (this._shouldCloseApp(this.props.nav)) {
+            return false
+        }
+        this._goBack()
+        return true
     }
 
     render() {
