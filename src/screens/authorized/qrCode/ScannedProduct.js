@@ -75,7 +75,7 @@ const UppperScroolView = ({ title, content }) => {
 
 const UppperNotes = ({ title, content }) => {
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center',  paddingVertical: 10 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
             <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
                 <Textarea
                     style={{ backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}
@@ -92,6 +92,25 @@ const UppperNotes = ({ title, content }) => {
     );
 }
 
+const CustomerView = ({ icon, brand }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                <IconFA name={icon} style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+            </View>
+            <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>{brand} </Text>
+        </View>
+    );
+}
+
+const GuaranteeView = ({ brand, content }) => {
+    return(
+        <Text style={{ marginBottom: 10 }}>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>{brand}: </Text>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content}</Text>
+        </Text>
+    );
+}
 
 
 class ScannedProduct extends Component {
@@ -166,36 +185,11 @@ class ScannedProduct extends Component {
         let customer = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: </Text>
-                    </View>
+                    <CustomerView icon='user' brand='Họ và tên:' />
+                    <CustomerView icon='phone' brand='Số điện thoại:' />
+                    <CustomerView icon='address-card' brand='CMND:' />
+                    <CustomerView icon='envelope' brand='Mail:' />
+                    <CustomerView icon='map-marker' brand='Địa chỉ:' />
                 </View>
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
                     <ListHeader title='Sản phẩm đã mua' size='1.7' />
@@ -212,31 +206,16 @@ class ScannedProduct extends Component {
         let guarantee = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <Text style={{ marginBottom: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Ngày kích hoạt: </Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>12/10/2017</Text>
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Hạn sử dụng: </Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>12/10/2018</Text>
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Thời gian bảo hành: </Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>1 năm</Text>
-                    </Text>
-                    <Text style={{ marginBottom: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Tình trạng: </Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>Còn hạn bảo hành</Text>
-                    </Text>
-                    <Text style={{}}>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Số lô: </Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>88</Text>
-                    </Text>
+                    <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
+                    <GuaranteeView brand='Hạn sử dụng' content='12/10/2018' />
+                    <GuaranteeView brand='Thời gian bảo hành' content='1 năm' />
+                    <GuaranteeView brand='Tình trạng' content='Còn hạn bảo hành' />
+                    <GuaranteeView brand='Số lô' content='88' />
                 </View>
-                <View style={{marginTop: 10}}>
-                <UppperNotes title='Note' />
+                <View style={{ marginTop: 10 }}>
+                    <UppperNotes title='Note' />
                 </View>
-                
+
             </View>
         );
 
