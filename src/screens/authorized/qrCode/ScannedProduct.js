@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
-import BackHeaderQRCode from '../../../components/BackHeaderQRCode';
+import BackHeader from '../../../components/BackHeader';
 
 import { width, height } from '../../../constants/dimensions';
 
@@ -16,8 +16,6 @@ import { fetchProductDetail } from '../../../actions';
 
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
-import ReadMore from 'react-native-read-more-text';
-
 import Modal from 'react-native-modalbox';
 
 import IconFA from 'react-native-vector-icons/FontAwesome';
@@ -26,6 +24,7 @@ import { normalLogin } from '../../../actions/index';
 import { getAgencyInfo } from '../../../actions/Agency';
 
 import ModalDropdown from 'react-native-modal-dropdown';
+import { priColor, thirdColor } from '../../../constants/colors';
 
 const fake_data = [
     { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
@@ -33,31 +32,23 @@ const fake_data = [
     { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
 ];
 
-const SameCate = ({ item }) => {
+const ListHeader = ({ title }) => {
     return (
-        <TouchableOpacity onPress={() => alert(item.name)} style={{ width: (width - 20) / 3, height: null, flex: 1, marginRight: 5 }}>
-            <Image source={{ uri: item.uri }} style={{ height: (width - 20) / 3, width: (width - 20) / 3, resizeMode: 'stretch' }} />
-            <Text style={{ padding: 3, textAlign: 'center', fontSize: responsiveFontSize(1.5) }}>
-                {item.name}
-            </Text>
-            <Text style={{ padding: 3, textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5), color: 'red' }}>
-                {item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ
-                    </Text>
+        <View style={{ justifyContent: 'space-between', marginBottom: 10, paddingLeft: 5 }}>
+            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
+        </View>
+    );
+}
+
+const SameProduct = ({ item }) => {
+    return (
+        <TouchableOpacity style={{ width: (width - 50) / 3, height: null, flex: 1, marginRight: 10 }}>
+            <Image source={item} style={{ height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
         </TouchableOpacity>
     );
 }
 
-const ListHeader = ({ title, moreEvent }) => {
-    return (
-        <View style={{ marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', backgroundColor: 'red', paddingVertical: 5 }}>
-            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={moreEvent}>
-                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.3), marginRight: 3 }}>Xem tất cả</Text>
-                <Icon name='ios-arrow-forward-outline' style={{ color: 'white', fontSize: responsiveFontSize(2) }} />
-            </TouchableOpacity>
-        </View>
-    );
-}
+
 
 class ScannedProduct extends Component {
 
@@ -85,42 +76,20 @@ class ScannedProduct extends Component {
         }
     }
 
-    showCert = () => {
-        this.refs.myModalCert.open();
-    }
-    showEdit = () => {
-        this.refs.editModal.open();
-    }
-
     componentDidMount() {
         this.props.navigation.state.params.onDone(false);
-        
+
     }
 
     componentWillUnmount() {
         this.props.navigation.state.params.onDone(true);
     }
 
-    _renderTruncatedFooter = (handlePress) => {
-        return (
-            <Text style={{ fontSize: responsiveFontSize(1.5), color: 'red', marginTop: 5 }} onPress={handlePress}>
-                Xem thêm
-            </Text>
-        );
-    }
-
-    _renderRevealedFooter = (handlePress) => {
-        return (
-            <Text style={{ fontSize: responsiveFontSize(1.5), color: 'red', marginTop: 5 }} onPress={handlePress}>
-                Ẩn
-            </Text>
-        );
-    }
 
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color='red' size='large' />
+                <ActivityIndicator animating={true} color={priColor} size='large' />
             );
         }
         return (
@@ -130,159 +99,8 @@ class ScannedProduct extends Component {
         );
     }
 
-    show = () => {
-        if (this.props.user.status === false) {
-            this.refs.modalLogin.open();
-        } else {
-            if (this.state.type === 1) {
-                this.refs.modalLogin.close();
-                this.setState({ loading: true });
-                fetch(`http://vatapcheck.com.vn/api/v1/qrcode/edit/${this.state.qr_code}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `${this.props.user.user.token_type} ${this.props.user.user.access_token}`,
-                        'Content-Type': 'application/json',
-                    },
-                })
-                    .then((response) => response.json())
-                    .then((responseData) => {
-                        if (typeof (responseData.organization) !== 'undefined') {
-                            this.setState({
-                                agency: responseData,
-                                loaded: true,
-                                loading: false
-                            }, () => {
-                                this.refs.myEditModal.open();
-                            });
-                        } else {
-                            this.setState({ loading: false });
-                            alert('Có lỗi khi lấy dữ liệu về');
-                        }
-                    })
-                    .catch(e => {
-                        this.setState({ loading: false });
-                        alert('Có lỗi khi lấy dữ liệu về');
-                        console.log(e);
-                    });
-            } else {
-                alert('Bạn không thể chỉnh sửa cho sản phẩm này');
-            }
-
-        }
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user.status === true) {
-            this.setState({ loading: false });
-            this.refs.modalLogin.close();
-        }
-    }
 
-    _renderRow = () => {
-
-    }
-
-    _product_modal_renderButtonText(rowData) {
-        const { name } = rowData;
-        return name;
-    }
-
-    _product_modal_renderRow(rowData, rowID, highlighted) {
-        return (
-            <TouchableHighlight underlayColor='cornflowerblue'>
-                <View style={[styles.product_modal_row,]}>
-                    <Text style={[styles.product_modal_row_text, highlighted && { color: 'red' }]}>
-                        {rowData.name}
-                    </Text>
-                </View>
-            </TouchableHighlight>
-        );
-    }
-
-    _product_modal_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-        if (rowID == this.state.agency.length - 1) return;
-        let key = `spr_${rowID}`;
-        return (<View style={styles.product_modal_separator}
-            key={key}
-        />);
-    }
-
-    _address_modal_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-        if (rowID == this.state.agency.length - 1) return;
-        let key = `spr_${rowID}`;
-        return (<View style={styles.product_modal_separator}
-            key={key}
-        />);
-    }
-
-    _product_onSelect(idx, value) {
-        this.setState({
-            product_id: value.id,
-        });
-    }
-
-    _agency_onSelect(idx, value) {
-        this.setState({
-            agency_id: value.id,
-        });
-    }
-
-    editInfor = () => {
-        fetch(`http://vatapcheck.com.vn/api/v1/qrcode/edit`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `${this.props.user.user.token_type} ${this.props.user.user.access_token}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'code': this.state.qr_code,
-                'product_id': this.state.product_id,
-                'agency_id': this.state.agency_id,
-                'note': this.state.note
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                if (responseData.code === 200) {
-                    alert('Cập nhật thành công');
-                    fetch(`http://vatapcheck.com.vn/api/v1/qrcode`, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            'code': this.state.qr_code
-                        })
-                    })
-                        .then((resp) => resp.json())
-                        .then(respData => {
-                            if (respData.code === 200) {
-                                if (respData.data !== null) {
-                                    if (respData.data.organization !== null && respData.data.product !== null) {
-                                        this.setState({
-                                            productName: respData.data.product.name,
-                                            productDes: respData.data.product.description,
-                                        });
-                                    }
-                                }
-                            } else {
-                                alert('Lỗi khi cập nhật dữ liệu');
-                            }
-                        })
-                        .catch(e => {
-                            alert('Lỗi khi cập nhật dữ liệu');
-                        });
-                } else {
-                    alert('Bạn không có quyền thay đổi');
-                }
-            })
-            .catch(e => {
-                this.setState({ loading: false });
-                alert('Có lỗi khi sửa dữ liệu');
-            })
-            .done();
     }
 
     render() {
@@ -293,134 +111,159 @@ class ScannedProduct extends Component {
             require('../../../assets/imgs/grape4.jpeg'),
         ];
         let agency = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10 }}>
-                    <View style={{ flexDirection: 'row', }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Công ty</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>{this.state.dataDetail.name}</Text>
+            <View style={{ padding: 10, backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Địa chỉ</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7 }}>{this.state.dataDetail.address}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Liên hệ</Text>
-                        <Text onPress={() => { phonecall(this.state.dataDetail.phone, true) }} style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>
-                            {this.state.dataDetail.phone}
-                        </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Email</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7 }}>{this.state.dataDetail.email}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Website</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>{this.state.dataDetail.website}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
                     </View>
-
-                </Card>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginTop: 1 }}>
-                    <Text style={{ alignSelf: 'center', fontSize: responsiveFontSize(1.5), fontWeight: 'bold', color: 'red', marginBottom: 10 }}>Giới thiệu công ty</Text>
-
-                    <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                        {this.state.dataDetail.description}
-                    </Text>
-
-                </Card>
+                </View>
             </View>
         );
 
-        let partner = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10 }}>
-                    <Text style={{ textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                        Chưa có thông tin về địa điểm bán cho sản phẩm này
-                    </Text>
-                </Card>
+        let customer = (
+            <View style={{ padding: 10, backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
+                    </View>
+                </View>
+                <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
+                    <ListHeader title='Sản phẩm đã mua' />
+                    <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
+                        <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                            {images.map((product, index) => (<SameProduct item={product} />))}
+                        </ScrollView>
+                    </View>
+                </View>
             </View>
 
         );
 
         let productInfor = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginBottom: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <View>
-                        <Text style={{ color: 'red', textAlign: 'auto', fontSize: responsiveFontSize(1.5), marginBottom: 5 }}>
-                            Giá tham khảo
-                        </Text>
-                        <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                            {this.state.productPrice !== null ? this.state.productPrice.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') : '0'}đ
-                        </Text>
+            <View style={{ padding: 10, backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
                     </View>
-                    <View>
-                        <TouchableOpacity onPress={() => this.show()} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <IconFA name='edit' style={{ color: 'red', marginRight: 5, fontSize: responsiveFontSize(2) }} />
-                            <Text style={{ color: 'red', }}>Chỉnh sửa</Text>
-                        </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
                     </View>
-                </Card>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginBottom: 1 }}>
-                    <Text style={{ color: 'red', textAlign: 'auto', fontSize: responsiveFontSize(1.5), marginBottom: 5 }}>
-                        Thông tin chi tiết
-                    </Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        </View>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
+                    </View>
+                </View>
 
-                    <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                        {this.state.productDes}
-                    </Text>
-
-                </Card>
             </View>
         );
 
         return (
             <View style={styles.container}>
-                <BackHeaderQRCode onPress={() => {
-                    this.props.navigation.goBack();
-                }} />
+                <BackHeader navigation={this.props.navigation} title='THÔNG TIN TRUY XUẤT' />
                 <View style={{ flex: 1 }}>
-                    <ScrollView style={{ paddingBottom: 5 }}>
+                    <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
                         <View style={{ width: width, height: height / 5 }}>
                             {this.state.url === null ?
                                 <Text style={{ alignSelf: 'center', textAlign: 'center' }}>Không có ảnh đại diện cho sản phẩm này</Text>
                                 :
-                                <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/products/${this.state.url}` }} style={styles.customImage} />
+                                <Image source={require('../../../assets/imgs/logoApp.png')} style={styles.customImage} />
                             }
 
                         </View>
-                        <Text style={{ color: 'red', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, alignText: 'center' }}>{this.state.productName}</Text>
-                        <Text style={{ color: 'red', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, opacity: 0.8 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: {this.state.qr_code}</Text>
-                        <View style={{ backgroundColor: 'red', marginTop: 10, flexDirection: 'row', padding: 4 }}>
-                            <TouchableOpacity onPress={() => this.showCert()} style={{ flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-                                <Text style={{ color: 'white', fontSize: responsiveFontSize(2), marginRight: 7 }}>Hàng chính hãng</Text>
-                                <Icon name='ios-checkmark' style={{ fontSize: 40, color: 'white' }} />
-                            </TouchableOpacity>
+                        <View style={{ backgroundColor: 'white' }}>
+                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, alignText: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
+                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         </View>
-                        <View>
-                            <Tabs initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: 'red' }}>
-                                <Tab heading="Chi tiết sản phẩm" tabStyle={{ backgroundColor: 'white' }} textStyle={{ color: 'red', fontSize: responsiveFontSize(1.5) }} activeTabStyle={{ backgroundColor: 'red' }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5) }}>
+                        <View style={{}}>
+                            <Tabs initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
+                                <Tab heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
                                     {productInfor}
                                 </Tab>
-                                <Tab heading="Nhà sản xuất" tabStyle={{ backgroundColor: 'white' }} textStyle={{ color: 'red', fontSize: responsiveFontSize(1.5) }} activeTabStyle={{ backgroundColor: 'red' }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5) }}>
+                                <Tab heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
                                     {agency}
                                 </Tab>
-                                <Tab heading="Nhà phân phối" tabStyle={{ backgroundColor: 'white' }} textStyle={{ color: 'red', fontSize: responsiveFontSize(1.5) }} activeTabStyle={{ backgroundColor: 'red' }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5) }}>
-                                    {partner}
+                                <Tab heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {customer}
                                 </Tab>
                             </Tabs>
                         </View>
-                        <View>
-                            <ListHeader title='Sản phẩm cùng nhà sản xuất' />
-                            <ScrollView style={{ padding: 5, marginBottom: 5, }} horizontal={true}>
-                                {fake_data.map((item, index) =>
-                                    <SameCate key={index} item={item} />
-                                )}
-                            </ScrollView>
-                        </View>
                     </ScrollView>
-                    
-
                 </View>
-                <ActivityIndicator style={{ position: 'absolute', top: height / 2 - 18, left: width / 2 - 18 }} size='large' color='red' animating={this.state.loading} />
+                <ActivityIndicator style={{ position: 'absolute', top: height / 2 - 18, left: width / 2 - 18 }} size='large' color={priColor} animating={this.state.loading} />
             </View>
         );
     }
@@ -457,11 +300,11 @@ const styles = {
         backgroundColor: 'cornflowerblue',
     },
     title: {
-        fontSize: responsiveFontSize(1.8), flex: 0.3, color: 'red',
+        fontSize: responsiveFontSize(1.8), flex: 0.3, color: priColor,
     },
     textInput: { width: 3 * width / 4, marginTop: 10, marginHorizontal: 10, borderRadius: 10, textAlign: 'center', backgroundColor: '#d7eff1', padding: 15, fontSize: 16 },
     btnLoginContainer: { marginTop: 10, alignSelf: 'center', borderColor: 'white', borderRadius: 10, borderWidth: 1.5 },
-    cancelContainer: { marginTop: 10, alignSelf: 'center', borderColor: 'white', borderRadius: 10, borderWidth: 1.5, backgroundColor: 'red', marginRight: 15 },
+    cancelContainer: { marginTop: 10, alignSelf: 'center', borderColor: 'white', borderRadius: 10, borderWidth: 1.5, backgroundColor: priColor, marginRight: 15 },
     container: {
         flex: 1,
         backgroundColor: '#ffffff',

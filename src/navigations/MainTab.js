@@ -18,8 +18,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const logo = require('../assets/imgs/scanner.png');
-
 const IconTab = (src, tintColor, size, index, title) => (
     // <View style={[index !== 4 && { borderRightWidth: 1 }, styles.iconTab]}>
     <View style={styles.iconTab}>

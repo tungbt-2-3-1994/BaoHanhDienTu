@@ -87,19 +87,6 @@ class Categories extends Component {
 
     render() {
 
-        const images = [
-            require('../../../assets/imgs/grape1.jpg'),
-            require('../../../assets/imgs/grape2.jpeg'),
-            require('../../../assets/imgs/grape3.jpg'),
-            require('../../../assets/imgs/grape4.jpeg'),
-        ];
-
-        const brands = [
-            require('../../../assets/imgs/fiat.png'),
-            require('../../../assets/imgs/vina.jpg'),
-            require('../../../assets/imgs/vegetexco.jpg'),
-        ];
-
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={0} />

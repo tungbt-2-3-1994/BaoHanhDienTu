@@ -101,7 +101,7 @@ export default class Account extends Component {
                                 onChangeText={(text) => { this.setState({ confirm_password: text }) }}
                                 returnKeyType='done'
                                 ref={(input) => this.confirmPassword = input}
-                                onSubmitEditing={() => this.onRegister()}
+                                // onSubmitEditing={() => this.onRegister()}
                             />
                             <View style={{ flexDirection: 'row', width: 5 * width / 6, justifyContent: 'flex-start', marginTop: 5 }}>
                                 <CheckBox

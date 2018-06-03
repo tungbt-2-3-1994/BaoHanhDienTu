@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { width, height } from '../../constants/dimensions';
 
 import { NavigationActions } from 'react-navigation';
+import { priColor } from '../../constants/colors';
 
 class SplashScreen extends Component {
     static navigationOptions = {
@@ -52,10 +53,10 @@ class SplashScreen extends Component {
         return (
             <View style={styles.container}>
                 <StatusBar
-                    backgroundColor="#ffffff"
+                    backgroundColor={priColor}
                     barStyle="light-content"
                 />
-                <Image source={require('../../assets/imgs/vatap.png')} style={styles.img} />
+                <Image source={require('../../assets/imgs/logoApp.png')} style={styles.img} />
 
 
                 {/* <Image style={{ position: 'absolute', top: this.state.y_anim, left: this.state.x_anim, width: width / 8, height: width / 8 }} source={require('../../assets/imgs/p1.png')} />
@@ -73,7 +74,7 @@ class SplashScreen extends Component {
 const styles = {
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: priColor,
         alignItems: 'center',
         justifyContent: 'center',
     },

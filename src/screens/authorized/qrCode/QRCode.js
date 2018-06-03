@@ -22,6 +22,7 @@ import { width, height } from '../../../constants/dimensions';
 import { connect } from 'react-redux';
 
 import QRScannerRectView from './QRScannerRectView';
+import { priColor } from '../../../constants/colors';
 
 class QRCode extends Component {
 
@@ -147,10 +148,10 @@ class QRCode extends Component {
                     </TouchableOpacity>
 
                 </View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: 'white' }}>
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: priColor }}>
                     <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/up.png')} />
                 </Animated.View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: 'white' }}>
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: priColor }}>
                     <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/down.png')} />
                 </Animated.View>
             </View>

@@ -54,7 +54,7 @@ export default class Account extends Component {
                             secureTextEntry={true}
                             returnKeyType='done'
                             ref={(input) => this.password = input}
-                            onSubmitEditing={() => this.onLogin()}
+                            // onSubmitEditing={() => this.onLogin()}
                             onChangeText={(text) => this.setState({ password: text })}
                         />
                         <View style={{ flexDirection: 'row', width: 2 * width / 3, justifyContent: 'flex-end', marginTop: 10 }}>
