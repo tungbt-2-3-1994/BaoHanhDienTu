@@ -32,10 +32,10 @@ const fake_data = [
     { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
 ];
 
-const ListHeader = ({ title }) => {
+const ListHeader = ({ title, size }) => {
     return (
         <View style={{ justifyContent: 'space-between', marginBottom: 10, paddingLeft: 5 }}>
-            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
+            <Text style={{ color: 'white', fontSize: responsiveFontSize(size), fontWeight: 'bold' }}>{title}</Text>
         </View>
     );
 }
@@ -45,6 +45,50 @@ const SameProduct = ({ item }) => {
         <TouchableOpacity style={{ width: (width - 50) / 3, height: null, flex: 1, marginRight: 10 }}>
             <Image source={item} style={{ height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
         </TouchableOpacity>
+    );
+}
+
+const UppperLabel = ({ title, content }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
+            </View>
+            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
+            </View>
+        </View>
+    );
+}
+const UppperScroolView = ({ title, content }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
+            </View>
+            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
+            </View>
+        </View>
+    );
+}
+
+const UppperNotes = ({ title, content }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center',  paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                <Textarea
+                    style={{ backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}
+                    rowSpan={5}
+                    multiline={true}
+                    bordered
+                    onChangeText={(text) => this.setState({ notes: text })}
+                />
+            </View>
+            <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(2.6), fontWeight: 'bold' }}>{title}</Text>
+            </View>
+        </View>
     );
 }
 
@@ -59,20 +103,8 @@ class ScannedProduct extends Component {
         super(props);
         this.state = {
             qr_code: '',
-            dataDetail: {},
             type: 1,
-            productName: '',
-            username: '',
-            password: '',
-            agency: {},
-            loaded: false,
-            loading: false,
-            productPrice: 0,
-            productDes: '',
-            product_id: 0,
-            agency_id: 0,
-            note: '',
-            url: []
+            notes: ''
         }
     }
 
@@ -110,38 +142,22 @@ class ScannedProduct extends Component {
             require('../../../assets/imgs/grape3.jpg'),
             require('../../../assets/imgs/grape4.jpeg'),
         ];
-        let agency = (
-            <View style={{ padding: 10, backgroundColor: priColor, }}>
-                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+        let product = (
+            <View style={{ backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
+                    <UppperLabel title='Nhà sản xuất' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Nhà phân phối' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Điểm bán' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Điểm bảo hành' content='CÔNG TY TNHH ABC' />
+                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+                        <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                            <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                                {images.map((product, index) => (<SameProduct key={index.toString() + 'OwnedProducts'} item={product} />))}
+                            </ScrollView>
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+                        <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Sản phẩm sở hữu</Text>
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
                     </View>
                 </View>
             </View>
@@ -154,38 +170,38 @@ class ScannedProduct extends Component {
                         <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
                             <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
                             <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
                             <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
                             <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                         <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
                             <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
                         </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: </Text>
                     </View>
                 </View>
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
-                    <ListHeader title='Sản phẩm đã mua' />
+                    <ListHeader title='Sản phẩm đã mua' size='1.7' />
                     <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
                         <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
-                            {images.map((product, index) => (<SameProduct item={product} />))}
+                            {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
                         </ScrollView>
                     </View>
                 </View>
@@ -193,41 +209,34 @@ class ScannedProduct extends Component {
 
         );
 
-        let productInfor = (
+        let guarantee = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='user' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Họ và tên: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='phone' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Số điện thoại: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='address-card' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>CMND: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='envelope' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Mail: {this.state.dataDetail.name}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                        <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                            <IconFA name='map-marker' style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>Địa chỉ: {this.state.dataDetail.name}</Text>
-                    </View>
+                    <Text style={{ marginBottom: 10 }}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Ngày kích hoạt: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>12/10/2017</Text>
+                    </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Hạn sử dụng: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>12/10/2018</Text>
+                    </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Thời gian bảo hành: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>1 năm</Text>
+                    </Text>
+                    <Text style={{ marginBottom: 10 }}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Tình trạng: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>Còn hạn bảo hành</Text>
+                    </Text>
+                    <Text style={{}}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Số lô: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>88</Text>
+                    </Text>
                 </View>
-
+                <View style={{marginTop: 10}}>
+                <UppperNotes title='Note' />
+                </View>
+                
             </View>
         );
 
@@ -245,25 +254,24 @@ class ScannedProduct extends Component {
 
                         </View>
                         <View style={{ backgroundColor: 'white' }}>
-                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, alignText: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
+                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
                             <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         </View>
-                        <View style={{}}>
+                        <View style={{ marginTop: 1 }}>
                             <Tabs initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
-                                <Tab heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                    {productInfor}
+                                <Tab style={{ backgroundColor: priColor }} heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {product}
                                 </Tab>
-                                <Tab heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                    {agency}
+                                <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {guarantee}
                                 </Tab>
-                                <Tab heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                <Tab style={{ backgroundColor: priColor }} heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
                                     {customer}
                                 </Tab>
                             </Tabs>
                         </View>
                     </ScrollView>
                 </View>
-                <ActivityIndicator style={{ position: 'absolute', top: height / 2 - 18, left: width / 2 - 18 }} size='large' color={priColor} animating={this.state.loading} />
             </View>
         );
     }
