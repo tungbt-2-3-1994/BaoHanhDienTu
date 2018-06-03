@@ -73,7 +73,7 @@ const UppperScroolView = ({ title, content }) => {
     );
 }
 
-const UppperNotes = ({ title, content }) => {
+const UppperNotes = ({ title, content, onChangeText }) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
             <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
@@ -82,7 +82,7 @@ const UppperNotes = ({ title, content }) => {
                     rowSpan={5}
                     multiline={true}
                     bordered
-                    onChangeText={(text) => this.setState({ notes: text })}
+                    onChangeText={onChangeText}
                 />
             </View>
             <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
@@ -104,7 +104,7 @@ const CustomerView = ({ icon, brand }) => {
 }
 
 const GuaranteeView = ({ brand, content }) => {
-    return(
+    return (
         <Text style={{ marginBottom: 10 }}>
             <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>{brand}: </Text>
             <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content}</Text>
@@ -213,7 +213,7 @@ class ScannedProduct extends Component {
                     <GuaranteeView brand='Số lô' content='88' />
                 </View>
                 <View style={{ marginTop: 10 }}>
-                    <UppperNotes title='Note' />
+                    <UppperNotes title='Note' onChangeText={(text) => this.setState({ notes: text })} />
                 </View>
 
             </View>
