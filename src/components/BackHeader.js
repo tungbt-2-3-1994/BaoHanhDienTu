@@ -20,8 +20,8 @@ class BackHeader extends Component {
                         <Icon name='arrow-back' style={{ color: 'white' }} />
                     </Button>
                 </Left>
-                <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
+                <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center', }}>
+                    <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
                 </Body>
                 <Right style={{ flex: 0.5 }}></Right>
             </Header>

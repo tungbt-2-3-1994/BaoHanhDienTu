@@ -33,7 +33,7 @@ class Products extends Component {
     }
 
     componentWillMount() {
-        // console.log('Products', this.props.navigation.state.params);
+        console.log('Products', this.props.navigation.state.params);
         const { id } = this.props.navigation.state.params.item;
         fetch(`http://vatapcheck.com.vn/api/v1/products/category/${id}`)
             .then(res => res.json())
@@ -90,11 +90,11 @@ class Products extends Component {
     }
 
     render() {
-
+        const { name } = this.props.navigation.state.params.item;
         return (
             <View style={styles.container}>
-                <BackHeader navigation={this.props.navigation} />
-                <View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
+                <BackHeader navigation={this.props.navigation} title={name} />
+                < View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
                     <View style={{ width: width, height: height / 5 }}>
                         <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${this.props.navigation.state.params.logo}` }} style={styles.customImage} />
                     </View>

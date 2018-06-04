@@ -97,7 +97,6 @@ class QRCode extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
                 <View style={styles.container}>
                     {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow &&
@@ -128,8 +127,23 @@ class QRCode extends Component {
                                 },
                             }
                         }));
-                    }} style={{ alignSelf: 'center' }}>
+                    }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to kiem tra bao hanh</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'ExtractedInfor',
+                            params: {
+                                onDone: (showBool) => {
+                                    this.setState({
+                                        isShow: showBool,
+                                        barcodeCodes: []
+                                    });
+                                },
+                            }
+                        }));
+                    }} style={{ alignSelf: 'center', padding: 10 }}>
+                        <Text>Go to Extracted Infor</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
@@ -143,7 +157,7 @@ class QRCode extends Component {
                                 },
                             }
                         }));
-                    }} style={{ alignSelf: 'center' }}>
+                    }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
                     </TouchableOpacity>
 

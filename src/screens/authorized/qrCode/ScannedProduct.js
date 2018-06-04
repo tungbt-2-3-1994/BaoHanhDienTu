@@ -225,12 +225,32 @@ class ScannedProduct extends Component {
                 <View style={{ flex: 1 }}>
                     <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
                         <View style={{ width: width, height: height / 5 }}>
-                            {this.state.url === null ?
-                                <Text style={{ alignSelf: 'center', textAlign: 'center' }}>Không có ảnh đại diện cho sản phẩm này</Text>
-                                :
-                                <Image source={require('../../../assets/imgs/logoApp.png')} style={styles.customImage} />
-                            }
-
+                            <ImageSlider
+                                loopBothSides
+                                autoPlayWithInterval={3000}
+                                images={images}
+                                customSlide={({ index, item, style, width }) => (
+                                    <View key={index} style={[style, styles.customSlide]}>
+                                        <Image source={item} style={styles.customImage} />
+                                    </View>
+                                )}
+                                customButtons={(position, move) => (
+                                    <View style={styles.buttons}>
+                                        {images.map((image, index) => {
+                                            return (
+                                                <TouchableHighlight
+                                                    key={index}
+                                                    underlayColor="#ccc"
+                                                    onPress={() => move(index)}
+                                                    style={styles.button}
+                                                >
+                                                    <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
+                                                </TouchableHighlight>
+                                            );
+                                        })}
+                                    </View>
+                                )}
+                            />
                         </View>
                         <View style={{ backgroundColor: 'white' }}>
                             <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
@@ -331,7 +351,7 @@ const styles = {
         width: width,
         height: null,
         flex: 1,
-        resizeMode: 'contain'
+        resizeMode: 'stretch'
     },
 };
 
