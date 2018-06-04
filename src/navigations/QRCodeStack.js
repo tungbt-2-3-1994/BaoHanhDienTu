@@ -5,6 +5,7 @@ import ProductDetail from '../screens/authorized/qrCode/ProductDetail';
 import ScannedProduct from '../screens/authorized/qrCode/ScannedProduct';
 import CheckGuarantee from '../screens/authorized/qrCode/CheckGuarantee';
 import ExtractedInfor from '../screens/authorized/qrCode/ExtractedInfor';
+import EditDetailInfor from '../screens/authorized/qrCode/EditDetailInfor';
 
 const QRCodeStack = StackNavigator({
     QRCode: {
@@ -21,6 +22,9 @@ const QRCodeStack = StackNavigator({
     },
     ExtractedInfor: {
         screen: ExtractedInfor
+    },
+    EditDetailInfor: {
+        screen: EditDetailInfor
     },
 }, {
         navigationOptions: {

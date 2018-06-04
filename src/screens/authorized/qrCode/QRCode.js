@@ -132,6 +132,21 @@ class QRCode extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'EditDetailInfor',
+                            params: {
+                                onDone: (showBool) => {
+                                    this.setState({
+                                        isShow: showBool,
+                                        barcodeCodes: []
+                                    });
+                                },
+                            }
+                        }));
+                    }} style={{ alignSelf: 'center', padding: 10 }}>
+                        <Text>Go to edit detail infor</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'ExtractedInfor',
                             params: {
                                 onDone: (showBool) => {

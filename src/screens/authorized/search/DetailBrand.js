@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import TextHeader from '../../../components/TextHeader';
+import BackHeader from '../../../components/BackHeader';
 import { width, height } from '../../../constants/dimensions';
 
 import { Container, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right } from 'native-base';
@@ -22,7 +22,7 @@ export default class DetailBrand extends Component {
         const { name, phone, email, website, address, description, cover } = this.props.navigation.state.params;
         return (
             <View style={{ flex: 1, backgroundColor: '#ecf9fe', }}>
-                <TextHeader navigation={this.props.navigation} title='Chi tiết thương hiệu' />
+                <BackHeader navigation={this.props.navigation} title='Chi tiết thương hiệu' />
                 <View style={{ flex: 1 }}>
                     <ScrollView style={{ backgroundColor: '#eceaeb' }}>
                         <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/ogp/${cover}` }} style={styles.background} />
