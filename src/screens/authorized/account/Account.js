@@ -41,7 +41,11 @@ export default class Account extends Component {
                                 underlineColorAndroid='transparent'
                                 onFocus={() => this.setState({ show: false })}
                                 returnKeyType='next'
-                                onSubmitEditing={() => this.password.focus()}
+                                selectionColor='white'
+                                onSubmitEditing={() => {
+                                    this.password.focus();
+                                    this.setState({ show: false });
+                                }}
                                 onBlur={() => this.setState({ show: true })}
                                 onChangeText={(text) => this.setState({ email: text })}
                             />
@@ -56,6 +60,7 @@ export default class Account extends Component {
                                 returnKeyType='done'
                                 onFocus={() => this.setState({ show: false })}
                                 ref={(input) => this.password = input}
+                                selectionColor='white'
                                 onBlur={() => this.setState({ show: true })}
                                 onSubmitEditing={() => this.setState({ show: true })}
                                 onChangeText={(text) => this.setState({ password: text })}

@@ -99,7 +99,7 @@ class QRCode extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
+
                 <View style={styles.container}>
                     {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow &&
                         <RNCamera
@@ -180,11 +180,14 @@ class QRCode extends Component {
 
                 </View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: priColor }}>
-                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/up.png')} />
+                    <Image style={{ width: 100, height: 50 }} source={require('../../../assets/imgs/up.png')} />
                 </Animated.View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: priColor }}>
-                    <Image style={{ width: width / 3, height: width / 6 }} source={require('../../../assets/imgs/down.png')} />
+                    <Image style={{ width: 100, height: 50 }} source={require('../../../assets/imgs/down.png')} />
                 </Animated.View>
+                <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+                    <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
+                </View>
             </View>
         );
     }
@@ -192,55 +195,14 @@ class QRCode extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        marginTop: Platform.OS === 'ios' ? 64 : 56
     },
     preview: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'center'
-    },
-    overlay: {
-        position: 'absolute',
-        padding: 16,
-        right: 0,
-        left: 0,
-        alignItems: 'center'
-    },
-    topOverlay: {
-        top: 0,
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    bottomOverlay: {
-        bottom: 0,
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    enterBarcodeManualButton: {
-        padding: 15,
-        backgroundColor: 'white',
-        borderRadius: 40
-    },
-    scanScreenMessage: {
-        fontSize: 14,
-        color: 'white',
-        textAlign: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
     },
-    capture: {
-        flex: 0,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        padding: 15,
-        paddingHorizontal: 20,
-        alignSelf: 'center',
-        margin: 20
-    }
 });
 
 const mapStateToProps = (state) => {

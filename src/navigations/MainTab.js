@@ -79,7 +79,6 @@ export default MainTab = TabNavigator(
         initialRouteName: 'QRCodeStack',
         tabBarComponent: TabBarBottom,
         tabBarPosition: 'bottom',
-
         tabBarOptions: {
             activeTintColor: 'white',
             inactiveTintColor: 'white',

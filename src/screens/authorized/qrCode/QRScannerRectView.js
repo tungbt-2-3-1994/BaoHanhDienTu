@@ -219,11 +219,11 @@ export default class QRScannerRectView extends Component {
                         this.getBorderWidth(),
                     ]}>
 
-                        {/* <Animated.View
+                        <Animated.View
                             style={[
                                 animatedStyle,]}>
                             {this._renderScanBar()}
-                        </Animated.View> */}
+                        </Animated.View>
 
                     </View>
 

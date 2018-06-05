@@ -170,7 +170,7 @@ class ScannedProduct extends Component {
                     <UppperLabel title='Điểm bảo hành' content='CÔNG TY TNHH ABC' />
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
-                            <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                                 {images.map((product, index) => (<SameProduct key={index.toString() + 'OwnedProducts'} item={product} />))}
                             </ScrollView>
                         </View>
@@ -194,7 +194,7 @@ class ScannedProduct extends Component {
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
                     <ListHeader title='Sản phẩm đã mua' size='1.7' />
                     <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
-                        <ScrollView horizontal={true} pagingEnabled={true} showsHorizontalScrollIndicator={false}>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                             {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
                         </ScrollView>
                     </View>

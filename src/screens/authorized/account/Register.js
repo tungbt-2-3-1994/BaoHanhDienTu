@@ -66,6 +66,7 @@ export default class Account extends Component {
                                 onChangeText={(text) => { this.setState({ email: text }) }}
                                 underlineColorAndroid='transparent'
                                 returnKeyType='next'
+                                selectionColor='white'
                                 onFocus={() => this.setState({ error_email: '' })}
                                 onSubmitEditing={() => this.password.focus()}
                             />
@@ -82,6 +83,7 @@ export default class Account extends Component {
                                 underlineColorAndroid='transparent'
                                 onChangeText={(text) => { this.setState({ password: text }) }}
                                 returnKeyType='next'
+                                selectionColor='white'
                                 onFocus={() => this.setState({ error_confirm_password: '', error_password: '' })}
                                 ref={(input) => this.password = input}
                                 onSubmitEditing={() => this.confirmPassword.focus()}
@@ -100,6 +102,7 @@ export default class Account extends Component {
                                 underlineColorAndroid='transparent'
                                 onChangeText={(text) => { this.setState({ confirm_password: text }) }}
                                 returnKeyType='done'
+                                selectionColor='white'
                                 ref={(input) => this.confirmPassword = input}
                                 // onSubmitEditing={() => this.onRegister()}
                             />
