@@ -127,23 +127,7 @@ class EditDetailInfor extends Component {
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center', }}>Sản phẩm: Nho Ninh Thuận</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         <View style={{ padding: 15 }}>
-                            <TextInfor brand='Ngày sản xuất' content='10/10/2017' />
-                            <TextInfor brand='Hạn sử dụng' content='3 năm' />
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={{ marginRight: 10, flex: 1, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.2)', paddingBottom: 5, marginBottom: 20 }}>
-                                    <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white' }}>Lô: 1118</Text>
-                                </View>
-                                <View style={{ marginLeft: 10, flex: 1, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.2)', paddingBottom: 5, marginBottom: 20 }}>
-                                    <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white' }}>Ký hiệu: 88</Text>
-                                </View>
-                            </View>
-                            <TextInfor brand='Ngày kích hoạt' content='10/10/2017' />
-                            <TextInfor brand='Tình trạng' content='Đang bảo hành, đổi trả' />
-                            <TextInfor brand='Thời gian' content='2 năm' />
-                            <TextInfor brand='Hết hạn bảo hành' content='10/10/2019' />
-                            <TextInfor brand='Số lượng' content='Còn hàng' />
-                            <TextInfor brand='Ghi chú' content='' />
-                            <TextInfor brand='Trung tâm bảo hành' content='' />
+                            
                         </View>
                     </ScrollView>
                 </View>

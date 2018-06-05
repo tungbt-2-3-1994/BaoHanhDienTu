@@ -38,18 +38,20 @@ class QRCode extends Component {
             },
             barcodeCodes: [],
             isShow: true,
-            marginAnim: new Animated.Value((height - 200) / 2)
+            marginAnim: new Animated.Value((height - 100) / 2)
         };
     }
 
     componentDidMount() {
-        Animated.timing(
-            this.state.marginAnim,
-            {
-                duration: 2500,
-                toValue: 800,
-            }
-        ).start();
+        setTimeout(() => {
+            Animated.timing(
+                this.state.marginAnim,
+                {
+                    duration: 2500,
+                    toValue: 800,
+                }
+            ).start();
+        }, 1000);
     }
 
     componentWillMount() {
