@@ -18,7 +18,7 @@ import { priColor } from '../../../constants/colors';
 
 const ListHeader = ({ title, moreEvent }) => {
     return (
-        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 10, marginBottom: 5 }}>
+        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 10, marginBottom: 5, marginTop: 10 }}>
             <Text style={{ color: priColor, fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={moreEvent}>
                 <Text style={{ color: priColor, fontSize: responsiveFontSize(1.3), marginRight: 3 }}>Xem tất cả</Text>

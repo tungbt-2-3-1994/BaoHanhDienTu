@@ -5,6 +5,7 @@ import { width } from '../../../constants/dimensions';
 
 import { Card, Body } from 'native-base';
 import { responsiveFontSize } from '../../../utils/helpers';
+import { priColor } from '../../../constants/colors';
 
 export default class ViewAll extends Component {
     static navigationOptions = {
@@ -46,7 +47,7 @@ export default class ViewAll extends Component {
         if (!this.state.loading) return null;
         return (
             <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator color='red' animating={true} size='large' />
+                <ActivityIndicator color={priColor} animating={true} size='large' />
             </View>
         );
     }

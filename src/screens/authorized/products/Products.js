@@ -13,7 +13,7 @@ import { priColor } from '../../../constants/colors';
 
 const ListHeader = ({ title }) => {
     return (
-        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, marginBottom: 5 }}>
+        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, marginBottom: 5, marginTop: 10 }}>
             <Text style={{ color: priColor, fontSize: responsiveFontSize(1.5), fontWeight: 'bold' }}>{title}</Text>
         </View>
     );
@@ -85,7 +85,7 @@ class Products extends Component {
         if (!this.state.refreshing || this.state.page >= this.state.total_page) return null;
         return (
             <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator color='red' animating={true} size='large' />
+                <ActivityIndicator color={priColor} animating={true} size='large' />
             </View>
         );
     }
@@ -119,7 +119,7 @@ class Products extends Component {
                                                 <Text style={{ padding: 3, textAlign: 'center', fontSize: responsiveFontSize(1.5) }}>
                                                     {item.name}
                                                 </Text>
-                                                <Text style={{ padding: 3, textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5), color: 'red' }}>
+                                                <Text style={{ padding: 3, textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5), color: priColor }}>
                                                     {item.price !== null ? item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') : '0'}đ
                                                 </Text>
                                             </Body>

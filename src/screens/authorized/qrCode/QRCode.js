@@ -38,34 +38,34 @@ class QRCode extends Component {
             },
             barcodeCodes: [],
             isShow: true,
-            marginAnim: new Animated.Value((height - 100) / 2)
+            marginTopAnim: new Animated.Value((height - 100) / 2),
+            marginBottomAnim: new Animated.Value((height - 48) / 2)
         };
     }
 
     componentDidMount() {
         setTimeout(() => {
-            Animated.timing(
-                this.state.marginAnim,
-                {
-                    duration: 2500,
-                    toValue: 800,
-                }
-            ).start();
+            Animated.parallel([
+                Animated.timing(
+                    this.state.marginTopAnim,
+                    {
+                        duration: 2500,
+                        toValue: 800,
+                    }),
+                Animated.timing(
+                    this.state.marginBottomAnim,
+                    {
+                        duration: 2500,
+                        toValue: 800,
+                    })
+            ]).start();
         }, 1000);
     }
 
     componentWillMount() {
-        // console.log('asasas')
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (nextProps.nav !== 2) {
-
-        //     if (this.state.marginAnim !== 800) {
-        //         console.log('asasas');
-        //         this.setState({ marginAnim: (height - 200) / 2 });
-        //     }
-        // }
     }
 
     async onBarCodeRead(scanResult) {
@@ -117,7 +117,7 @@ class QRCode extends Component {
 
                         </RNCamera>
                     }
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'CheckGuarantee',
                             params: {
@@ -176,14 +176,14 @@ class QRCode extends Component {
                         }));
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                 </View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginAnim, backgroundColor: priColor }}>
-                    <Image style={{ width: 100, height: 50 }} source={require('../../../assets/imgs/up.png')} />
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginBottomAnim, backgroundColor: priColor }}>
+                    <Image style={{ width: 100, height: 50, resizeMode: 'contain' }} source={require('../../../assets/imgs/up.png')} />
                 </Animated.View>
-                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginAnim, backgroundColor: priColor }}>
-                    <Image style={{ width: 100, height: 50 }} source={require('../../../assets/imgs/down.png')} />
+                <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-start', position: 'absolute', bottom: 0, right: 0, left: 0, top: this.state.marginTopAnim, backgroundColor: priColor }}>
+                    <Image style={{ width: 100, height: 50, resizeMode: 'contain' }} source={require('../../../assets/imgs/down.png')} />
                 </Animated.View>
                 <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
                     <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
