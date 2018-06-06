@@ -6,7 +6,7 @@ const name = 'PRODUCT_DETAIL';
 
 export const fetchProductDetail = (qr_code) => {
     return (dispatch) => {
-        fetch(`http://vatapcheck.com.vn/api/v1/qrcode`, {
+        fetch(`https://vatapcheck.com.vn/api/v1/qrcode`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

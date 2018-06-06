@@ -456,7 +456,7 @@ class ProductDetail extends Component {
                             {this.state.url === null ?
                                 <Text style={{ alignSelf: 'center', textAlign: 'center' }}>Không có ảnh đại diện cho sản phẩm này</Text>
                                 :
-                                <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/products/${this.state.url}` }} style={styles.customImage} />
+                                <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/products/${this.state.url}` }} style={styles.customImage} />
                             }
 
                         </View>

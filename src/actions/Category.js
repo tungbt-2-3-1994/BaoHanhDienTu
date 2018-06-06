@@ -6,7 +6,7 @@ const name = 'category';
 
 export const fetchAllCategories = () => {
     return (dispatch) => {
-        fetch(`http://vatapcheck.com.vn/api/v1/categories`)
+        fetch(`https://vatapcheck.com.vn/api/v1/categories`)
             .then((response) => response.json())
             .then((responseData) => {
                 if (responseData.code === 200) {
@@ -31,7 +31,7 @@ export const fetchAllCategories = () => {
 
 export const fetchAllProductsInCategory = (id_cat) => {
     return (dispatch) => {
-        fetch(`http://vatapcheck.com.vn/api/v1/products/category/${id_cat}`)
+        fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id_cat}`)
             .then((response) => response.json())
             .then((responseData) => {
                 console.log(name, responseData);

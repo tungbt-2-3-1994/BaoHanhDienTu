@@ -6,7 +6,7 @@ const name = 'LOGIN';
 
 export const normalLogin = (username, password) => {
     return (dispatch) => {
-        fetch(`http://vatapcheck.com.vn/api/v1/signin`, {
+        fetch(`https://vatapcheck.com.vn/api/v1/signin`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

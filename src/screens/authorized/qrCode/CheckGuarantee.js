@@ -50,7 +50,7 @@ class CheckGuarantee extends Component {
                 <BackHeader navigation={this.props.navigation} title='KIỂM TRA BẢO HÀNH' />
 
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, padding: 15 }}>
-                    <ScrollView style={{ flex: 1, backgroundColor: priColor }}>
+                    <ScrollView style={{ flex: 1, backgroundColor: priColor, paddingBottom: 50 }}>
                         <ListHeader title='Thông tin khách hàng' />
                         <Input
                             containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
@@ -135,7 +135,7 @@ class CheckGuarantee extends Component {
                             ref={(input) => this.brand = input}
                             onChangeText={(text) => this.setState({ brand: text })}
                         />
-                        <TouchableOpacity onPress={() => this.onSearch()} style={{ alignSelf: 'center', borderWidth: 1, borderColor: 'white', backgroundColor: 'transparent', borderRadius: 10, padding: 10, marginTop: 5 }}>
+                        <TouchableOpacity onPress={() => this.onSearch()} style={{ alignSelf: 'center', borderWidth: 1, borderColor: 'white', backgroundColor: 'transparent', borderRadius: 10, padding: 10, marginTop: 5, marginBottom: 30 }}>
                             <Text style={{ fontWeight: 'bold', color: 'white', fontSize: responsiveFontSize(2) }}>Tìm kiếm</Text>
                         </TouchableOpacity>
                     </ScrollView>

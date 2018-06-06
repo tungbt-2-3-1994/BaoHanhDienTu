@@ -9,11 +9,12 @@ import { width, height } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
 import { Tab, Tabs, Button, Icon, Text, Card, Body } from 'native-base';
+import { priColor } from '../../../constants/colors';
 
 const ListHeader = ({ title }) => {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingTop: 15, marginBottom: 10 }}>
-            <Text style={{ color: 'red', fontSize: responsiveFontSize(1.5), fontWeight: 'bold' }}>{title}</Text>
+        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, marginBottom: 5 }}>
+            <Text style={{ color: priColor, fontSize: responsiveFontSize(1.5), fontWeight: 'bold' }}>{title}</Text>
         </View>
     );
 }
@@ -35,7 +36,7 @@ class Products extends Component {
     componentWillMount() {
         console.log('Products', this.props.navigation.state.params);
         const { id } = this.props.navigation.state.params.item;
-        fetch(`http://vatapcheck.com.vn/api/v1/products/category/${id}`)
+        fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id}`)
             .then(res => res.json())
             .then(resData => {
                 console.log(resData)
@@ -51,7 +52,7 @@ class Products extends Component {
             page: this.state.page + 1,
             refreshing: true
         }, () => {
-            fetch(`http://vatapcheck.com.vn/api/v1/products/category/${id}?page=${this.state.page}`)
+            fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id}?page=${this.state.page}`)
                 .then(res => res.json())
                 .then(resData => {
                     if (resData.code === 200) {
@@ -70,12 +71,12 @@ class Products extends Component {
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color='red' size='large' />
+                <ActivityIndicator animating={true} color={priColor} size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ textAlign: 'center', alignSelf: 'center', fontSize: responsiveFontSize(2), color: 'green' }}>Không có mặt hàng nào trong danh mục này</Text>
+                <Text style={{ textAlign: 'center', alignSelf: 'center', fontSize: responsiveFontSize(2), color: priColor }}>Không có mặt hàng nào trong danh mục này</Text>
             </View>
         );
     }
@@ -96,7 +97,7 @@ class Products extends Component {
                 <BackHeader navigation={this.props.navigation} title={name} />
                 < View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
                     <View style={{ width: width, height: height / 5 }}>
-                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${this.props.navigation.state.params.logo}` }} style={styles.customImage} />
+                        <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/categories/${this.props.navigation.state.params.logo}` }} style={styles.customImage} />
                     </View>
                     <ListHeader title='Sản phẩm' />
                     <FlatList
@@ -114,7 +115,7 @@ class Products extends Component {
                                     <Card style={{ width: (width - 20) / 3, backgroundColor: 'white' }}>
                                         <View>
                                             <Body>
-                                                <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/products/${item.logo}` }} style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, resizeMode: 'stretch' }} />
+                                                <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/products/${item.logo}` }} style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, resizeMode: 'stretch' }} />
                                                 <Text style={{ padding: 3, textAlign: 'center', fontSize: responsiveFontSize(1.5) }}>
                                                     {item.name}
                                                 </Text>

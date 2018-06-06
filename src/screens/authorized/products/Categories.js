@@ -17,30 +17,7 @@ import ImageSlider from 'react-native-image-slider';
 
 import ImageProgress from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
-
-
-const ListHeader = ({ title }) => {
-    return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingTop: 10, marginBottom: 10 }}>
-            <Text style={{ color: 'red', fontSize: responsiveFontSize(1.5), fontWeight: 'bold' }}>{title}</Text>
-        </View>
-    );
-}
-
-const CategoryBox = ({ src, size, title }) => (
-    <TouchableOpacity onPress={() => alert(title)} style={{ paddingVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'black', borderWidth: 1, width: (width - 40) / 3 }}>
-        <Ionicons size={size} name={src} />
-        <Text style={{ textAlign: 'center', opacity: 0.7, fontSize: responsiveFontSize(1.15), color: 'black', fontWeight: 'bold' }}>{title}</Text>
-    </TouchableOpacity>
-);
-
-const CategoryBoxM = ({ src, size, title }) => (
-    <TouchableOpacity onPress={() => alert(title)} style={{ paddingVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'black', borderWidth: 1, width: (width - 40) / 3 }}>
-        <MaterialIcons size={size} name={src} />
-        <Text style={{ textAlign: 'center', opacity: 0.7, fontSize: responsiveFontSize(1.15), color: 'black', fontWeight: 'bold' }}>{title}</Text>
-    </TouchableOpacity>
-);
-
+import { priColor } from '../../../constants/colors';
 
 class Categories extends Component {
 
@@ -75,12 +52,12 @@ class Categories extends Component {
     renderEmpty = () => {
         if (this.props.categories.loading === true) {
             return (
-                <ActivityIndicator animating={true} color='red' size='large' />
+                <ActivityIndicator animating={true} color={priColor} size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'red' }}>Không có phân khúc sản phẩm nào</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có phân khúc sản phẩm nào</Text>
             </View>
         );
     }
@@ -100,7 +77,7 @@ class Categories extends Component {
                                 customSlide={({ index, item, style, width }) => (
                                     // It's important to put style here because it's got offset inside
                                     <View key={index} style={[style, styles.customSlide]}>
-                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} style={styles.background} />
+                                        <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} style={styles.background} />
                                         {/* <View style={styles.foreground}>
                                             <Image style={{ width: 3 * height / 20, height: 3 * height / 20, borderRadius: 3 * height / 40 }} source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }} />
                                         </View> */}
@@ -109,7 +86,7 @@ class Categories extends Component {
                                 customButtons={() => { return null }}
                             />
                             :
-                            <ActivityIndicator animating={true} color='red' size='large' style={{}} />}
+                            <ActivityIndicator animating={true} color={priColor} size='large' style={{}} />}
                     </View>
 
                     <FlatList
@@ -125,7 +102,7 @@ class Categories extends Component {
                                         <View>
                                             <Body>
                                                 <ImageProgress
-                                                    source={{ uri: `http://vatapcheck.com.vn/static/common/img/categories/${item.image}` }}
+                                                    source={{ uri: `https://vatapcheck.com.vn/static/common/img/categories/${item.image}` }}
                                                     style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, }}
                                                     indicator={Progress.Pie}
                                                     indicatorProps={{

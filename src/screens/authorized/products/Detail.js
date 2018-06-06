@@ -1,60 +1,135 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, TouchableHighlight, ScrollView, Platform, } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
 import BackHeader from '../../../components/BackHeader';
+
+import { width, height } from '../../../constants/dimensions';
+
+import { responsiveFontSize, responsiveHeight } from '../../../utils/helpers';
+
+import { Tab, Tabs, Button, Icon, Text, Card, Body, Left, Textarea } from 'native-base';
+
+import ImageSlider from 'react-native-image-slider';
 
 import { connect } from 'react-redux';
 
-import { fetchAllProductsInCategory } from '../../../actions';
-
-import ImageSlider from 'react-native-image-slider';
-import { width, height } from '../../../constants/dimensions';
-
-import { responsiveFontSize } from '../../../utils/helpers';
-
-import { Tab, Tabs, Button, Icon, Text, Card, CardItem, Body } from 'native-base';
+import { fetchProductDetail } from '../../../actions';
 
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
 import Modal from 'react-native-modalbox';
 
-import ReadMore from 'react-native-read-more-text';
+import IconFA from 'react-native-vector-icons/FontAwesome';
 
-const CategoryBox = ({ src, size, title }) => (
-    <TouchableOpacity onPress={() => alert(title)} style={{ paddingVertical: 10, justifyContent: 'center', alignItems: 'center', borderColor: 'black', borderWidth: 1, width: (width - 40) / 3 }}>
-        <Ionicons size={size} name={src} />
-        <Text style={{ textAlign: 'center', opacity: 0.7, fontSize: responsiveFontSize(1.15), color: 'black', fontWeight: 'bold' }}>{title}</Text>
-    </TouchableOpacity>
-);
+import { normalLogin } from '../../../actions/index';
+import { getAgencyInfo } from '../../../actions/Agency';
+
+import ModalDropdown from 'react-native-modal-dropdown';
+import { priColor, thirdColor } from '../../../constants/colors';
+
+const fake_data = [
+    { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
+    { 'name': 'Cam sành', 'price': 50000, 'uri': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJy2M6n9XjUk54XDhtetxN3eHiR8jhiM-I3-lYo8WcvRIagAAcw' },
+    { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
+];
+
+const ListHeader = ({ title, size }) => {
+    return (
+        <View style={{ justifyContent: 'space-between', marginBottom: 10, paddingLeft: 5 }}>
+            <Text style={{ color: 'white', fontSize: responsiveFontSize(size), fontWeight: 'bold' }}>{title}</Text>
+        </View>
+    );
+}
+
+const SameProduct = ({ item }) => {
+    return (
+        <TouchableOpacity style={{ width: (width - 50) / 3, height: null, flex: 1, marginRight: 10 }}>
+            <Image source={item} style={{ height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
+        </TouchableOpacity>
+    );
+}
+
+const UppperLabel = ({ title, content }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
+            </View>
+            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
+            </View>
+        </View>
+    );
+}
+const UppperScroolView = ({ title, content }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
+            </View>
+            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
+            </View>
+        </View>
+    );
+}
+
+const UppperNotes = ({ title, content, onChangeText }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                <Textarea
+                    style={{ backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}
+                    rowSpan={5}
+                    multiline={true}
+                    bordered
+                    onChangeText={onChangeText}
+                />
+            </View>
+            <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(2.6), fontWeight: 'bold' }}>{title}</Text>
+            </View>
+        </View>
+    );
+}
+
+const CustomerView = ({ icon, brand }) => {
+    return (
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                <IconFA name={icon} style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+            </View>
+            <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>{brand} </Text>
+        </View>
+    );
+}
+
+const GuaranteeView = ({ brand, content }) => {
+    return (
+        <Text style={{ marginBottom: 10 }}>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>{brand}: </Text>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content}</Text>
+        </Text>
+    );
+}
 
 
 class Detail extends Component {
 
-    state = {
-        dataDetail: {},
-        type: 1,
-        productName: '',
-        productPrice: 0,
-        productDes: '',
-        url: '',
-        agencies: []
-    }
-
     static navigationOptions = {
     }
 
-    componentWillMount() {
-
-    }
-
-    showCert = () => {
-        this.refs.myModal.open();
+    constructor(props) {
+        super(props);
+        this.state = {
+            qr_code: '',
+            type: 1,
+            notes: ''
+        }
     }
 
     componentDidMount() {
-        // console.log('Detail', this.props.navigation.state.params);
         const gtin = this.props.navigation.state.params;
-        // console.log('g', gtin);
-        fetch(`http://vatapcheck.com.vn/api/v1/barcode`, {
+        fetch(`https://vatapcheck.com.vn/api/v1/barcode`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -71,18 +146,12 @@ class Detail extends Component {
                     if (responseData.data !== null) {
                         if (responseData.data.organization !== null && responseData.data.product !== null) {
                             this.setState({
-                                productName: responseData.data.product.name,
-                                dataDetail: responseData.data.organization,
-                                productPrice: responseData.data.product.price,
-                                productDes: responseData.data.product.description,
-                                url: responseData.data.product.logo,
-                                agencies: responseData.data.agencies,
                                 type: 1
                             });
                         }
                     }
                 } else {
-                    fetch(`http://vatapcheck.com.vn/api/v1/qrcode`, {
+                    fetch(`https://vatapcheck.com.vn/api/v1/qrcode`, {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -99,12 +168,6 @@ class Detail extends Component {
                                 if (resData.data !== null) {
                                     if (resData.data.organization !== null && resData.data.product !== null) {
                                         this.setState({
-                                            productName: resData.data.product.name,
-                                            productPrice: resData.data.product.price,
-                                            dataDetail: resData.data.organization,
-                                            productDes: resData.data.product.description,
-                                            url: resData.data.product.logo,
-                                            agencies: resData.data.agencies,
                                             type: 2
                                         });
                                     }
@@ -119,22 +182,26 @@ class Detail extends Component {
             .done();
     }
 
-    _renderTruncatedFooter = (handlePress) => {
+    componentWillUnmount() {
+    }
+
+
+    renderEmpty = () => {
+        if (this.state.loading === true) {
+            return (
+                <ActivityIndicator animating={true} color={priColor} size='large' />
+            );
+        }
         return (
-            <Text style={{ fontSize: responsiveFontSize(1.5), color: 'red', marginTop: 5 }} onPress={handlePress}>
-                Xem thêm
-            </Text>
+            <View>
+                <Text style={{ textAlign: 'center', alignSelf: 'center', fontSize: responsiveFontSize(2), color: 'green' }}>Không có mặt hàng nào trong danh mục này</Text>
+            </View>
         );
     }
 
-    _renderRevealedFooter = (handlePress) => {
-        return (
-            <Text style={{ fontSize: responsiveFontSize(1.5), color: 'red', marginTop: 5 }} onPress={handlePress}>
-                Ẩn
-            </Text>
-        );
-    }
+    componentWillReceiveProps(nextProps) {
 
+    }
 
     render() {
         const images = [
@@ -143,144 +210,115 @@ class Detail extends Component {
             require('../../../assets/imgs/grape3.jpg'),
             require('../../../assets/imgs/grape4.jpeg'),
         ];
-        let agency = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10 }}>
-                    <View style={{ flexDirection: 'row', }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Công ty</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>{this.state.dataDetail.name}</Text>
+        let product = (
+            <View style={{ backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
+                    <UppperLabel title='Nhà sản xuất' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Nhà phân phối' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Điểm bán' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Điểm bảo hành' content='CÔNG TY TNHH ABC' />
+                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+                        <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                {images.map((product, index) => (<SameProduct key={index.toString() + 'OwnedProducts'} item={product} />))}
+                            </ScrollView>
+                        </View>
+                        <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Sản phẩm sở hữu</Text>
+                        </View>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Địa chỉ</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7 }}>{this.state.dataDetail.address}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Liên hệ</Text>
-                        <Text onPress={() => { phonecall(this.state.dataDetail.phone, true) }} style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>
-                            {this.state.dataDetail.phone}
-                        </Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Email</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7 }}>{this.state.dataDetail.email}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                        <Text style={{ fontSize: responsiveFontSize(1.5), flex: 0.3, color: 'red' }}>Website</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.4), flex: 0.7, color: 'red' }}>{this.state.dataDetail.website}</Text>
-                    </View>
-
-                </Card>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginTop: 1 }}>
-                    <Text style={{ alignSelf: 'center', fontSize: responsiveFontSize(1.5), fontWeight: 'bold', color: 'red', marginBottom: 10 }}>Giới thiệu công ty</Text>
-                    <ReadMore
-                        numberOfLines={5}
-                        renderTruncatedFooter={this._renderTruncatedFooter}
-                        renderRevealedFooter={this._renderRevealedFooter}
-                        onReady={this._handleTextReady}>
-                        <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                            {this.state.dataDetail.description}
-                        </Text>
-                    </ReadMore>
-                </Card>
+                </View>
             </View>
         );
 
-        let partner = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <View style={{ width: width - 10, backgroundColor: 'white', padding: 10 }}>
-                    {this.state.agencies.length !== 0 ?
-                        (this.state.agencies.map(agen => (
-                            <TouchableOpacity key={agen.id} onPress={() => alert(`Show địa điểm của ${agen.name} trên bản đồ`)}>
-                                <Card>
-                                    <CardItem>
-                                        <Body>
-                                            <Text style={{ fontSize: responsiveFontSize(1.5) }}>{agen.name}</Text>
-                                            <Text note style={{ fontSize: responsiveFontSize(1.5) }}>{agen.address}</Text>
-                                        </Body>
-                                    </CardItem>
-                                </Card>
-                            </TouchableOpacity>
-                        )))
-                        :
-                        (<Text style={{ fontSize: responsiveFontSize(1.5), color: 'red' }}>Không có địa điểm bán cho sản phẩm này</Text>)
-                    }
+        let customer = (
+            <View style={{ padding: 10, backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
+                    <CustomerView icon='user' brand='Họ và tên:' />
+                    <CustomerView icon='phone' brand='Số điện thoại:' />
+                    <CustomerView icon='address-card' brand='CMND:' />
+                    <CustomerView icon='envelope' brand='Mail:' />
+                    <CustomerView icon='map-marker' brand='Địa chỉ:' />
+                </View>
+                <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
+                    <ListHeader title='Sản phẩm đã mua' size='1.7' />
+                    <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                            {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
+                        </ScrollView>
+                    </View>
                 </View>
             </View>
 
         );
-        let productInfor = (
-            <View style={{ paddingHorizontal: 3, backgroundColor: '#eceaeb' }}>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginBottom: 1 }}>
-                    <Text style={{ color: 'red', textAlign: 'auto', fontSize: responsiveFontSize(1.5), marginBottom: 5 }}>
-                        Giá tham khảo
-                    </Text>
-                    <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                        {this.state.productPrice !== null ? this.state.productPrice.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') : '0'}đ
-                    </Text>
-                </Card>
-                <Card style={{ width: width - 10, backgroundColor: 'white', padding: 10, marginBottom: 1 }}>
-                    <Text style={{ color: 'red', textAlign: 'auto', fontSize: responsiveFontSize(1.5), marginBottom: 5 }}>
-                        Thông tin chi tiết
-                    </Text>
-                    <ReadMore
-                        numberOfLines={5}
-                        renderTruncatedFooter={this._renderTruncatedFooter}
-                        renderRevealedFooter={this._renderRevealedFooter}
-                        onReady={this._handleTextReady}>
-                        <Text style={{ color: '#3f3f3f', textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>
-                            {this.state.productDes}
-                        </Text>
-                    </ReadMore>
-                </Card>
+
+        let guarantee = (
+            <View style={{ padding: 10, backgroundColor: priColor, }}>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
+                    <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
+                    <GuaranteeView brand='Hạn sử dụng' content='12/10/2018' />
+                    <GuaranteeView brand='Thời gian bảo hành' content='1 năm' />
+                    <GuaranteeView brand='Tình trạng' content='Còn hạn bảo hành' />
+                    <GuaranteeView brand='Số lô' content='88' />
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    <UppperNotes title='Note' onChangeText={(text) => this.setState({ notes: text })} />
+                </View>
+
             </View>
         );
+
         return (
             <View style={styles.container}>
-                <BackHeader navigation={this.props.navigation} />
+                <BackHeader navigation={this.props.navigation} title='THÔNG TIN TRUY XUẤT' />
                 <View style={{ flex: 1 }}>
-                    <ScrollView style={{ marginBottom: 5 }}>
+                    <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
                         <View style={{ width: width, height: height / 5 }}>
-                            <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/products/${this.state.url}` }} style={styles.customImage} />
+                            <ImageSlider
+                                loopBothSides
+                                autoPlayWithInterval={3000}
+                                images={images}
+                                customSlide={({ index, item, style, width }) => (
+                                    <View key={index} style={[style, styles.customSlide]}>
+                                        <Image source={item} style={styles.customImage} />
+                                    </View>
+                                )}
+                                customButtons={(position, move) => (
+                                    <View style={styles.buttons}>
+                                        {images.map((image, index) => {
+                                            return (
+                                                <TouchableHighlight
+                                                    key={index}
+                                                    underlayColor="#ccc"
+                                                    onPress={() => move(index)}
+                                                    style={styles.button}
+                                                >
+                                                    <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
+                                                </TouchableHighlight>
+                                            );
+                                        })}
+                                    </View>
+                                )}
+                            />
                         </View>
-                        <Text style={{ color: 'red', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>{this.state.productName}</Text>
-                        <Text style={{ fontSize: responsiveFontSize(1.3), alignSelf: 'center', marginTop: 10, opacity: 0.8 }}>{this.state.type === 1 ? 'Mã vạch' : 'Serial'}: {this.props.navigation.state.params}</Text>
-                        <View style={{ backgroundColor: 'red', marginTop: 20, flexDirection: 'row', padding: 4 }}>
-                            <TouchableOpacity onPress={() => this.showCert()} style={{ flex: 1, marginRight: 4, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
-                                <Text style={{ color: 'red', fontSize: responsiveFontSize(2), marginRight: 7 }}>Đã xác thực</Text>
-                                <Icon name='ios-checkmark' style={{ fontSize: 40, color: 'red' }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Map')} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: 'white' }}>
-                                <Text style={{ color: 'red', fontSize: responsiveFontSize(2), marginRight: 7 }}>Chỉ dẫn địa lý</Text>
-                                <Icon name='ios-navigate' style={{ fontSize: 30, color: 'red' }} />
-                            </TouchableOpacity>
-
+                        <View style={{ backgroundColor: 'white' }}>
+                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
+                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         </View>
-                        <Tabs initialPage={0} style={{ marginTop: 20 }} tabBarUnderlineStyle={{ backgroundColor: 'red' }}>
-                            <Tab heading="Chi tiết sản phẩm" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: 'black', fontSize: responsiveFontSize(1.5) }} activeTabStyle={{ backgroundColor: 'red', }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5), textAlign: 'center' }}>
-                                {productInfor}
-                            </Tab>
-                            <Tab heading="Nhà sản xuất" tabStyle={{ backgroundColor: 'white' }} textStyle={{ color: 'black', fontSize: responsiveFontSize(1.5), textAlign: 'center' }} activeTabStyle={{ backgroundColor: 'red' }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5), textAlign: 'center' }}>
-                                {agency}
-                            </Tab>
-                            <Tab heading="Nhà phân phối" tabStyle={{ backgroundColor: 'white' }} textStyle={{ color: 'black', fontSize: responsiveFontSize(1.5), textAlign: 'center' }} activeTabStyle={{ backgroundColor: 'red' }} activeTextStyle={{ color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.5), textAlign: 'center' }}>
-                                {partner}
-                            </Tab>
-                        </Tabs>
+                        <View style={{ marginTop: 1 }}>
+                            <Tabs locked={true} initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
+                                <Tab style={{ backgroundColor: priColor }} heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {product}
+                                </Tab>
+                                <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {guarantee}
+                                </Tab>
+                                <Tab style={{ backgroundColor: priColor }} heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                    {customer}
+                                </Tab>
+                            </Tabs>
+                        </View>
                     </ScrollView>
-                    <Modal
-                        ref={'myModal'}
-                        style={{
-                            paddingVertical: 20,
-                            alignItems: 'center',
-                            borderRadius: Platform.OS === 'ios' ? 15 : 10,
-                            shadowRadius: 10,
-                            width: 7 * width / 8,
-                            height: 2 * height / 3,
-                            justifyContent: 'space-between'
-                        }}
-                        position='center'
-                        backdrop={true}
-                    ></Modal>
                 </View>
             </View>
         );
@@ -289,11 +327,13 @@ class Detail extends Component {
 }
 
 const styles = {
+    title: {
+        fontSize: responsiveFontSize(1.8), flex: 0.3, color: priColor,
+    },
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
     },
-    contentText: { color: '#fff' },
     buttons: {
         zIndex: 1,
         height: 15,
@@ -303,14 +343,6 @@ const styles = {
         alignItems: 'center',
         flexDirection: 'row',
     },
-    button: {
-        margin: 3,
-        width: 15,
-        height: 15,
-        opacity: 0.9,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     normalButton: {
         width: 10, height: 10, borderRadius: 5, borderWidth: 1,
         backgroundColor: 'transparent', borderColor: 'white'
@@ -318,6 +350,14 @@ const styles = {
     buttonSelected: {
         width: 10, height: 10, borderRadius: 5, borderWidth: 1,
         backgroundColor: 'white', borderColor: 'white'
+    },
+    button: {
+        margin: 3,
+        width: 15,
+        height: 15,
+        opacity: 0.9,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     customSlide: {
         backgroundColor: 'white',
@@ -327,12 +367,14 @@ const styles = {
     customImage: {
         width: width,
         height: null,
-        flex: 1
+        flex: 1,
+        resizeMode: 'stretch'
     },
 };
 
 const mapStateToProps = (state) => {
     return {
+
     }
 }
 
@@ -342,3 +384,5 @@ const mapDispatchToProps = (dispatch, props) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+
+
