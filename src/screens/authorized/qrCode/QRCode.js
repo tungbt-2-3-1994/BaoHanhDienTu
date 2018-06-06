@@ -24,6 +24,10 @@ import { connect } from 'react-redux';
 import QRScannerRectView from './QRScannerRectView';
 import { priColor } from '../../../constants/colors';
 
+import { isIphoneX } from 'react-native-iphone-x-helper';
+
+const value = (isIphoneX() || Platform.OS === 'android') ? 100 : 48;
+
 class QRCode extends Component {
 
     constructor(props) {
@@ -39,7 +43,7 @@ class QRCode extends Component {
             barcodeCodes: [],
             isShow: true,
             marginTopAnim: new Animated.Value((height - 100) / 2),
-            marginBottomAnim: new Animated.Value((height - 48) / 2)
+            marginBottomAnim: new Animated.Value((height - value) / 2)
         };
     }
 

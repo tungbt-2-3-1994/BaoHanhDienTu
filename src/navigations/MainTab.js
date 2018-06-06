@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabNavigator, TabBarBottom, TabBarTop } from 'react-navigation';
-import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import { width } from '../constants/dimensions';
 
 import { responsiveFontSize, responsiveWidth } from '../utils/helpers';
