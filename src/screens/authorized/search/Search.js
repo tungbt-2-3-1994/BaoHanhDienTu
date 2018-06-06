@@ -14,14 +14,15 @@ import { connect } from 'react-redux';
 
 import ImageProgress from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
+import { priColor } from '../../../constants/colors';
 
 const ListHeader = ({ title, moreEvent }) => {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingTop: 10, marginBottom: 5 }}>
-            <Text style={{ color: 'red', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
+        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 10, marginBottom: 5 }}>
+            <Text style={{ color: priColor, fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={moreEvent}>
-                <Text style={{ color: 'red', fontSize: responsiveFontSize(1.3), marginRight: 3 }}>Xem tất cả</Text>
-                <Icon name='ios-arrow-forward-outline' style={{ color: 'red', fontSize: responsiveFontSize(2) }} />
+                <Text style={{ color: priColor, fontSize: responsiveFontSize(1.3), marginRight: 3 }}>Xem tất cả</Text>
+                <Icon name='ios-arrow-forward-outline' style={{ color: priColor, fontSize: responsiveFontSize(2) }} />
             </TouchableOpacity>
         </View>
     );
@@ -45,19 +46,19 @@ class Search extends Component {
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color='red' size='large' />
+                <ActivityIndicator animating={true} color={priColor} size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'red' }}>Không có thương hiệu nào</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có thương hiệu nào</Text>
             </View>
         );
     }
 
     componentDidMount() {
         this.setState({ loading: true });
-        fetch('http://vatapcheck.com.vn/api/v1/organizations')
+        fetch('https://vatapcheck.com.vn/api/v1/organizations')
             .then(res => res.json())
             .then(resData => {
                 if (resData.code === 200) {
@@ -84,8 +85,8 @@ class Search extends Component {
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
-                <View style={{ flex: 1 }}>
-                    <ScrollView>
+                <View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
+                    <ScrollView style={{ backgroundColor: '#eceaeb' }}>
                         <View style={{ width: width, height: height / 5 }}>
                             {(this.state.loading === false && this.state.organizations.length !== 0) ?
                                 <ImageSlider
@@ -94,7 +95,7 @@ class Search extends Component {
                                     images={this.state.organizations}
                                     customSlide={({ index, item, style, width }) => (
                                         <View key={index} style={[style, styles.customSlide]}>
-                                            <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }} style={styles.customImage} />
+                                            <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }} style={styles.customImage} />
                                         </View>
                                     )}
                                     customButtons={(position, move) => (
@@ -108,7 +109,7 @@ class Search extends Component {
                                     )}
                                 />
                                 :
-                                <ActivityIndicator animating={true} color='red' size='large' style={{}} />
+                                <ActivityIndicator animating={true} color={priColor} size='large' style={{}} />
                             }
                         </View>
 
@@ -125,7 +126,7 @@ class Search extends Component {
                                             <View >
                                                 <Body style={{}}>
                                                     <ImageProgress
-                                                        source={{ uri: `http://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }}
+                                                        source={{ uri: `https://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }}
                                                         style={{ height: 2 * (width - 20) / 9, width: (width - 20) / 3, flex: 1, }}
                                                         indicator={Progress.Pie}
                                                         indicatorProps={{
