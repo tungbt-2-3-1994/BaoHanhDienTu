@@ -42,8 +42,8 @@ class QRCode extends Component {
             },
             barcodeCodes: [],
             isShow: true,
-            marginTopAnim: new Animated.Value((height - 100) / 2),
-            marginBottomAnim: new Animated.Value((height - value) / 2)
+            marginTopAnim: new Animated.Value((height - 100 + value) / 2),
+            marginBottomAnim: new Animated.Value((height - 2 * value) / 2)
         };
     }
 
@@ -121,7 +121,7 @@ class QRCode extends Component {
 
                         </RNCamera>
                     }
-                    {/* <TouchableOpacity onPress={() => {
+                    <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'CheckGuarantee',
                             params: {
@@ -180,7 +180,7 @@ class QRCode extends Component {
                         }));
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
 
                 </View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginBottomAnim, backgroundColor: priColor }}>
