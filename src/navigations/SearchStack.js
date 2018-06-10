@@ -1,12 +1,12 @@
 import { StackNavigator } from 'react-navigation';
 
-import Search from '../screens/authorized/search/Search';
+import SearchView from '../screens/authorized/search/SearchView';
 import ViewAll from '../screens/authorized/search/ViewAll';
 import DetailBrand from '../screens/authorized/search/DetailBrand';
 
 const SearchStack = StackNavigator({
-    Search: {
-        screen: Search
+    SearchView: {
+        screen: SearchView
     },
     ViewAll: {
         screen: ViewAll

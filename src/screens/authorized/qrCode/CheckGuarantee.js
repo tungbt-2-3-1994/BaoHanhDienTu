@@ -141,7 +141,7 @@ class CheckGuarantee extends Component {
                             </Input> */}
                             <View style={{ flexDirection: 'row', }}>
                                 <IconFont name='shopping-cart' style={{ marginRight: 10, fontSize: responsiveFontSize(2), color: '#969696' }} />
-                                <Text style={{ color: '#969696', fontSize: responsiveFontSize(1.8) }}>{this.state.category === '' ? 'Chọn ngành hàng' : this.state.category}</Text>
+                                <Text style={[this.state.category === '' ? { color: '#969696' } : { color: 'black' }, { fontSize: responsiveFontSize(1.8) }]}>{this.state.category === '' ? 'Chọn ngành hàng' : this.state.category}</Text>
                             </View>
                             <IconFont name='chevron-down' style={{ marginRight: 10, fontSize: responsiveFontSize(2), color: '#969696' }} />
                         </TouchableOpacity>

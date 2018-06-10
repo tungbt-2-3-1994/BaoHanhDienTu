@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
+import { View, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
 import BackHeader from '../../../components/BackHeader';
 
 import { width, height } from '../../../constants/dimensions';
@@ -26,18 +26,15 @@ import { getAgencyInfo } from '../../../actions/Agency';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { priColor, thirdColor } from '../../../constants/colors';
 
-const ListHeader = ({ title, size }) => {
+const UppperInput = ({ title, onChangeText }) => {
     return (
-        <View style={{ justifyContent: 'space-between', marginBottom: 10, paddingLeft: 5 }}>
-            <Text style={{ color: 'white', fontSize: responsiveFontSize(size), fontWeight: 'bold' }}>{title}</Text>
-        </View>
-    );
-}
-
-const TextInfor = ({ brand, content }) => {
-    return (
-        <View style={{ borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.2)', paddingBottom: 5, marginBottom: 20 }}>
-            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white' }}>{brand}: {content}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} placeholder='asas' />
+            </View>
+            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
+            </View>
         </View>
     );
 }
@@ -94,8 +91,8 @@ class EditDetailInfor extends Component {
         return (
             <View style={styles.container}>
                 <BackHeader navigation={this.props.navigation} title='THÔNG TIN TRUY XUẤT' />
-                <View style={{ flex: 1 }}>
-                    <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, paddingBottom: 20 }}>
+                    <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor, marginBottom: 20 }}>
                         <View style={{ width: width, height: height / 5 }}>
                             <ImageSlider
                                 loopBothSides
@@ -126,11 +123,32 @@ class EditDetailInfor extends Component {
                         </View>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center', }}>Sản phẩm: Nho Ninh Thuận</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
-                        <View style={{ padding: 15 }}>
-                            
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Ngày kích hoạt' />
                         </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Thời gian bảo hành' />
+                        </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Tình trạng' />
+                        </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Số lô' />
+                        </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Hạn sử dụng' />
+                        </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Điểm bảo hành' />
+                        </View>
+                        <View style={{ paddingHorizontal: 15 }}>
+                            <UppperInput title='Note' />
+                        </View>
+                        <TouchableOpacity style={{ alignSelf: 'center', borderColor: 'white', marginTop: 15, borderRadius: 10, borderWidth: 1, padding: 10, width: 2 * width / 3 }}>
+                            <Text style={{ color: 'white', alignSelf: 'center' }}>Xác nhận</Text>
+                        </TouchableOpacity>
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
             </View>
         );
     }
