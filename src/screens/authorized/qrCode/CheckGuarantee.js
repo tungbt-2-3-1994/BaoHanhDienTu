@@ -14,22 +14,14 @@ import { Input } from 'react-native-elements';
 import ModalBox from 'react-native-modalbox';
 
 const pickerValues = [
-    {
-        title: 'Ngành 1',
-        value: 'nganh1'
-    },
-    {
-        title: 'Ngành 2',
-        value: 'nganh2'
-    },
-    {
-        title: 'Ngành 3',
-        value: 'nganh3'
-    },
-    {
-        title: 'Ngành 4',
-        value: 'nganh4'
-    },
+    { title: 'Ngành 1', value: 'nganh1' },
+    { title: 'Ngành 2', value: 'nganh2' },
+    { title: 'Ngành 3', value: 'nganh3' },
+    { title: 'Ngành 4', value: 'nganh4' },
+    { title: 'Ngành 5', value: 'nganh5' },
+    { title: 'Ngành 6', value: 'nganh6' },
+    { title: 'Ngành 7', value: 'nganh7' },
+    { title: 'Ngành 8', value: 'nganh8' },
 ]
 
 const ListHeader = ({ title }) => {
@@ -171,12 +163,23 @@ class CheckGuarantee extends Component {
                     </ScrollView>
                 </KeyboardAvoidingView>
                 <ModalBox ref={'modal'} swipeToClose={false} style={[styles.modal,]} backdrop={true} position={"bottom"} >
+                    <View style={{ borderBottomWidth: 1, borderColor: 'grey', paddingHorizontal: 10, width: width, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text> </Text>
+                        <Text style={{ fontWeight: 'bold', paddingVertical: 8, color: priColor, fontSize: responsiveFontSize(2.3) }}>Lựa chọn ngành hàng</Text>
+                        <TouchableOpacity onPress={() => this.refs.modal.close()}>
+                            <Icon name='ios-close' style={{ fontSize: responsiveFontSize(4) }} />
+                        </TouchableOpacity>
+                    </View>
                     <ScrollView>
                         {pickerValues.map((value, index) => {
                             return (
-                                <TouchableHighlight style={{ paddingVertical: 4, alignItems: 'center' }} key={index} onPress={() => this.setPickerValue(value.title)}>
-                                    <Text>{value.title}</Text>
-                                </TouchableHighlight>
+                                <TouchableOpacity iconLeft light underlayColor='rgba(0, 0, 0, 0.3)' style={{ paddingHorizontal: 10, flexDirection: 'row', width: width, paddingVertical: 6, alignItems: 'center' }} key={index} onPress={() => {
+                                    this.setPickerValue(value.title);
+                                    this.refs.modal.close();
+                                }}>
+                                    <Icon name='home' style={{ color: priColor, marginRight: 10 }} />
+                                    <Text style={{ fontSize: responsiveFontSize(2) }}>{value.title}</Text>
+                                </TouchableOpacity>
                             );
                         })}
                     </ScrollView>
