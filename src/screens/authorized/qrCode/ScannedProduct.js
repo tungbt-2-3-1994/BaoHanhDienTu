@@ -23,7 +23,6 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import { normalLogin } from '../../../actions/index';
 import { getAgencyInfo } from '../../../actions/Agency';
 
-import ModalDropdown from 'react-native-modal-dropdown';
 import { priColor, thirdColor } from '../../../constants/colors';
 
 const fake_data = [

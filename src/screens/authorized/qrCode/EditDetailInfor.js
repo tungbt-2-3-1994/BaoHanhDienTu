@@ -23,21 +23,9 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import { normalLogin } from '../../../actions/index';
 import { getAgencyInfo } from '../../../actions/Agency';
 
-import ModalDropdown from 'react-native-modal-dropdown';
 import { priColor, thirdColor } from '../../../constants/colors';
 
-const UppperInput = ({ title, onChangeText }) => {
-    return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
-            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} placeholder='asas' />
-            </View>
-            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
-                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
-            </View>
-        </View>
-    );
-}
+import DatePicker from 'react-native-datepicker'
 
 class EditDetailInfor extends Component {
 
@@ -47,10 +35,26 @@ class EditDetailInfor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            qr_code: '',
-            type: 1,
-            notes: ''
+            notes: '',
+            date: this.formatDate(new Date())
         }
+    }
+
+    formatDate = (date) => {
+        let today = new Date(date);
+        let dd = today.getDate();
+
+        let mm = today.getMonth() + 1;
+        const yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = `0${dd}`;
+        }
+
+        if (mm < 10) {
+            mm = `0${mm}`;
+        }
+        today = `${dd}-${mm}-${yyyy}`;
+        return today;
     }
 
     componentDidMount() {
@@ -124,25 +128,93 @@ class EditDetailInfor extends Component {
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center', }}>Sản phẩm: Nho Ninh Thuận</Text>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Ngày kích hoạt' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ flexDirection: 'row', borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ flex: 0.9, marginRight: 15, padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} editable={false} value={this.state.date} />
+                                    <DatePicker
+                                        style={{ flex: 0.1, backgroundColor: 'transparent' }}
+                                        date={this.state.date}
+                                        mode="date"
+                                        format="YYYY-MM-DD"
+                                        confirmBtnText="Confirm"
+                                        cancelBtnText="Cancel"
+                                        hideText={true}
+                                        customStyles={{
+                                        }}
+                                        onDateChange={(date) => {
+                                            this.setState({ date: this.formatDate(date) });
+                                        }}
+                                    />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Ngày kích hoạt</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Thời gian bảo hành' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Thời gian bảo hành</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Tình trạng' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Tình trạng</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Số lô' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Số lô</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Hạn sử dụng' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Hạn sử dụng</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Điểm bảo hành' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Điểm bảo hành</Text>
+                                </View>
+                            </View>
                         </View>
                         <View style={{ paddingHorizontal: 15 }}>
-                            <UppperInput title='Note' />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
+                                <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
+                                    <Textarea
+                                        style={{ backgroundColor: 'white', fontSize: responsiveFontSize(1.8) }}
+                                        rowSpan={5}
+                                        multiline={true}
+                                        bordered
+                                    />
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Note</Text>
+                                </View>
+                            </View>
                         </View>
                         <TouchableOpacity style={{ alignSelf: 'center', borderColor: 'white', marginTop: 15, borderRadius: 10, borderWidth: 1, padding: 10, width: 2 * width / 3 }}>
                             <Text style={{ color: 'white', alignSelf: 'center' }}>Xác nhận</Text>
