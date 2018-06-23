@@ -23,6 +23,7 @@
     "react-native-iphone-x-helper": "^1.0.3",
     "react-native-modal": "^5.4.0",
     "react-native-modalbox": "^1.4.2",
+    "react-native-permissions": "^1.1.1",
     "react-native-progress": "^3.5.0",
     "react-native-read-more-text": "^1.0.0",
     "react-native-vector-icons": "^4.6.0",

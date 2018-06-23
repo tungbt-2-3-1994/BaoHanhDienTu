@@ -9,7 +9,7 @@ import {
     InteractionManager,
     Platform,
     Animated,
-    Easing, Image
+    Easing, Image, Alert
 } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import NormalHeader from '../../../components/NormalHeader';
@@ -28,6 +28,8 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const value = (isIphoneX() || Platform.OS === 'android') ? 100 : 48;
 
+import Permissions from 'react-native-permissions';
+
 class QRCode extends Component {
 
     constructor(props) {
@@ -40,6 +42,7 @@ class QRCode extends Component {
                 flashMode: RNCamera.Constants.FlashMode.on,
                 barcodeFinderVisible: true,
             },
+            cameraPermission: 'undetermined',
             barcodeCodes: [],
             isShow: true,
             marginTopAnim: new Animated.Value((height - 100 + value) / 2),
@@ -47,7 +50,37 @@ class QRCode extends Component {
         };
     }
 
+    _alertForCameraPermission() {
+        Alert.alert(
+            'Truy cập Camera?',
+            'Chúng tôi cần truy cập Camera của bạn để quét mã vạch',
+            [
+                {
+                    text: 'Không',
+                    onPress: Permissions.openSettings,
+                    style: 'cancel',
+                },
+                {
+                    text: 'Có',
+                    onPress: Permissions.openSettings,
+                },
+            ],
+        )
+    }
+
+    openSettingsAndroid = () => {
+
+    }
+
     componentDidMount() {
+        Permissions.check('camera').then(response => {
+            this.setState({ cameraPermission: response }, () => {
+                if (this.state.cameraPermission !== 'authorized') {
+                    this._alertForCameraPermission();
+                }
+            });
+        })
+
         setTimeout(() => {
             Animated.parallel([
                 Animated.timing(
@@ -64,12 +97,6 @@ class QRCode extends Component {
                     })
             ]).start();
         }, 1000);
-    }
-
-    componentWillMount() {
-    }
-
-    componentWillReceiveProps(nextProps) {
     }
 
     async onBarCodeRead(scanResult) {
