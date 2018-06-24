@@ -22,6 +22,7 @@ export default class Home extends Component {
     state = {
         latest_sidings: [],
         loading: false,
+        page: 1
     }
 
     componentDidMount() {
@@ -59,7 +60,7 @@ export default class Home extends Component {
 
     separateView = () => {
         return (
-            <View style={{ width: '100%', height: 1, backgroundColor: 'white' }}></View>
+            <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
         );
     }
 
@@ -75,8 +76,19 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
-                <View style={{ flex: 1, backgroundColor: priColor }}>
-                    <View style={{ width: width, height: height / 5 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: priColor, padding: 15 }}>
+                    <TouchableOpacity onPress={() => this.setState({ page: 1 })} style={[this.state.page === 1 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
+                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>     Tin tức     </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({ page: 2 })} style={[this.state.page === 2 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
+                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>  Hướng dẫn  </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.setState({ page: 3 })} style={[this.state.page === 3 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
+                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}> Khuyến mãi </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ flex: 1, backgroundColor: priColor, }}>
+                    <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
                         <ImageSlider
                             loopBothSides
                             autoPlayWithInterval={3000}
@@ -105,30 +117,46 @@ export default class Home extends Component {
                         />
                     </View>
 
-                    <FlatList
-                        style={{ padding: 5 }}
-                        data={this.state.latest_sidings}
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.handleRefresh}
-                        ItemSeparatorComponent={this.separateView}
-                        renderItem={({ item }) => {
-                            return (
-                                <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
-                                    <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'white', borderWidth: 1, alignSelf: 'center' }} />
-                                    <View style={{ padding: 3, width: 7 * width / 9, justifyContent: 'space-between', }}>
-                                        <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
-                                        <View style={{ width: '100%', height: 1, backgroundColor: 'white' }}></View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Chia sẻ</Text>
-                                            <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Xem thêm  >></Text>
+                    {this.state.page === 1 &&
+                        <FlatList
+                            style={{ padding: 5, marginBottom: 5 }}
+                            data={this.state.latest_sidings}
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.handleRefresh}
+                            ItemSeparatorComponent={this.separateView}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
+                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
+                                        <View style={{ padding: 3, width: 7 * width / 9, justifyContent: 'space-between', }}>
+                                            <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
+                                            <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}></View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    <Icon name='ios-share-alt-outline' style={{ color: 'white', fontSize: responsiveFontSize(2), marginRight: 5 }} />
+                                                    <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Chia sẻ</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity>
+                                                    <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Xem thêm  >></Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
-                                    </View>
-                                </TouchableOpacity>
-                            );
-                        }}
-                        keyExtractor={(item, index) => item.id + index + item.content + 'news'}
-                        ListEmptyComponent={this.renderEmpty}
-                    />
+                                    </TouchableOpacity>
+                                );
+                            }}
+                            keyExtractor={(item, index) => item.id + index + item.content + 'news'}
+                            ListEmptyComponent={this.renderEmpty}
+                        />}
+                    {this.state.page === 2 &&
+                        <View style={{ padding: 5, marginBottom: 5 }}>
+                            <Text>Hướng dẫn</Text>
+                        </View>
+                    }
+                    {this.state.page === 3 &&
+                        <View style={{ padding: 5, marginBottom: 5 }}>
+                            <Text>Khuyến mãi</Text>
+                        </View>
+                    }
                 </View>
             </View >
         );
