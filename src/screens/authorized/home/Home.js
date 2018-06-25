@@ -14,6 +14,15 @@ import ImageProgress from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import { priColor } from '../../../constants/colors';
 
+const CrossText = ({ text }) => {
+    return (
+        <View style={{ }}>
+            <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(255, 255, 255, 0.6)' }}>{text}</Text>
+            <View style={{ position: 'absolute', top: responsiveFontSize(0.9), left: 0, right: 0, height: 1, width: null, flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}></View>
+        </View>
+    );
+}
+
 export default class Home extends Component {
 
     static navigationOptions = {
@@ -153,9 +162,33 @@ export default class Home extends Component {
                         </View>
                     }
                     {this.state.page === 3 &&
-                        <View style={{ padding: 5, marginBottom: 5 }}>
-                            <Text>Khuyến mãi</Text>
-                        </View>
+                        <FlatList
+                            style={{ padding: 5, marginBottom: 5 }}
+                            data={this.state.latest_sidings}
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.handleRefresh}
+                            ItemSeparatorComponent={this.separateView}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
+                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
+                                        <View style={{ paddingHorizontal: 3, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
+                                            <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'yellow' }}>100.000vnđ</Text>
+                                            <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
+                                                <CrossText text='200.000vnđ' />
+                                                <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -50%</Text>
+                                            </View>
+                                            <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 0, borderColor: 'yellow', borderWidth: 1, padding: 2 }}>
+                                                <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.8) }}>Mua ngay</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </TouchableOpacity>
+                                );
+                            }}
+                            keyExtractor={(item, index) => item.id + index + item.content + 'news'}
+                            ListEmptyComponent={this.renderEmpty}
+                        />
                     }
                 </View>
             </View >
