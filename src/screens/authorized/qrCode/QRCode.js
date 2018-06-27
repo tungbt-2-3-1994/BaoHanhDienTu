@@ -208,6 +208,21 @@ class QRCode extends Component {
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.dispatch(NavigationActions.navigate({
+                            routeName: 'DetailProduct',
+                            params: {
+                                onDone: (showBool) => {
+                                    this.setState({
+                                        isShow: showBool,
+                                        barcodeCodes: []
+                                    });
+                                },
+                            }
+                        }));
+                    }} style={{ alignSelf: 'center', padding: 10 }}>
+                        <Text>Chi tiết sản phẩm</Text>
+                    </TouchableOpacity>
 
                 </View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginBottomAnim, backgroundColor: priColor }}>

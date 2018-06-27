@@ -130,7 +130,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ flexDirection: 'row', borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ flex: 0.9, marginRight: 15, padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} editable={false} value={this.state.date} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ flex: 0.9, marginRight: 15, padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} editable={false} value={this.state.date} />
                                     <DatePicker
                                         style={{ flex: 0.1, backgroundColor: 'transparent' }}
                                         date={this.state.date}
@@ -154,7 +154,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
                                 </View>
                                 <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
                                     <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Thời gian bảo hành</Text>
@@ -164,7 +164,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
                                 </View>
                                 <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
                                     <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Tình trạng</Text>
@@ -174,7 +174,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
                                 </View>
                                 <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
                                     <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Số lô</Text>
@@ -184,7 +184,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
                                 </View>
                                 <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
                                     <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Hạn sử dụng</Text>
@@ -194,7 +194,7 @@ class EditDetailInfor extends Component {
                         <View style={{ paddingHorizontal: 15 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                                    <TextInput style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
+                                    <TextInput underlineColorAndroid='transparent' style={{ padding: 10, fontSize: responsiveFontSize(1.8), backgroundColor: 'white', color: 'rgba(0, 0, 0, 0.8)' }} />
                                 </View>
                                 <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
                                     <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>Điểm bảo hành</Text>
@@ -205,6 +205,7 @@ class EditDetailInfor extends Component {
                             <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
                                 <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
                                     <Textarea
+                                        underlineColorAndroid='transparent'
                                         style={{ backgroundColor: 'white', fontSize: responsiveFontSize(1.8) }}
                                         rowSpan={5}
                                         multiline={true}
