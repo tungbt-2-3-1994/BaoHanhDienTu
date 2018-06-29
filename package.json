@@ -21,6 +21,7 @@
     "react-native-image-progress": "^1.1.1",
     "react-native-image-slider": "^2.0.3",
     "react-native-iphone-x-helper": "^1.0.3",
+    "react-native-maps": "^0.21.0",
     "react-native-modal": "^5.4.0",
     "react-native-modalbox": "^1.4.2",
     "react-native-permissions": "^1.1.1",
