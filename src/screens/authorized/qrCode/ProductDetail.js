@@ -16,8 +16,6 @@ import { fetchProductDetail } from '../../../actions';
 
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
-import ReadMore from 'react-native-read-more-text';
-
 import Modal from 'react-native-modalbox';
 
 import IconFA from 'react-native-vector-icons/FontAwesome';
