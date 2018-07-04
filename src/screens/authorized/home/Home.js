@@ -137,7 +137,7 @@ export default class Home extends Component {
                                 return (
                                     <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
                                         <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
-                                        <View style={{ padding: 3, width: 7 * width / 9, justifyContent: 'space-between', }}>
+                                        <View style={{ padding: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', }}>
                                             <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
                                             <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}></View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -172,7 +172,7 @@ export default class Home extends Component {
                                 return (
                                     <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
                                         <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
-                                        <View style={{ paddingHorizontal: 3, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
+                                        <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
                                             <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'yellow' }}>100.000vnđ</Text>
                                             <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
