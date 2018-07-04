@@ -1,214 +1,205 @@
+//import liraries
 import React, { Component } from 'react';
-import { Platform, View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, TextInput, ActivityIndicator } from 'react-native';
+import { View, Text, Keyboard, KeyboardType, StyleSheet, Modal, Image, ScrollView, SafeAreaView, TouchableOpacity, KeyboardAvoidingView, TouchableHighlight } from 'react-native';
+
 import NormalHeader from '../../../components/NormalHeader';
-
 import { width, height } from '../../../constants/dimensions';
-
 import { responsiveFontSize } from '../../../utils/helpers';
-
-import { Card, Text, Button, Icon, Body } from 'native-base';
-
-import ImageSlider from 'react-native-image-slider';
-
-import { connect } from 'react-redux';
-
-import ImageProgress from 'react-native-image-progress';
-import * as Progress from 'react-native-progress';
 import { priColor } from '../../../constants/colors';
 
-const ListHeader = ({ title, moreEvent }) => {
+import { Icon, Button } from 'native-base';
+import IconFont from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
+
+import ModalBox from 'react-native-modalbox';
+
+const pickerValues = [
+    { title: 'Ngành 1', value: 'nganh1' },
+    { title: 'Ngành 2', value: 'nganh2' },
+    { title: 'Ngành 3', value: 'nganh3' },
+    { title: 'Ngành 4', value: 'nganh4' },
+    { title: 'Ngành 5', value: 'nganh5' },
+    { title: 'Ngành 6', value: 'nganh6' },
+    { title: 'Ngành 7', value: 'nganh7' },
+    { title: 'Ngành 8', value: 'nganh8' },
+]
+
+const ListHeader = ({ title }) => {
     return (
-        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 10, marginBottom: 5, marginTop: 10 }}>
-            <Text style={{ color: priColor, fontSize: responsiveFontSize(1.7), fontWeight: 'bold' }}>{title}</Text>
-            <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }} onPress={moreEvent}>
-                <Text style={{ color: priColor, fontSize: responsiveFontSize(1.3), marginRight: 3 }}>Xem tất cả</Text>
-                <Icon name='ios-arrow-forward-outline' style={{ color: priColor, fontSize: responsiveFontSize(2) }} />
-            </TouchableOpacity>
+        <View style={{ justifyContent: 'space-between', marginBottom: 20 }}>
+            <Text style={{ color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold' }}>{title}</Text>
         </View>
     );
 }
 
 class SearchView extends Component {
 
-    static navigationOptions = {
-
-    }
-
     state = {
-        organizations: [],
-        loading: false
-    }
-
-    viewMore = () => {
-        this.props.navigation.navigate('ViewAll', this.state.organizations);
-    }
-
-    renderEmpty = () => {
-        if (this.state.loading === true) {
-            return (
-                <ActivityIndicator animating={true} color={priColor} size='large' />
-            );
-        }
-        return (
-            <View>
-                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có thương hiệu nào</Text>
-            </View>
-        );
+        email: '',
+        phone_number: '',
+        identified_number: '',
+        serial: '',
+        category: '',
+        brand: '',
+        language: '',
+        toogleDisplay: false
     }
 
     componentDidMount() {
-        this.setState({ loading: true });
-        fetch('https://vatapcheck.com.vn/api/v1/organizations')
-            .then(res => res.json())
-            .then(resData => {
-                if (resData.code === 200) {
-                    this.setState({
-                        loading: false,
-                        organizations: resData.data.organizations
-                    });
-                }
-            })
-            .catch(e => {
-                this.setState({ loading: false });
-            })
+
+    }
+
+    componentWillUnmount() {
+
+    }
+
+    onSearch = () => {
+        alert('asasas');
+    }
+
+    setPickerValue = (value) => {
+        this.setState({ category: value });
     }
 
     render() {
-
-        const images = [
-            require('../../../assets/imgs/grape1.jpg'),
-            require('../../../assets/imgs/grape2.jpeg'),
-            require('../../../assets/imgs/grape3.jpg'),
-            require('../../../assets/imgs/grape4.jpeg'),
-        ];
-
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
-                <View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
-                    <ScrollView style={{ backgroundColor: '#eceaeb' }}>
-                        <View style={{ width: width, height: height / 5 }}>
-                            {(this.state.loading === false && this.state.organizations.length !== 0) ?
-                                <ImageSlider
-                                    loopBothSides
-                                    autoPlayWithInterval={3000}
-                                    images={this.state.organizations}
-                                    customSlide={({ index, item, style, width }) => (
-                                        <View key={index} style={[style, styles.customSlide]}>
-                                            <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }} style={styles.customImage} />
-                                        </View>
-                                    )}
-                                    customButtons={(position, move) => (
-                                        <View style={styles.buttons}>
-                                            {this.state.organizations.map((image, index) => {
-                                                return (
-                                                    null
-                                                );
-                                            })}
-                                        </View>
-                                    )}
-                                />
-                                :
-                                <ActivityIndicator animating={true} color={priColor} size='large' style={{}} />
-                            }
-                        </View>
 
-                        <ListHeader title='Thương hiệu nổi bật' moreEvent={this.viewMore} />
-
-                        <FlatList
-                            style={{ paddingHorizontal: 3 }}
-                            data={this.state.organizations.slice(0, 18)}
-                            numColumns={3}
-                            renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity style={{}} onPress={() => this.props.navigation.navigate('DetailBrand', item)}>
-                                        <Card style={{ width: (width - 20) / 3 }}>
-                                            <View >
-                                                <Body style={{}}>
-                                                    <ImageProgress
-                                                        source={{ uri: `https://vatapcheck.com.vn/static/common/img/ogp/${item.cover}` }}
-                                                        style={{ height: 2 * (width - 20) / 9, width: (width - 20) / 3, flex: 1, }}
-                                                        indicator={Progress.Pie}
-                                                        indicatorProps={{
-                                                            size: 20,
-                                                            borderWidth: 0,
-                                                            unfilledColor: '#42b0ed'
-                                                        }}
-                                                    />
-                                                    <Text style={{ paddingHorizontal: 5, fontWeight: 'bold', paddingVertical: 15, alignItems: 'center', textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5) }}>
-                                                        {item.name}
-                                                    </Text>
-                                                </Body>
-                                            </View>
-                                        </Card>
-                                    </TouchableOpacity>
-                                );
-                            }}
-                            keyExtractor={(item, index) => item.name + index + item.id}
-                            ListEmptyComponent={this.renderEmpty}
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, padding: 15 }}>
+                    <ScrollView style={{ flex: 1, backgroundColor: priColor, paddingBottom: 50 }}>
+                        <ListHeader title='Thông tin khách hàng' />
+                        <Input
+                            containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                            inputContainerStyle={{ borderColor: 'white' }}
+                            inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                            leftIcon={<Icon name='logo-whatsapp' style={{ fontSize: responsiveFontSize(2.5), color: '#969696' }} />}
+                            placeholder='Số điện thoại'
+                            placeholderTextColor='#969696'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            onSubmitEditing={() => this.idenCard.focus()}
+                            onChangeText={(text) => this.setState({ phone_number: text })}
                         />
+                        <Input
+                            containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                            inputContainerStyle={{ borderColor: 'white' }}
+                            inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                            leftIcon={<IconFont name='address-card' style={{ fontSize: responsiveFontSize(1.8), color: '#969696' }} />}
+                            placeholder='CMND'
+                            placeholderTextColor='#969696'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            ref={(input) => this.idenCard = input}
+                            onSubmitEditing={() => this.gmail.focus()}
+                            onChangeText={(text) => this.setState({ identified_number: text })}
+                        />
+                        <Input
+                            containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                            inputContainerStyle={{ borderColor: 'white' }}
+                            inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                            leftIcon={<Icon name='ios-mail' style={{ fontSize: responsiveFontSize(2.5), color: '#969696' }} />}
+                            placeholder='Gmail'
+                            placeholderTextColor='#969696'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            ref={(input) => this.gmail = input}
+                            onSubmitEditing={() => this.serial.focus()}
+                            onChangeText={(text) => this.setState({ email: text })}
+                        />
+                        <ListHeader title='Thông tin sản phẩm' />
+                        <Input
+                            containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                            inputContainerStyle={{ borderColor: 'white' }}
+                            inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                            leftIcon={<IconFont name='barcode' style={{ fontSize: responsiveFontSize(1.8), color: '#969696' }} />}
+                            placeholder='Serial'
+                            placeholderTextColor='#969696'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            ref={(input) => this.serial = input}
+                            onChangeText={(text) => this.setState({ serial: text })}
+                        />
+
+                        <TouchableOpacity style={{ flexDirection: 'row', width: '100%', paddingLeft: 18, paddingRight: 8, paddingVertical: 15, marginBottom: 20, justifyContent: 'space-between', backgroundColor: 'white' }} onPress={() => this.refs.modal.open()}>
+                            {/* <Input
+                                containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                                inputContainerStyle={{ borderColor: 'white' }}
+                                inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                                leftIcon={<IconFont name='shopping-cart' style={{ fontSize: responsiveFontSize(2), color: '#969696' }} />}
+                                rightIcon={<IconFont name='chevron-down' style={{ marginRight: 10, fontSize: responsiveFontSize(2), color: '#969696' }} />}
+                                placeholder='Chọn ngành hàng'
+                                placeholderTextColor='#969696'
+                                underlineColorAndroid='transparent'
+                                returnKeyType='next'
+                                ref={(input) => this.category = input}
+                                onSubmitEditing={() => this.brand.focus()}
+                                onChangeText={(text) => this.setState({ category: text })}
+                            >
+                            </Input> */}
+                            <View style={{ flexDirection: 'row', }}>
+                                <IconFont name='shopping-cart' style={{ marginRight: 10, fontSize: responsiveFontSize(2), color: '#969696' }} />
+                                <Text style={[this.state.category === '' ? { color: '#969696' } : { color: 'black' }, { fontSize: responsiveFontSize(1.8) }]}>{this.state.category === '' ? 'Chọn ngành hàng' : this.state.category}</Text>
+                            </View>
+                            <IconFont name='chevron-down' style={{ marginRight: 10, fontSize: responsiveFontSize(2), color: '#969696' }} />
+                        </TouchableOpacity>
+                        <Input
+                            containerStyle={{ width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
+                            inputContainerStyle={{ borderColor: 'white' }}
+                            inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
+                            leftIcon={<IconFont name='registered' style={{ fontSize: responsiveFontSize(2), color: '#969696' }} />}
+                            placeholder='Thương hiệu'
+                            placeholderTextColor='#969696'
+                            underlineColorAndroid='transparent'
+                            returnKeyType='next'
+                            ref={(input) => this.brand = input}
+                            onChangeText={(text) => this.setState({ brand: text })}
+                        />
+                        <TouchableOpacity onPress={() => this.onSearch()} style={{ alignSelf: 'center', borderWidth: 1, borderColor: 'white', backgroundColor: 'transparent', borderRadius: 10, padding: 10, marginTop: 5, marginBottom: 30 }}>
+                            <Text style={{ fontWeight: 'bold', color: 'white', fontSize: responsiveFontSize(2) }}>Tìm kiếm</Text>
+                        </TouchableOpacity>
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
+                <ModalBox ref={'modal'} swipeToClose={false} style={[styles.modal,]} backdrop={true} position={"bottom"} >
+                    <View style={{ borderBottomWidth: 1, borderColor: 'grey', paddingHorizontal: 10, width: width, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text> </Text>
+                        <Text style={{ fontWeight: 'bold', paddingVertical: 8, color: priColor, fontSize: responsiveFontSize(2.3) }}>Lựa chọn ngành hàng</Text>
+                        <TouchableOpacity onPress={() => this.refs.modal.close()}>
+                            <Icon name='ios-close' style={{ fontSize: responsiveFontSize(4) }} />
+                        </TouchableOpacity>
+                    </View>
+                    <ScrollView>
+                        {pickerValues.map((value, index) => {
+                            return (
+                                <TouchableOpacity iconLeft light underlayColor='rgba(0, 0, 0, 0.3)' style={{ paddingHorizontal: 10, flexDirection: 'row', width: width, paddingVertical: 6, alignItems: 'center' }} key={index} onPress={() => {
+                                    this.setPickerValue(value.title);
+                                    this.refs.modal.close();
+                                }}>
+                                    <Icon name='home' style={{ color: priColor, marginRight: 10 }} />
+                                    <Text style={{ fontSize: responsiveFontSize(2) }}>{value.title}</Text>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </ScrollView>
+                </ModalBox>
             </View >
         );
     }
-
 }
 
-const styles = {
+// define your styles
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ffffff',
-    },
-    contentText: { color: '#fff' },
-    buttons: {
-        zIndex: 1,
-        height: 15,
-        marginTop: -25,
-        marginBottom: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
-    normalButton: {
-        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
-        backgroundColor: 'transparent', borderColor: 'white'
-    },
-    buttonSelected: {
-        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
-        backgroundColor: 'white', borderColor: 'white'
-    },
-    button: {
-        margin: 3,
-        width: 15,
-        height: 15,
-        opacity: 0.9,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    customSlide: {
         backgroundColor: 'white',
-        alignItems: 'center',
+    },
+    modal: {
         justifyContent: 'center',
+        alignItems: 'center',
+        height: 200,
+        backgroundColor: "#efefef"
     },
-    customImage: {
-        width: width,
-        height: null,
-        flex: 1,
-        resizeMode: 'stretch'
-    },
-};
+});
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchView);
+//make this component available to the app
+export default SearchView;

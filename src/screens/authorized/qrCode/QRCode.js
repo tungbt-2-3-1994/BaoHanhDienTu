@@ -99,6 +99,33 @@ class QRCode extends Component {
         }, 1000);
     }
 
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.nav.routes[0].routes[0].routes[0].index === 2) {
+            this.setState({
+                marginTopAnim: new Animated.Value((height - 100 + value) / 2),
+                marginBottomAnim: new Animated.Value((height - 2 * value) / 2)
+            }, () => {
+                setTimeout(() => {
+                    Animated.parallel([
+                        Animated.timing(
+                            this.state.marginTopAnim,
+                            {
+                                duration: 2500,
+                                toValue: 800,
+                            }),
+                        Animated.timing(
+                            this.state.marginBottomAnim,
+                            {
+                                duration: 2500,
+                                toValue: 800,
+                            })
+                    ]).start();
+                }, 1000);
+            });
+        }
+    }
+
     async onBarCodeRead(scanResult) {
 
         if (scanResult.data !== null) {
@@ -148,21 +175,6 @@ class QRCode extends Component {
 
                         </RNCamera>
                     }
-                    <TouchableOpacity onPress={() => {
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'CheckGuarantee',
-                            params: {
-                                onDone: (showBool) => {
-                                    this.setState({
-                                        isShow: showBool,
-                                        barcodeCodes: []
-                                    });
-                                },
-                            }
-                        }));
-                    }} style={{ alignSelf: 'center', padding: 10 }}>
-                        <Text>Go to kiem tra bao hanh</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'EditDetailInfor',
