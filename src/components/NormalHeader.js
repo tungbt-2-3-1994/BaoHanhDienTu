@@ -26,7 +26,7 @@ class NormalHeader extends Component {
                     <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
                 </Body>
                 <Right style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cart') }}>
                         <Icon name='ios-cart' style={{ color: 'white', fontSize: responsiveFontSize(2.8) }} />
                     </TouchableOpacity>
 

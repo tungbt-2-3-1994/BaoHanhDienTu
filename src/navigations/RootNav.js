@@ -4,6 +4,7 @@ import { Animated, Easing } from 'react-native'
 import MainDrawer from './MainDrawer';
 import MainTab from './MainTab';
 import SplashScreen from '../screens/Splash/SplashScreen';
+import Cart from '../screens/authorized/cart/Cart';
 
 import fade from '../animations/fade';
 import fade2 from '../animations/fade2';
@@ -18,7 +19,8 @@ const noTransitionConfig = () => ({
 
 const RootNav = StackNavigator({
     SplashScreen: { screen: SplashScreen },
-    mainTab: { screen: MainDrawer }
+    mainTab: { screen: MainDrawer },
+    Cart: { screen: Cart }
 }, {
         headerMode: 'none',
         navigationOptions: {
