@@ -100,8 +100,8 @@ class QRCode extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
-        if (nextProps.nav.routes[0].routes[0].routes[0].index === 2) {
+        console.log('asas', nextProps.nav.routes.length);
+        if (nextProps.nav.routes[0].routes[0].routes[0].index === 2 && nextProps.nav.routes.length === 1) {
             this.setState({
                 marginTopAnim: new Animated.Value((height - 100 + value) / 2),
                 marginBottomAnim: new Animated.Value((height - 2 * value) / 2)
@@ -111,17 +111,17 @@ class QRCode extends Component {
                         Animated.timing(
                             this.state.marginTopAnim,
                             {
-                                duration: 2500,
+                                duration: 2000,
                                 toValue: 800,
                             }),
                         Animated.timing(
                             this.state.marginBottomAnim,
                             {
-                                duration: 2500,
+                                duration: 2000,
                                 toValue: 800,
                             })
                     ]).start();
-                }, 1000);
+                }, 500);
             });
         }
     }
@@ -159,7 +159,7 @@ class QRCode extends Component {
             <View style={{ flex: 1 }}>
 
                 <View style={styles.container}>
-                    {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow &&
+                    {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow && this.props.nav.routes.length === 1 &&
                         <RNCamera
                             ref={ref => {
                                 this.camera = ref;

@@ -26,12 +26,12 @@ const RootNav = StackNavigator({
         navigationOptions: {
             gesturesEnabled: false
         },
-        transitionConfig: () => ({
-            screenInterpolator: (props) => {
-                const { scene } = props;
-                return fade(props);
-            }
-        })
+        // transitionConfig: () => ({
+        //     screenInterpolator: (props) => {
+        //         const { scene } = props;
+        //         return fade(props);
+        //     }
+        // })
     })
 
 export default RootNav;

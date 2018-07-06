@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { FlatList, View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 
 import CartHeader from '../../../components/CartHeader';
 import { priColor } from '../../../constants/colors';
 import { responsiveFontSize } from '../../../utils/helpers';
 import { width, height } from '../../../constants/dimensions';
-import { Icon } from 'native-base';
+import { Icon, CardItem } from 'native-base';
 
 const TextHeader = ({ text }) => {
     return (
@@ -24,7 +24,7 @@ const CrossText = ({ text }) => {
     );
 }
 
-const CartItem = ({ url, title, des, salePrice, realPrice, discount, quantity }) => {
+const CartRow = ({ url, title, des, salePrice, realPrice, discount, quantity }) => {
     return (
         <View style={{ padding: 5, flexDirection: 'row', width: width }}>
             <Image source={{ uri: url }} style={{ borderWidth: 1, borderColor: 'white', width: 5 * (width - 10) / 16, height: 5 * (width - 10) / 16 }} />
@@ -45,7 +45,7 @@ const CartItem = ({ url, title, des, salePrice, realPrice, discount, quantity })
                         </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={{ fontSize: responsiveFontSize(2.5), color: 'white' }}>1</Text>
+                        <Text style={{ fontSize: responsiveFontSize(2.5), color: 'white' }}>{quantity}</Text>
                         <TouchableOpacity style={{ marginLeft: 20 }}>
                             <Icon name='arrow-dropup' style={{ color: 'white', fontSize: responsiveFontSize(3) }} />
                         </TouchableOpacity>
@@ -59,45 +59,75 @@ const CartItem = ({ url, title, des, salePrice, realPrice, discount, quantity })
     );
 }
 
+const data = [
+    {
+        url: 'https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg',
+        title: 'Chảo chống dính cao cấp 2018',
+        des: 'Nhôm, màu bạc',
+        salePrice: '50.000 vnđ',
+        realPrice: '100.000 vnđ',
+        discount: '50',
+        quantity: 1,
+    },
+    {
+        url: 'https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg',
+        title: 'Chảo chống dính cao cấp 2018',
+        des: 'Nhôm, màu bạc',
+        salePrice: '50.000 vnđ',
+        realPrice: '100.000 vnđ',
+        discount: '50',
+        quantity: 2,
+    },
+    {
+        url: 'https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg',
+        title: 'Chảo chống dính cao cấp 2018',
+        des: 'Nhôm, màu bạc',
+        salePrice: '50.000 vnđ',
+        realPrice: '100.000 vnđ',
+        discount: '50',
+        quantity: 3,
+    }
+];
+
 class Cart extends Component {
+
+    renderEmpty = () => {
+        if (this.state.loading === true) {
+            return (
+                <ActivityIndicator animating={true} color='white' size='large' />
+            );
+        }
+        return (
+            <View>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white' }}>Không có phân khúc sản phẩm nào</Text>
+            </View>
+        );
+    }
+
+    separateView = () => {
+        return (
+            <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <CartHeader title='GIỎ HÀNG' navigation={this.props.navigation} />
                 <SafeAreaView style={{ flex: 1 }}>
-                    <ScrollView style={{ flex: 1, backgroundColor: priColor, marginBottom: 2 * height / 13 }}>
+                    <ScrollView style={{ flex: 1, backgroundColor: priColor, marginBottom: 2 * height / 15 }}>
                         <TextHeader text='Giỏ hàng của tôi' />
-                        <CartItem
-                            url='https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg'
-                            title='Chảo chống dính cao cấp 2018'
-                            des='Nhôm, màu bạc'
-                            salePrice='50.000 vnđ'
-                            realPrice='100.000 vnđ'
-                            discount='50'
-                        />
-                        <CartItem
-                            url='https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg'
-                            title='Chảo chống dính cao cấp 2018'
-                            des='Nhôm, màu bạc'
-                            salePrice='50.000 vnđ'
-                            realPrice='100.000 vnđ'
-                            discount='50'
-                        />
-                        <CartItem
-                            url='https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg'
-                            title='Chảo chống dính cao cấp 2018'
-                            des='Nhôm, màu bạc'
-                            salePrice='50.000 vnđ'
-                            realPrice='100.000 vnđ'
-                            discount='50'
-                        />
-                        <CartItem
-                            url='https://noigiadinh.com/wp-content/uploads/noi-com-dien-Midea-co-18SJC-1.8L.jpg'
-                            title='Chảo chống dính cao cấp 2018'
-                            des='Nhôm, màu bạc'
-                            salePrice='50.000 vnđ'
-                            realPrice='100.000 vnđ'
-                            discount='50'
+                        <FlatList
+                            style={{}}
+                            data={data}
+                            ItemSeparatorComponent={this.separateView}
+                            renderItem={({ item }) => {
+                                return (
+                                    <CartRow url={item.url} title={item.title} des={item.des} salePrice={item.salePrice} realPrice={item.realPrice} discount={item.discount} quantity={item.quantity} />
+                                );
+                            }}
+                            keyExtractor={(item, index) => item.title + index + item.content + 'cartsItem'}
+                            ListEmptyComponent={this.renderEmpty}
                         />
 
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
@@ -116,7 +146,7 @@ class Cart extends Component {
                         </View>
 
                     </ScrollView>
-                    <TouchableOpacity style={{ padding: 5, backgroundColor: '#ff7d2f', position: 'absolute', bottom: 0, left: 0, right: 0, height: height / 13 }}>
+                    <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: 5, backgroundColor: '#ff7d2f', position: 'absolute', bottom: 0, left: 0, right: 0, height: height / 13 }}>
                         <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(2.5) }}>ĐẶT HÀNG</Text>
                     </TouchableOpacity>
                     <View style={{ backgroundColor: '#cccccc', position: 'absolute', left: 0, right: 0, bottom: height / 13 + 10, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>

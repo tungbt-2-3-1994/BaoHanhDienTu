@@ -17,7 +17,7 @@ class CartHeader extends Component {
                 />
                 <Left style={{ flex: 1 }}>
                     <Button transparent onPress={() => this.props.navigation.goBack()}>
-                        <Icon name='close' style={{ color: 'white' }} />
+                        <Icon name='close' style={{ color: 'red', fontSize: responsiveFontSize(4)}} />
                     </Button>
                 </Left>
                 <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center', }}>
