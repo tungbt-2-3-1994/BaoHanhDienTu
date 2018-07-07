@@ -17,7 +17,9 @@ const AccountStack = StackNavigator({
 }, {
         navigationOptions: {
             header: null,
+            gesturesEnabled: false
         },
+
     });
 
 export default AccountStack;

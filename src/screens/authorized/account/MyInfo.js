@@ -1,21 +1,29 @@
 import React from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
     Text,
     View,
-    PixelRatio,
     TouchableOpacity,
-    Image,
+    Image, KeyboardAvoidingView, ScrollView, PixelRatio, TextInput
 } from 'react-native';
 
+import TextHeader from '../../../components/TextHeader';
+
 import ImagePicker from 'react-native-image-picker';
+import { width } from '../../../constants/dimensions';
+import { responsiveFontSize } from '../../../utils/helpers';
 
 export default class MyInfo extends React.Component {
 
     state = {
         avatarSource: null,
-        videoSource: null
+        videoSource: null,
+        phoneNumber: '01642525299',
+        name: 'Nguyễn Văn A',
+        email: 'jsmile@gmail.com',
+        address: 'Hà Nội',
+        dob: '01/01/1981',
+        dos: '14/04/2018',
+        editable: false
     };
 
     selectPhotoTapped() {
@@ -29,22 +37,11 @@ export default class MyInfo extends React.Component {
         };
 
         ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
-            if (response.didCancel) {
-                console.log('User cancelled photo picker');
-            }
-            else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            }
+            if (response.didCancel) { }
+            else if (response.error) { }
+            else if (response.customButton) { }
             else {
                 let source = { uri: response.uri };
-
-                // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 this.setState({
                     avatarSource: source
@@ -53,67 +50,88 @@ export default class MyInfo extends React.Component {
         });
     }
 
-    selectVideoTapped() {
-        const options = {
-            title: 'Video Picker',
-            takePhotoButtonTitle: 'Take Video...',
-            mediaType: 'video',
-            videoQuality: 'medium'
-        };
-
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
-            if (response.didCancel) {
-                console.log('User cancelled video picker');
-            }
-            else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-            }
-            else {
-                this.setState({
-                    videoSource: response.uri
-                });
-            }
-        });
+    onEdit = () => {
+        this.setState({ editable: true });
+    }
+    onSubmit = () => {
+        this.setState({ editable: false });
+    }
+    onExit = () => {
+        this.props.navigation.goBack();
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-                    <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
-                        {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
-                            <Image style={styles.avatar} source={this.state.avatarSource} />
-                        }
-                    </View>
-                </TouchableOpacity>
+            <View style={{ flex: 1, backgroundColor: '#277dad' }}>
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: '#277dad', }}>
+                    <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
+                    <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={{ flex: 1, }}>
+                        <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+                            <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
+                                {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
+                                    <Image style={styles.avatar} source={this.state.avatarSource} />
+                                }
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={styles.titleName}>NGUYỄN VĂN A</Text>
+                        <View style={styles.contentContainer}>
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Điện thoại</Text>
+                                <TextInput
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.phoneNumber}
+                                    onChangeText={(text) => { this.setState({ phoneNumber: text }) }}
+                                />
+                            </View>
+                            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20 }}>
+                                {
+                                    !this.state.editable ?
+                                        (<TouchableOpacity onPress={() => this.onEdit()}>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <Text>Chỉnh sửa</Text>
+                                            </View>
+                                        </TouchableOpacity>)
+                                        :
+                                        <View></View>
+                                }
+                                {this.state.editable &&
+                                    <TouchableOpacity onPress={() => this.onSubmit()}>
+                                        <Text>Xác nhận</Text>
+                                    </TouchableOpacity>}
 
-                <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
-                    <View style={[styles.avatar, styles.avatarContainer]}>
-                        <Text>Select a Video</Text>
-                    </View>
-                </TouchableOpacity>
+                                    {
+                                        !this.state.editable ?
+                                            (<TouchableOpacity onPress={() => this.onExit()}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Text>Đăng xuất</Text>
+                                                </View>
+                                            </TouchableOpacity>)
+                                            :
+                                            <View></View>
+                                    }
 
-                {this.state.videoSource &&
-                    <Text style={{ margin: 8, textAlign: 'center' }}>{this.state.videoSource}</Text>
-                }
+                            </View>
+                        </View>
+
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </View>
         );
     }
 
 }
 
-const styles = StyleSheet.create({
+const styles = {
+    textStyle: { fontSize: responsiveFontSize(1.9) },
+    contentContainer: { width: width - 20 },
+    rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: 10, marginTop: 20 },
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF'
     },
+    titleName: { color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) },
     avatarContainer: {
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
@@ -121,8 +139,10 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     avatar: {
-        borderRadius: 75,
-        width: 150,
-        height: 150
+        borderRadius: width / 6,
+        width: width / 3,
+        height: width / 3,
+        backgroundColor: 'white',
+        marginTop: 20
     }
-});
+};
