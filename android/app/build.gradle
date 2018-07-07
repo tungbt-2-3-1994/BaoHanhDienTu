@@ -170,6 +170,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.+' // disable if you don't want to use enableHighAccuracy: true in geolocation
     compile 'com.google.android.gms:play-services-base:11.+'
     compile 'com.google.android.gms:play-services-maps:11.+'
+    compile project(':react-native-image-picker')
 }
 
 // Run this once to be able to run the application with BUCK

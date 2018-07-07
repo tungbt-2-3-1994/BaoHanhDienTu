@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 
-var ImagePicker = require('react-native-image-picker');
+import ImagePicker from 'react-native-image-picker';
 
 export default class MyInfo extends React.Component {
 
@@ -18,7 +18,7 @@ export default class MyInfo extends React.Component {
         videoSource: null
     };
 
-    selectPhotoTapped = () => {
+    selectPhotoTapped() {
         const options = {
             quality: 1.0,
             maxWidth: 500,
@@ -53,16 +53,54 @@ export default class MyInfo extends React.Component {
         });
     }
 
+    selectVideoTapped() {
+        const options = {
+            title: 'Video Picker',
+            takePhotoButtonTitle: 'Take Video...',
+            mediaType: 'video',
+            videoQuality: 'medium'
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled video picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                this.setState({
+                    videoSource: response.uri
+                });
+            }
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.selectPhotoTapped()}>
+                <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                     <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
                         {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
                             <Image style={styles.avatar} source={this.state.avatarSource} />
                         }
                     </View>
                 </TouchableOpacity>
+
+                <TouchableOpacity onPress={this.selectVideoTapped.bind(this)}>
+                    <View style={[styles.avatar, styles.avatarContainer]}>
+                        <Text>Select a Video</Text>
+                    </View>
+                </TouchableOpacity>
+
+                {this.state.videoSource &&
+                    <Text style={{ margin: 8, textAlign: 'center' }}>{this.state.videoSource}</Text>
+                }
             </View>
         );
     }
