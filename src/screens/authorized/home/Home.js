@@ -23,6 +23,7 @@ const CrossText = ({ text }) => {
     );
 }
 
+
 export default class Home extends Component {
 
     static navigationOptions = {
