@@ -19,7 +19,7 @@ export default class Account extends Component {
     }
 
     onLogin = () => {
-        alert(`onLogin with ${this.state.email}, ${this.state.password}`);
+        this.props.navigation.navigate('MyInfo');
     }
 
     render() {
@@ -71,7 +71,7 @@ export default class Account extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-between', marginTop: 20 }}>
-                                <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin}>
+                                <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
                                     <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                                 </Button>
                                 <Button bordered light style={styles.btnStyle} onPress={() => this.props.navigation.navigate('Register')}>

@@ -48,6 +48,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		885E71C092064AF4B5CD389A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6CB839BD4D348DF8EDC074E /* Foundation.ttf */; };
 		9005DEE520C29BBF00F1F28F /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9005DEBB20C29B7A00F1F28F /* libART.a */; };
+		906F764820F11587009D851E /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 906F763120F11412009D851E /* libRNImagePicker.a */; };
 		90C742A620BF67690033034A /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9056AA4C20BDD2B400FDD28F /* libRNCamera.a */; };
 		90C742EA20BF69ED0033034A /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EC33B5BC1074740BFFFC996 /* libRNCamera.a */; };
 		90ED014520E5B87D00824E8D /* AIRGoogleMapUrlTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 90ED00F220E5B87D00824E8D /* AIRGoogleMapUrlTile.m */; };
@@ -376,6 +377,13 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RNCamera;
 		};
+		906F763020F11412009D851E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 906F760220F11412009D851E /* RNImagePicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
+			remoteInfo = RNImagePicker;
+		};
 		90BEE57820B321E1002FCBBB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82AB50F2FD3E4E0393E5E6F0 /* RNVectorIcons.xcodeproj */;
@@ -438,6 +446,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		86F103EE0D5B40399B25B193 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		9005DEB520C29B7A00F1F28F /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		906F760220F11412009D851E /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		90ED00F120E5B87D00824E8D /* AIRGoogleMapPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRGoogleMapPolyline.h; sourceTree = "<group>"; };
 		90ED00F220E5B87D00824E8D /* AIRGoogleMapUrlTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapUrlTile.m; sourceTree = "<group>"; };
 		90ED00F320E5B87D00824E8D /* AIRGoogleMapMarkerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIRGoogleMapMarkerManager.h; sourceTree = "<group>"; };
@@ -508,6 +517,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				906F764820F11587009D851E /* libRNImagePicker.a in Frameworks */,
 				9005DEE520C29BBF00F1F28F /* libART.a in Frameworks */,
 				90C742A620BF67690033034A /* libRNCamera.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -723,6 +733,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				906F760220F11412009D851E /* RNImagePicker.xcodeproj */,
 				90ED015A20E5B8B700824E8D /* AirMaps.xcodeproj */,
 				9005DEB520C29B7A00F1F28F /* ART.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -803,6 +814,14 @@
 			isa = PBXGroup;
 			children = (
 				9056AA4C20BDD2B400FDD28F /* libRNCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		906F760320F11412009D851E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				906F763120F11412009D851E /* libRNImagePicker.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1082,6 +1101,10 @@
 				{
 					ProductGroup = 9056AA4820BDD2B400FDD28F /* Products */;
 					ProjectRef = 72A6F30BF7EE43E1B3D9DD35 /* RNCamera.xcodeproj */;
+				},
+				{
+					ProductGroup = 906F760320F11412009D851E /* Products */;
+					ProjectRef = 906F760220F11412009D851E /* RNImagePicker.xcodeproj */;
 				},
 				{
 					ProductGroup = 90BEE57220B321E1002FCBBB /* Products */;
@@ -1377,6 +1400,13 @@
 			fileType = archive.ar;
 			path = libRNCamera.a;
 			remoteRef = 9056AA4B20BDD2B400FDD28F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		906F763120F11412009D851E /* libRNImagePicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImagePicker.a;
+			remoteRef = 906F763020F11412009D851E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		90BEE57920B321E1002FCBBB /* libRNVectorIcons.a */ = {
