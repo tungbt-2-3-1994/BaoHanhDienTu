@@ -1,205 +1,64 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableHighlight, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+
 import BackHeader from '../../../components/BackHeader';
-
 import { width, height } from '../../../constants/dimensions';
-
-import { responsiveFontSize, responsiveHeight } from '../../../utils/helpers';
-
-import { Tab, Tabs, Button, Icon, Text, Card, Body, Left, Textarea } from 'native-base';
-
+import { priColor } from '../../../constants/colors';
+import ImageProgress from 'react-native-image-progress';
 import ImageSlider from 'react-native-image-slider';
+import { responsiveFontSize } from '../../../utils/helpers';
+import { Icon } from 'native-base';
 
-import { connect } from 'react-redux';
+const data = [
+    {
+        title: 'Nồi lẩu siên bền dành cho gia đình'
+    },
+    {
+        title: 'Nồi lẩu siên bền dành cho hộ gia đình'
+    },
+    {
+        title: 'Nồi lẩu siên bền dành cho hộ gia đình 2'
+    },
 
-import { fetchProductDetail } from '../../../actions';
-
-import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
-
-import Modal from 'react-native-modalbox';
-
-import IconFA from 'react-native-vector-icons/FontAwesome';
-
-import { normalLogin } from '../../../actions/index';
-import { getAgencyInfo } from '../../../actions/Agency';
-
-import { priColor, thirdColor } from '../../../constants/colors';
-
-const fake_data = [
-    { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
-    { 'name': 'Cam sành', 'price': 50000, 'uri': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJy2M6n9XjUk54XDhtetxN3eHiR8jhiM-I3-lYo8WcvRIagAAcw' },
-    { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
 ];
 
-const ListHeader = ({ title, size }) => {
+const CrossText = ({ text }) => {
     return (
-        <View style={{ justifyContent: 'space-between', marginBottom: 10, paddingLeft: 5 }}>
-            <Text style={{ color: 'white', fontSize: responsiveFontSize(size), fontWeight: 'bold' }}>{title}</Text>
+        <View style={{}}>
+            <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(255, 255, 255, 0.6)' }}>{text}</Text>
+            <View style={{ position: 'absolute', top: responsiveFontSize(0.9), left: 0, right: 0, height: 1, width: null, flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}></View>
         </View>
     );
 }
-
-const SameProduct = ({ item }) => {
-    return (
-        <TouchableOpacity style={{ width: (width - 50) / 3, height: null, flex: 1, marginRight: 10 }}>
-            <Image source={item} style={{ height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
-        </TouchableOpacity>
-    );
-}
-
-const UppperLabel = ({ title, content }) => {
-    return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
-            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
-                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
-            </View>
-            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
-                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
-            </View>
-        </View>
-    );
-}
-const UppperScroolView = ({ title, content }) => {
-    return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
-            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
-                <Text style={{ fontSize: responsiveFontSize(2.4), color: 'white', fontWeight: 'bold', textAlign: 'center', fontWeight: 'bold' }}>{content}</Text>
-            </View>
-            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
-                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>{title}</Text>
-            </View>
-        </View>
-    );
-}
-
-const UppperNotes = ({ title, content, onChangeText }) => {
-    return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
-            <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                <Textarea
-                    style={{ backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}
-                    rowSpan={5}
-                    multiline={true}
-                    bordered
-                    onChangeText={onChangeText}
-                />
-            </View>
-            <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
-                <Text style={{ color: 'white', fontSize: responsiveFontSize(2.6), fontWeight: 'bold' }}>{title}</Text>
-            </View>
-        </View>
-    );
-}
-
-const CustomerView = ({ icon, brand }) => {
-    return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                <IconFA name={icon} style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
-            </View>
-            <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>{brand} </Text>
-        </View>
-    );
-}
-
-const GuaranteeView = ({ brand, content }) => {
-    return (
-        <Text style={{ marginBottom: 10 }}>
-            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>{brand}: </Text>
-            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content}</Text>
-        </Text>
-    );
-}
-
 
 class Detail extends Component {
 
-    static navigationOptions = {
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            qr_code: '',
-            type: 1,
-            notes: ''
-        }
-    }
-
     componentDidMount() {
-        const gtin = this.props.navigation.state.params;
-        fetch(`https://vatapcheck.com.vn/api/v1/barcode`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'gtin': gtin
-            })
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log(responseData);
-                if (responseData.code === 200) {
-                    if (responseData.data !== null) {
-                        if (responseData.data.organization !== null && responseData.data.product !== null) {
-                            this.setState({
-                                type: 1
-                            });
-                        }
-                    }
-                } else {
-                    fetch(`https://vatapcheck.com.vn/api/v1/qrcode`, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            'code': gtin
-                        })
-                    })
-                        .then((res) => res.json())
-                        .then((resData) => {
-                            console.log(resData);
-                            if (resData.code === 200) {
-                                if (resData.data !== null) {
-                                    if (resData.data.organization !== null && resData.data.product !== null) {
-                                        this.setState({
-                                            type: 2
-                                        });
-                                    }
-                                }
-                            }
-                        })
-                        .catch(e => alert('Thất bại khi lấy dữ liệu'))
-                        .done();
-                }
-            })
-            .catch(e => alert('Thất bại khi lấy dữ liệu'))
-            .done();
+        
+
     }
 
     componentWillUnmount() {
+        
     }
-
 
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color={priColor} size='large' />
+                <ActivityIndicator animating={true} color='white' size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ textAlign: 'center', alignSelf: 'center', fontSize: responsiveFontSize(2), color: 'green' }}>Không có mặt hàng nào trong danh mục này</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white' }}>Không có phân khúc sản phẩm nào</Text>
             </View>
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-
+    separateView = () => {
+        return (
+            <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
+        );
     }
 
     render() {
@@ -209,70 +68,13 @@ class Detail extends Component {
             require('../../../assets/imgs/grape3.jpg'),
             require('../../../assets/imgs/grape4.jpeg'),
         ];
-        let product = (
-            <View style={{ backgroundColor: priColor, }}>
-                <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
-                    <UppperLabel title='Nhà sản xuất' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Nhà phân phối' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Điểm bán' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Điểm bảo hành' content='CÔNG TY TNHH ABC' />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
-                        <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                {images.map((product, index) => (<SameProduct key={index.toString() + 'OwnedProducts'} item={product} />))}
-                            </ScrollView>
-                        </View>
-                        <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Sản phẩm sở hữu</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-        );
-
-        let customer = (
-            <View style={{ padding: 10, backgroundColor: priColor, }}>
-                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <CustomerView icon='user' brand='Họ và tên:' />
-                    <CustomerView icon='phone' brand='Số điện thoại:' />
-                    <CustomerView icon='address-card' brand='CMND:' />
-                    <CustomerView icon='envelope' brand='Mail:' />
-                    <CustomerView icon='map-marker' brand='Địa chỉ:' />
-                </View>
-                <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
-                    <ListHeader title='Sản phẩm đã mua' size='1.7' />
-                    <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                            {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
-                        </ScrollView>
-                    </View>
-                </View>
-            </View>
-
-        );
-
-        let guarantee = (
-            <View style={{ padding: 10, backgroundColor: priColor, }}>
-                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
-                    <GuaranteeView brand='Hạn sử dụng' content='12/10/2018' />
-                    <GuaranteeView brand='Thời gian bảo hành' content='1 năm' />
-                    <GuaranteeView brand='Tình trạng' content='Còn hạn bảo hành' />
-                    <GuaranteeView brand='Số lô' content='88' />
-                </View>
-                <View style={{ marginTop: 10 }}>
-                    <UppperNotes title='Note' onChangeText={(text) => this.setState({ notes: text })} />
-                </View>
-
-            </View>
-        );
 
         return (
             <View style={styles.container}>
-                <BackHeader navigation={this.props.navigation} title='THÔNG TIN TRUY XUẤT' />
-                <View style={{ flex: 1 }}>
-                    <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
-                        <View style={{ width: width, height: height / 5 }}>
+                <BackHeader navigation={this.props.navigation} title='CHI TIẾT SẢN PHẨM' />
+                <View style={{ flex: 1, paddingBottom: height / 16 }}>
+                    <ScrollView style={{ backgroundColor: priColor, flex: 1 }}>
+                        <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
                             <ImageSlider
                                 loopBothSides
                                 autoPlayWithInterval={3000}
@@ -300,35 +102,67 @@ class Detail extends Component {
                                 )}
                             />
                         </View>
-                        <View style={{ backgroundColor: 'white' }}>
-                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
-                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20 }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Điều hòa Panasonic PC12GKH</Text>
+                            <Text style={{ fontSize: responsiveFontSize(1.6), color: 'white', marginTop: 10 }}>Đơn vị: Chiếc</Text>
+                            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 20 }}>
+                                <Text style={{ fontSize: responsiveFontSize(1.6), color: 'yellow' }}>500.000 vnđ</Text>
+                            </View>
+                            <View style={{ padding: 1, marginTop: 20 }}>
+                                <Text style={{ zIndex: 2, padding: 0, fontSize: responsiveFontSize(1.6), color: 'white', }}>Điều hòa Panasonic PC12GKH tiết kiệm điện, làm sạch môi trường. Tự động ngắt điện khi đã đủ nhiệt. More info</Text>
+                            </View>
                         </View>
-                        <View style={{ marginTop: 1 }}>
-                            <Tabs locked={true} initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
-                                <Tab style={{ backgroundColor: priColor }} heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                    {product}
-                                </Tab>
-                                <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                    {guarantee}
-                                </Tab>
-                                <Tab style={{ backgroundColor: priColor }} heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                    {customer}
-                                </Tab>
-                            </Tabs>
+                        <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 5, paddingBottom: 10 }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
+                            <FlatList
+                                style={{ marginBottom: 5, marginTop: 15 }}
+                                data={data}
+                                // refreshing={this.state.refreshing}
+                                // onRefresh={this.handleRefresh}
+                                ItemSeparatorComponent={this.separateView}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
+                                            <Image source={{ uri: 'https://media3.scdn.vn/img2/2018/3_28/Mi0yHg_simg_b5529c_250x250_maxb.jpg' }} style={{ height: 2 * (width - 20) / 9 - 5, width: 2 * (width - 20) / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
+                                            <View style={{ paddingHorizontal: 3, width: 7 * (width - 20) / 9, justifyContent: 'space-between', paddingBottom: (width - 20) / 27 }}>
+                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'white' }}>{item.title}</Text>
+                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'yellow' }}>100.000vnđ</Text>
+                                                <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
+                                                    <CrossText text='200.000vnđ' />
+                                                    <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -50%</Text>
+                                                </View>
+                                                <TouchableOpacity style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingBottom: 2 }}>
+                                                    <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.6) }}>Mua ngay</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                keyExtractor={(item, index) => item.id + index + item.content + 'news'}
+                                ListEmptyComponent={this.renderEmpty}
+                            />
                         </View>
                     </ScrollView>
+                    <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: height / 16, flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ flex: 0.2, backgroundColor: '#9ed6de', justifyContent: 'center', alignItems: 'center' }}>
+                            <Icon type='FontAwesome' name='cart-arrow-down' style={{ color: 'white', fontSize: responsiveFontSize(4) }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 0.2, backgroundColor: '#9ed6de', justifyContent: 'center', alignItems: 'center' }}>
+                            <Icon type='Ionicons' name='ios-share-outline' style={{ color: 'white', fontSize: responsiveFontSize(4) }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 0.6, backgroundColor: '#ff7d2f', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(3), fontWeight: 'bold' }}>MUA NGAY</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
+
             </View>
         );
     }
-
 }
 
-const styles = {
-    title: {
-        fontSize: responsiveFontSize(1.8), flex: 0.3, color: priColor,
-    },
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
@@ -342,14 +176,6 @@ const styles = {
         alignItems: 'center',
         flexDirection: 'row',
     },
-    normalButton: {
-        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
-        backgroundColor: 'transparent', borderColor: 'white'
-    },
-    buttonSelected: {
-        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
-        backgroundColor: 'white', borderColor: 'white'
-    },
     button: {
         margin: 3,
         width: 15,
@@ -357,6 +183,14 @@ const styles = {
         opacity: 0.9,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    normalButton: {
+        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
+        backgroundColor: 'transparent', borderColor: 'white'
+    },
+    buttonSelected: {
+        width: 10, height: 10, borderRadius: 5, borderWidth: 1,
+        backgroundColor: 'white', borderColor: 'white'
     },
     customSlide: {
         backgroundColor: 'white',
@@ -366,22 +200,9 @@ const styles = {
     customImage: {
         width: width,
         height: null,
-        flex: 1,
-        resizeMode: 'stretch'
+        flex: 1
     },
-};
+});
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
-
-const mapDispatchToProps = (dispatch, props) => {
-    return {
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
-
+export default Detail;
 

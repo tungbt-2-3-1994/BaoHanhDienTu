@@ -3,12 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import NormalHeader from '../../../components/NormalHeader';
 
-class About extends Component {
+class Configure extends Component {
     render() {
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                <Text>About</Text>
+                <Text>Tính năng này sẽ có ở các version tiếp theo</Text>
             </View>
         );
     }
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default About;
+export default Configure;

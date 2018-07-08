@@ -23,7 +23,7 @@ const ListHeader = ({ title, color }) => {
 
 const HotTrend = ({ navigation, uri, price }) => {
     return (
-        <TouchableOpacity onPress={() => { }} style={{ width: width / 3 - 6.66, height: null, flex: 1, marginRight: 5, backgroundColor: 'white', }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('Detail') }} style={{ width: width / 3 - 6.66, height: null, flex: 1, marginRight: 5, backgroundColor: 'white', }}>
             {uri !== null ?
                 <Image source={{ uri: uri }} style={{ height: width / 3 - 6.66, width: width / 3 - 6.66, }} />
                 :
@@ -101,7 +101,7 @@ class Categories extends Component {
                             numColumns={2}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity style={{ backgroundColor: 'white', marginRight: 5, marginBottom: 5 }} onPress={() => { }}>
+                                    <TouchableOpacity style={{ backgroundColor: 'white', marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                         <View style={{ width: (width - 15) / 2, height: null, flex: 1, }}>
                                             <Image style={{ width: (width - 30) / 2, height: (width - 30) / 2 }} source={{ uri: item.uri }} />
                                             <Text numberOfLines={2} ellipsizeMode='tail' style={{ paddingVertical: 5, paddingHorizontal: 20, textAlign: 'center', fontSize: responsiveFontSize(1.9) }}>

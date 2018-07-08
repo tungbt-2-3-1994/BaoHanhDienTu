@@ -42,7 +42,7 @@ const ListHeader = ({ title, size }) => {
 const SameProduct = ({ item }) => {
     return (
         <TouchableOpacity style={{ width: (width - 50) / 3, height: null, flex: 1, marginRight: 10 }}>
-            <Image source={item} style={{ height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
+            <Image source={item} style={{ borderWidth: 1, borderColor: 'white', height: (width - 50) / 3, width: (width - 50) / 3, resizeMode: 'stretch' }} />
         </TouchableOpacity>
     );
 }
@@ -76,13 +76,17 @@ const UppperNotes = ({ title, content, onChangeText }) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: 10 }}>
             <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', paddingTop: 15, paddingBottom: 10, paddingHorizontal: 10 }}>
-                <Textarea
+                {/* <Textarea
                     style={{ backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}
                     rowSpan={5}
                     multiline={true}
                     bordered
                     onChangeText={onChangeText}
-                />
+                    editable={false}
+                /> */}
+                <Text style={{ padding: 10, backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}>
+                    ajshajs ajsajhs ajhsjas ajsjags asghags ahgshags ahgshags ahgshags
+                </Text>
             </View>
             <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
                 <Text style={{ color: 'white', fontSize: responsiveFontSize(2.6), fontWeight: 'bold' }}>{title}</Text>

@@ -18,7 +18,6 @@ export default class MyInfo extends React.Component {
 
     state = {
         avatarSource: null,
-        videoSource: null,
         phoneNumber: '01642525299',
         name: 'Nguyễn Văn A',
         email: 'jsmile@gmail.com',
@@ -67,7 +66,7 @@ export default class MyInfo extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#277dad' }}>
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: '#277dad', }}>
                     <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }} style={{ flex: 1, paddingBottom: 20 }}>
+                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }} style={{ flex: 1 }}>
                         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                             <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
                                 {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
@@ -181,12 +180,6 @@ const styles = {
     textStyle: { fontSize: responsiveFontSize(1.9) },
     contentContainer: { width: width - 20 },
     rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: 10, marginTop: 20, alignItems: 'center' },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF'
-    },
     titleName: { color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) },
     avatarContainer: {
         borderColor: '#9B9B9B',

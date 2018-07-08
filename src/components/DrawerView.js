@@ -13,14 +13,6 @@ class DrawerView extends Component {
     render() {
         const { navigation } = this.props;
 
-        let sty = {};
-        let sty1 = {};
-        if (navigation.state.index === 0) {
-            sty = focusedStyle;
-        } else if (navigation.state.index === 1) {
-            sty1 = focusedStyle;
-        }
-
         return (
             <SafeAreaView style={styles.container}>
                 <Container>
@@ -33,33 +25,33 @@ class DrawerView extends Component {
                         </Button>
                         <View style={{ width: 3 * width / 4, height: 1, backgroundColor: '#277dac', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('About')}>
+                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Customer')}>
                             <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 1 && focusedStyle]} name='sentiment-very-satisfied' />
                             <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 1 && focusedStyle]}>Khách hàng</Text>
                         </Button>
                         <View style={{ width: 3 * width / 4, height: 1, backgroundColor: '#277dac', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('About')}>
-                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 1 && focusedStyle]} name='perm-phone-msg' />
-                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 1 && focusedStyle]}>Hỗ trợ</Text>
+                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Support')}>
+                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 2 && focusedStyle]} name='perm-phone-msg' />
+                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 2 && focusedStyle]}>Hỗ trợ</Text>
                         </Button>
                         <View style={{ width: 3 * width / 4, height: 1, backgroundColor: '#277dac', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('About')}>
-                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 1 && focusedStyle]} name="insert-chart" />
-                            <Text uppercase={false} style={[{ marginLeft: 8, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 1 && focusedStyle]}>Thông số</Text>
+                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Configure')}>
+                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 3 && focusedStyle]} name="insert-chart" />
+                            <Text uppercase={false} style={[{ marginLeft: 8, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 3 && focusedStyle]}>Thông số</Text>
                         </Button>
                         <View style={{ width: 3 * width / 4, height: 1, backgroundColor: '#277dac', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('About')}>
-                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 1 && focusedStyle]} name='add-shopping-cart' />
-                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 1 && focusedStyle]}>Đơn hàng</Text>
+                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Order')}>
+                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 4 && focusedStyle]} name='add-shopping-cart' />
+                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 4 && focusedStyle]}>Đơn hàng</Text>
                         </Button>
                         <View style={{ width: 3 * width / 4, height: 1, backgroundColor: '#277dac', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('About')}>
-                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 1 && focusedStyle]} name="border-color" />
-                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 1 && focusedStyle]}>Chỉnh sửa</Text>
+                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Modify')}>
+                            <Icon type='MaterialIcons' style={[{ color: 'grey' }, navigation.state.index === 5 && focusedStyle]} name="border-color" />
+                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'grey', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 5 && focusedStyle]}>Chỉnh sửa</Text>
                         </Button>
 
                     </ScrollView>

@@ -86,21 +86,20 @@ class QRCode extends Component {
                 Animated.timing(
                     this.state.marginTopAnim,
                     {
-                        duration: 2500,
+                        duration: 2000,
                         toValue: 800,
                     }),
                 Animated.timing(
                     this.state.marginBottomAnim,
                     {
-                        duration: 2500,
+                        duration: 2000,
                         toValue: 800,
                     })
             ]).start();
-        }, 1000);
+        }, 200);
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('asas', nextProps.nav.routes.length);
         if (nextProps.nav.routes[0].routes[0].routes[0].index === 2 && nextProps.nav.routes.length === 1) {
             this.setState({
                 marginTopAnim: new Animated.Value((height - 100 + value) / 2),
@@ -121,7 +120,7 @@ class QRCode extends Component {
                                 toValue: 800,
                             })
                     ]).start();
-                }, 500);
+                }, 200);
             });
         }
     }
