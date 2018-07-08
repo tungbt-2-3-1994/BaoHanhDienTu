@@ -12,6 +12,8 @@ import ImagePicker from 'react-native-image-picker';
 import { width } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
+import { Icon } from 'native-base';
+
 export default class MyInfo extends React.Component {
 
     state = {
@@ -65,7 +67,7 @@ export default class MyInfo extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#277dad' }}>
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: '#277dad', }}>
                     <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                    <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={{ flex: 1, }}>
+                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }} style={{ flex: 1, paddingBottom: 20 }}>
                         <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                             <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
                                 {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
@@ -78,37 +80,91 @@ export default class MyInfo extends React.Component {
                             <View style={styles.rowInput}>
                                 <Text style={[{ flex: 0.3, }, styles.textStyle]}>Điện thoại</Text>
                                 <TextInput
+                                    underlineColorAndroid='transparent'
                                     editable={this.state.editable}
                                     style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.phoneNumber}
                                     onChangeText={(text) => { this.setState({ phoneNumber: text }) }}
                                 />
                             </View>
-                            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20 }}>
+
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Họ tên</Text>
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.name}
+                                    onChangeText={(text) => { this.setState({ name: text }) }}
+                                />
+                            </View>
+
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Email</Text>
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.email}
+                                    onChangeText={(text) => { this.setState({ email: text }) }}
+                                />
+                            </View>
+
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Địa chỉ</Text>
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.address}
+                                    onChangeText={(text) => { this.setState({ address: text }) }}
+                                />
+                            </View>
+
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Ngày sinh</Text>
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dob}
+                                    onChangeText={(text) => { this.setState({ dob: text }) }}
+                                />
+                            </View>
+
+                            <View style={styles.rowInput}>
+                                <Text style={[{ flex: 0.3, }, styles.textStyle]}>Tham gia</Text>
+                                <TextInput
+                                    underlineColorAndroid='transparent'
+                                    editable={this.state.editable}
+                                    style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dos}
+                                    onChangeText={(text) => { this.setState({ dos: text }) }}
+                                />
+                            </View>
+
+                            <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20, marginTop: 30 }}>
                                 {
                                     !this.state.editable ?
                                         (<TouchableOpacity onPress={() => this.onEdit()}>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Text>Chỉnh sửa</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Icon type='MaterialIcons' name='settings' style={{ color: 'red' }} />
+                                                <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Chỉnh sửa</Text>
                                             </View>
                                         </TouchableOpacity>)
                                         :
                                         <View></View>
                                 }
                                 {this.state.editable &&
-                                    <TouchableOpacity onPress={() => this.onSubmit()}>
-                                        <Text>Xác nhận</Text>
+                                    <TouchableOpacity style={{ backgroundColor: 'white', padding: 10, borderRadius: 5 }} onPress={() => this.onSubmit()}>
+                                        <Text style={{ fontSize: responsiveFontSize(1.9), fontWeight: 'bold', color: '#277dad', }}>Xác nhận</Text>
                                     </TouchableOpacity>}
 
-                                    {
-                                        !this.state.editable ?
-                                            (<TouchableOpacity onPress={() => this.onExit()}>
-                                                <View style={{ flexDirection: 'row' }}>
-                                                    <Text>Đăng xuất</Text>
-                                                </View>
-                                            </TouchableOpacity>)
-                                            :
-                                            <View></View>
-                                    }
+                                {
+                                    !this.state.editable ?
+                                        (<TouchableOpacity onPress={() => this.onExit()}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Icon type='MaterialIcons' name='power-settings-new' style={{ color: 'red' }} />
+                                                <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Đăng xuất</Text>
+                                            </View>
+                                        </TouchableOpacity>)
+                                        :
+                                        <View></View>
+                                }
 
                             </View>
                         </View>
@@ -124,7 +180,7 @@ export default class MyInfo extends React.Component {
 const styles = {
     textStyle: { fontSize: responsiveFontSize(1.9) },
     contentContainer: { width: width - 20 },
-    rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: 10, marginTop: 20 },
+    rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: 10, marginTop: 20, alignItems: 'center' },
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -136,13 +192,16 @@ const styles = {
         borderColor: '#9B9B9B',
         borderWidth: 1 / PixelRatio.get(),
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: width / 6,
+        width: width / 3,
+        height: width / 3,
     },
     avatar: {
         borderRadius: width / 6,
         width: width / 3,
         height: width / 3,
         backgroundColor: 'white',
-        marginTop: 20
+
     }
 };
