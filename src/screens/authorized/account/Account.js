@@ -9,6 +9,7 @@ import { responsiveFontSize } from '../../../utils/helpers';
 import { validateEmail } from '../../../utils/validateEmail';
 
 import ImagePicker from 'react-native-image-picker';
+import { priColor } from '../../../constants/colors';
 
 export default class Account extends Component {
     static navigationOptions = {
@@ -42,19 +43,20 @@ export default class Account extends Component {
                 skipBackup: true
             }
         };
+        if (this.state.editable) {
+            ImagePicker.showImagePicker(options, (response) => {
+                if (response.didCancel) { }
+                else if (response.error) { }
+                else if (response.customButton) { }
+                else {
+                    let source = { uri: response.uri };
 
-        ImagePicker.showImagePicker(options, (response) => {
-            if (response.didCancel) { }
-            else if (response.error) { }
-            else if (response.customButton) { }
-            else {
-                let source = { uri: response.uri };
-
-                this.setState({
-                    avatarSource: source
-                });
-            }
-        });
+                    this.setState({
+                        avatarSource: source
+                    });
+                }
+            });
+        }
     }
 
     onEdit = () => {
@@ -137,8 +139,10 @@ export default class Account extends Component {
                 <View style={{ alignItems: 'center' }}>
                     <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                         <View style={[styles.avatar, styles.avatarContainer, { marginBottom: 20 }]}>
-                            {this.state.avatarSource === null ? <Text>Select a Photo</Text> :
-                                <Image style={styles.avatar} source={this.state.avatarSource} />
+                            {this.state.avatarSource === null ?
+                                <Image style={[styles.avatar]} source={require('../../../assets/imgs/camera.png')} />
+                                :
+                                <Image style={[styles.avatar]} source={this.state.avatarSource} />
                             }
                         </View>
                     </TouchableOpacity>
@@ -243,7 +247,7 @@ export default class Account extends Component {
             <View style={{ flex: 1, backgroundColor: '#277dad' }}>
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: '#277dad', }}>
                     <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }} style={{ flex: 1 }}>
+                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingVertical: 30 }} style={{ flex: 1 }}>
                         {accountView}
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -255,8 +259,8 @@ export default class Account extends Component {
 const styles = {
     btnStyle: { width: width / 3, justifyContent: 'center', alignItems: 'center' },
     textStyle: { fontSize: responsiveFontSize(1.9) },
-    contentContainer: { width: width - 20 },
-    rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: 10, marginTop: 20, alignItems: 'center' },
+    contentContainer: { width: width - 20, },
+    rowInput: { backgroundColor: 'white', flex: 1, flexDirection: 'row', padding: Platform.OS === 'ios' ? 10 : 3, marginTop: 20, alignItems: 'center' },
     titleName: { color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) },
     avatarContainer: {
         borderColor: '#9B9B9B',
@@ -271,7 +275,6 @@ const styles = {
         borderRadius: width / 6,
         width: width / 3,
         height: width / 3,
-        backgroundColor: 'white',
-
+        backgroundColor: priColor
     }
 };

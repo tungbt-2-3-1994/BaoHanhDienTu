@@ -149,7 +149,7 @@ class Cart extends Component {
                     <TouchableOpacity style={{ alignItems: 'center', justifyContent: 'center', padding: 5, backgroundColor: '#ff7d2f', position: 'absolute', bottom: 0, left: 0, right: 0, height: height / 13 }}>
                         <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(2.5) }}>ĐẶT HÀNG</Text>
                     </TouchableOpacity>
-                    <View style={{ backgroundColor: '#cccccc', position: 'absolute', left: 0, right: 0, bottom: height / 13 + 10, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <View style={{ backgroundColor: '#cccccc', position: 'absolute', left: 0, right: 0, bottom: height / 14 + 10, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ color: 'black', fontSize: responsiveFontSize(2.3) }}>Tổng thanh toán</Text>
                         <Text style={{ fontWeight: 'bold', color: '#ff7d2f', fontSize: responsiveFontSize(2.3) }}>50.000 vnđ</Text>
                     </View>
