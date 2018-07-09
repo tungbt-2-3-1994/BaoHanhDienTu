@@ -139,7 +139,7 @@ class Detail extends Component {
                                         </TouchableOpacity>
                                     );
                                 }}
-                                keyExtractor={(item, index) => item.id + index + item.content + 'news'}
+                                keyExtractor={(item, index) => index + item.title + 'products'}
                                 ListEmptyComponent={this.renderEmpty}
                             />
                         </View>
