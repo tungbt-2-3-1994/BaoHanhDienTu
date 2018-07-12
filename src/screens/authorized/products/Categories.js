@@ -55,6 +55,71 @@ const hot_trend = [
     },
 ];
 
+const popular_category = [
+    {
+        uri: 'http://bizweb.dktcdn.net/100/074/637/files/91zwiajhz-plus-l-sl1500-copy.jpg?v=1495704707827',
+        name: 'Đồ Gia Dụng'
+    },
+    {
+        uri: 'http://maylocnuocviet.com/data_store/anhdaidien/may-loc-nuoc-kangaroo-kg-104-uv-tu-vtu.jpg',
+        name: 'Máy Lọc Nước'
+    },
+    {
+        uri: 'https://images-na.ssl-images-amazon.com/images/I/71HG3D8-OQL._SL1350_.jpg',
+        name: 'Điện Tử'
+    },
+    {
+        uri: 'http://img1.baza.vn/upload/products-var-721iNnw1/yNlMZqX1large.jpg?v=634902362718235839',
+        name: 'Trang Sức'
+    },
+    {
+        uri: 'https://donghoeverest.vn/wp-content/uploads/2016/09/4-1.jpg',
+        name: 'Đồng Hồ'
+    },
+    {
+        uri: 'http://suachuamaygiat.vn/wp-content/uploads/2013/06/sua-may-giat-electrolux51.jpg',
+        name: 'Điện Lạnh'
+    },
+];
+
+const extend_category = [
+    {
+        uri: 'http://gl.amthuc365.vn/uploads/thumbs/News-thumb/379-333-ham-luong-duong-qua-nhieu-trong-do-uong-cc6a.jpg',
+        name: 'Đồ Uống'
+    },
+    {
+        uri: 'https://chamchut.com/wp-content/uploads/2018/05/04-luu-y-cach-chon-hop-dung-thuc-pham-an-toan.jpg',
+        name: 'Thực phẩm'
+    },
+    {
+        uri: 'http://thammyhanquoc.vn/wp-content/uploads/2017/07/th%E1%BA%A9m-m%E1%BB%B9-m%E1%BA%AFt-cicle-eye.jpg',
+        name: 'Làm Đẹp'
+    },
+];
+
+const all_products = [
+    {
+        uri: 'http://gl.amthuc365.vn/uploads/thumbs/News-thumb/379-333-ham-luong-duong-qua-nhieu-trong-do-uong-cc6a.jpg',
+        name: 'Nước sinh tố'
+    },
+    {
+        uri: 'http://suachuamaygiat.vn/wp-content/uploads/2013/06/sua-may-giat-electrolux51.jpg',
+        name: 'Máy giặt Samsung'
+    },
+    {
+        uri: 'https://donghoeverest.vn/wp-content/uploads/2016/09/4-1.jpg',
+        name: 'Đồng hồ Rolex'
+    },
+    {
+        uri: 'http://maylocnuocviet.com/data_store/anhdaidien/may-loc-nuoc-kangaroo-kg-104-uv-tu-vtu.jpg',
+        name: 'Máy lọc nước Kangaroo'
+    },
+    {
+        uri: 'https://images-na.ssl-images-amazon.com/images/I/71HG3D8-OQL._SL1350_.jpg',
+        name: 'Macbook Pro 2017'
+    },
+];
+
 class Categories extends Component {
 
     static navigationOptions = {
@@ -87,22 +152,22 @@ class Categories extends Component {
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={0} />
                 <View style={{ flex: 1, backgroundColor: priColor }}>
                     <ScrollView style={{ flex: 1, backgroundColor: priColor, }}>
-                        <ListHeader color='red' title='XU HƯỚNG' />
-                        <ScrollView style={{ paddingLeft: 5 }} horizontal={true} pagingEnabled={true}>
+                        <ListHeader color='red' title='SẢN PHẨM BÁN CHẠY' />
+                        <ScrollView style={{ paddingLeft: 5, backgroundColor: 'white' }} horizontal={true} pagingEnabled={true}>
                             {hot_trend.map((item, index) => {
                                 return <HotTrend key={index} uri={item.uri} price={item.price} navigation={this.props.navigation} />
                             })}
                         </ScrollView>
-                        <ListHeader color='yellow' title='DÀNH CHO BẠN' />
-
-                        <FlatList
-                            style={{ paddingLeft: 5 }}
-                            data={hot_trend}
-                            numColumns={2}
-                            renderItem={({ item }) => {
-                                return (
-                                    <TouchableOpacity style={{ backgroundColor: 'white', marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
-                                        <View style={{ width: (width - 15) / 2, height: null, flex: 1, }}>
+                        <ListHeader color='yellow' title='NGÀNH HÀNG' />
+                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                            <FlatList
+                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                data={popular_category}
+                                numColumns={3}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                            {/* <View style={{ width: (width - 15) / 2, height: null, flex: 1, }}>
                                             <Image style={{ width: (width - 30) / 2, height: (width - 30) / 2 }} source={{ uri: item.uri }} />
                                             <Text numberOfLines={2} ellipsizeMode='tail' style={{ paddingVertical: 5, paddingHorizontal: 20, textAlign: 'center', fontSize: responsiveFontSize(1.9) }}>
                                                 {item.name}
@@ -111,13 +176,60 @@ class Categories extends Component {
                                                 <Text style={{ fontSize: responsiveFontSize(1.6), fontWeight: 'bold', }}>{item.price}</Text>
                                                 <Text style={{ fontSize: responsiveFontSize(1.6), }}>1 chiếc</Text>
                                             </View>
-                                        </View>
-                                    </TouchableOpacity>
-                                );
-                            }}
-                            keyExtractor={(item, index) => item.name + index}
-                            ListEmptyComponent={this.renderEmpty}
-                        />
+                                        </View> */}
+                                            <View style={{}}>
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                            </View>
+
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                keyExtractor={(item, index) => item.name + index}
+                                ListEmptyComponent={this.renderEmpty}
+                            />
+                        </View>
+                        <ListHeader color='yellow' title='NGÀNH MỞ RỘNG' />
+                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                            <FlatList
+                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                data={extend_category}
+                                horizontal={true}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                            <View style={{}}>
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                keyExtractor={(item, index) => item.name + index}
+                                ListEmptyComponent={this.renderEmpty}
+                            />
+                        </View>
+                        <ListHeader color='blue' title='SẢN PHẨM' />
+                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                            <FlatList
+                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                data={all_products}
+                                showsHorizontalScrollIndicator={false}
+                                horizontal={true}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity style={{ paddingBottom: 10, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                            <View style={{}}>
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                keyExtractor={(item, index) => item.name + index}
+                                ListEmptyComponent={this.renderEmpty}
+                            />
+                        </View>
                     </ScrollView>
                 </View>
             </View>
