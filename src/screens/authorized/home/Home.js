@@ -12,11 +12,11 @@ import { Card, CardItem, Left, Body, Right, Button, Icon } from 'native-base';
 
 import ImageProgress from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
-import { priColor } from '../../../constants/colors';
+import { priColor, activeColor } from '../../../constants/colors';
 
 const CrossText = ({ text }) => {
     return (
-        <View style={{ }}>
+        <View style={{}}>
             <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(255, 255, 255, 0.6)' }}>{text}</Text>
             <View style={{ position: 'absolute', top: responsiveFontSize(0.9), left: 0, right: 0, height: 1, width: null, flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}></View>
         </View>
@@ -70,7 +70,7 @@ export default class Home extends Component {
 
     separateView = () => {
         return (
-            <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
+            <View style={{ width: width, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
         );
     }
 
@@ -86,16 +86,19 @@ export default class Home extends Component {
         return (
             <View style={styles.container}>
                 <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: priColor, padding: 15 }}>
-                    <TouchableOpacity onPress={() => this.setState({ page: 1 })} style={[this.state.page === 1 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
-                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>     Tin tức     </Text>
+                <View style={{ flexDirection: 'row', backgroundColor: priColor, paddingVertical: 15, }}>
+                    <View style={{ flex: 1 }}></View>
+                    <TouchableOpacity onPress={() => this.setState({ page: 1 })} style={[{ justifyContent: 'center', alignItems: 'center', flex: 3, borderColor: 'rgba(255, 255, 255, 0.7)', borderWidth: 1, borderRadius: 15, padding: 5, }, this.state.page === 1 && { backgroundColor: activeColor, borderColor: 'white' },]}>
+                        <Text style={[{ textAlign: 'center', color: 'rgba(255, 255, 255, 0.7)', fontSize: responsiveFontSize(1.8) }, this.state.page === 1 && { color: 'white', fontWeight: 'bold' }]}>Tin tức</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({ page: 2 })} style={[this.state.page === 2 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
+                    <View style={{ flex: 1 }}></View>
+                    {/* <TouchableOpacity onPress={() => this.setState({ page: 2 })} style={[this.state.page === 2 && { backgroundColor: activeColor }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>  Hướng dẫn  </Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity onPress={() => this.setState({ page: 3 })} style={[this.state.page === 3 && { backgroundColor: activeColor }, { justifyContent: 'center', alignItems: 'center', flex: 3, borderColor: 'rgba(255, 255, 255, 0.7)', borderWidth: 1, borderRadius: 15, padding: 5 }, this.state.page === 3 && { backgroundColor: activeColor, borderColor: 'white' },]}>
+                        <Text style={[{ textAlign: 'center', color: 'rgba(255, 255, 255, 0.7)', fontSize: responsiveFontSize(1.8) }, this.state.page === 3 && { color: 'white', fontWeight: 'bold' }]}>Khuyến mãi</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.setState({ page: 3 })} style={[this.state.page === 3 && { backgroundColor: '#319ebd' }, { borderColor: 'white', borderWidth: 1, borderRadius: 15, padding: 5 }]}>
-                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}> Khuyến mãi </Text>
-                    </TouchableOpacity>
+                    <View style={{ flex: 1 }}></View>
                 </View>
                 <View style={{ flex: 1, backgroundColor: priColor, }}>
                     <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
@@ -129,25 +132,25 @@ export default class Home extends Component {
 
                     {this.state.page === 1 &&
                         <FlatList
-                            style={{ padding: 5, marginBottom: 5 }}
+                            style={{ marginBottom: 5, paddingTop: 5 }}
                             data={this.state.latest_sidings}
                             refreshing={this.state.refreshing}
                             onRefresh={this.handleRefresh}
                             ItemSeparatorComponent={this.separateView}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
-                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
-                                        <View style={{ padding: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', }}>
-                                            <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
+                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
+                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
+                                        <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', }}>
+                                            <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.title}</Text>
                                             <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}></View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                 <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <Icon name='ios-share-alt-outline' style={{ color: 'white', fontSize: responsiveFontSize(2), marginRight: 5 }} />
-                                                    <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Chia sẻ</Text>
+                                                    <Icon active={true} name='eye' style={{ color: 'white', fontSize: responsiveFontSize(2), marginRight: 5 }} />
+                                                    <Text style={{ color: 'rgba(255, 255, 255, 0.7)', padding: 3, fontSize: responsiveFontSize(1.4) }}>500 lượt</Text>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity>
-                                                    <Text style={{ color: 'white', padding: 3, fontSize: responsiveFontSize(1.5) }}>Xem thêm  >></Text>
+                                                    <Text style={{ color: 'rgba(255, 255, 255, 0.7)', padding: 3, fontSize: responsiveFontSize(1.4) }}>Xem thêm  >></Text>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -157,24 +160,24 @@ export default class Home extends Component {
                             keyExtractor={(item, index) => item.id + index + item.content + 'news'}
                             ListEmptyComponent={this.renderEmpty}
                         />}
-                    {this.state.page === 2 &&
+                    {/* {this.state.page === 2 &&
                         <View style={{ padding: 5, marginBottom: 5 }}>
                             <Text>Hướng dẫn</Text>
                         </View>
-                    }
+                    } */}
                     {this.state.page === 3 &&
                         <FlatList
-                            style={{ padding: 5, marginBottom: 5 }}
+                            style={{ paddingTop: 5, marginBottom: 5 }}
                             data={this.state.latest_sidings}
                             refreshing={this.state.refreshing}
                             onRefresh={this.handleRefresh}
                             ItemSeparatorComponent={this.separateView}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
-                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
+                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
+                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
                                         <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
-                                            <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white' }}>{item.title}</Text>
+                                            <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.title}</Text>
                                             <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'yellow' }}>100.000vnđ</Text>
                                             <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
                                                 <CrossText text='200.000vnđ' />

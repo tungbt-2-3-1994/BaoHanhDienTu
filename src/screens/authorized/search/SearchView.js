@@ -44,6 +44,7 @@ class SearchView extends Component {
         category: '',
         brand: '',
         language: '',
+        index_picker: null,
         toogleDisplay: false,
         error_phone_number: '',
         error_serial: '',
@@ -79,8 +80,8 @@ class SearchView extends Component {
         }
     }
 
-    setPickerValue = (value) => {
-        this.setState({ category: value });
+    setPickerValue = (value, i) => {
+        this.setState({ category: value, index_picker: i });
     }
 
     render() {
@@ -183,22 +184,22 @@ class SearchView extends Component {
                     </ScrollView>
                 </KeyboardAvoidingView>
                 <ModalBox ref={'modal'} swipeToClose={false} style={[styles.modal,]} backdrop={true} position={"bottom"} >
-                    <View style={{ borderBottomWidth: 1, borderColor: 'grey', paddingHorizontal: 10, width: width, backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <View style={{ borderBottomWidth: 1, borderColor: 'rgba(0, 0, 0, 0.3)', paddingHorizontal: 10, width: width, backgroundColor: priColor, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text> </Text>
-                        <Text style={{ fontWeight: 'bold', paddingVertical: 8, color: priColor, fontSize: responsiveFontSize(2.3) }}>Lựa chọn ngành hàng</Text>
+                        <Text style={{ fontWeight: 'bold', paddingVertical: 8, color: 'white', fontSize: responsiveFontSize(2.3) }}>Lựa chọn ngành hàng</Text>
                         <TouchableOpacity onPress={() => this.refs.modal.close()}>
-                            <Icon name='ios-close' style={{ fontSize: responsiveFontSize(4) }} />
+                            <Icon name='ios-close' style={{ fontSize: responsiveFontSize(4), color: 'white' }} />
                         </TouchableOpacity>
                     </View>
                     <ScrollView>
                         {pickerValues.map((value, index) => {
                             return (
-                                <TouchableOpacity iconLeft light underlayColor='rgba(0, 0, 0, 0.3)' style={{ paddingHorizontal: 10, flexDirection: 'row', width: width, paddingVertical: 6, alignItems: 'center' }} key={index} onPress={() => {
-                                    this.setPickerValue(value.title);
+                                <TouchableOpacity iconLeft light underlayColor='rgba(0, 0, 0, 0.3)' style={{ borderBottomWidth: 1, paddingHorizontal: 10, flexDirection: 'row', width: width, paddingVertical: 10, alignItems: 'center', justifyContent: 'center', borderColor: 'rgba(0, 0, 0, 0.3)' }} key={index} onPress={() => {
+                                    this.setPickerValue(value.title, index);
                                     this.refs.modal.close();
                                 }}>
-                                    <Icon name='home' style={{ color: priColor, marginRight: 10 }} />
-                                    <Text style={{ fontSize: responsiveFontSize(2) }}>{value.title}</Text>
+                                    {/* <Icon name='home' style={{ color: priColor, marginRight: 10 }} /> */}
+                                    <Text style={[{ fontSize: responsiveFontSize(2), color: 'rgba(0, 0, 0, 0.7)' }, this.state.index_picker === index && { color: priColor, fontSize: responsiveFontSize(2.2), fontWeight: 'bold' }]}>{value.title}</Text>
                                 </TouchableOpacity>
                             );
                         })}

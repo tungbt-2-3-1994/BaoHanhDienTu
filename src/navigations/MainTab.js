@@ -21,7 +21,7 @@ const IconTab = (src, tintColor, size, index, title) => (
     // <View style={[index !== 4 && { borderRightWidth: 1 }, styles.iconTab]}>
     <View style={styles.iconTab}>
         <Ionicons size={size} color={tintColor} name={src} />
-        <Text style={{ fontSize: responsiveFontSize(1.1), color: tintColor, fontWeight: 'bold' }}>{title}</Text>
+        <Text style={{ fontSize: responsiveFontSize(1.2), color: tintColor, fontWeight: 'bold' }}>{title}</Text>
     </View>
 );
 
@@ -40,6 +40,7 @@ import ProductsStack from './ProductStack';
 import QRCodeStack from './QRCodeStack';
 import AccountStack from './AccountStack';
 import SearchStack from './SearchStack';
+import { priColor, activeColor } from '../constants/colors';
 
 export default MainTab = TabNavigator(
     {
@@ -81,11 +82,11 @@ export default MainTab = TabNavigator(
         tabBarOptions: {
             activeTintColor: 'white',
             inactiveTintColor: 'white',
-            activeBackgroundColor: '#42b0ed',
+            activeBackgroundColor: activeColor,
             showIcon: true,
             showLabel: false,
             style: {
-                backgroundColor: '#277dac',
+                backgroundColor: priColor,
                 height: width / 5 - 10,
             },
             indicatorStyle: {

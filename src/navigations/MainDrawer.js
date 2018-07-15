@@ -24,7 +24,7 @@ const MainDrawer = DrawerNavigator({
     Order: { screen: Order },
     Modify: { screen: Modify },
 }, {
-        drawerWidth: 3 * width / 4,
+        drawerWidth: 7 * width / 9,
         contentComponent: props => <DrawerView {...props} />,
         drawerOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',

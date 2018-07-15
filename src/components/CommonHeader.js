@@ -6,14 +6,15 @@ import { Header, Icon, Input, Item, Left, Body, Button, Right } from 'native-bas
 import { width } from '../constants/dimensions';
 
 import { responsiveFontSize, responsiveWidth } from '../utils/helpers';
+import { priColor } from '../constants/colors';
 
 
 class CommonHeader extends Component {
     render() {
         return (
-            <Header searchBar rounded style={{ backgroundColor: '#277dac', }}>
+            <Header searchBar rounded style={{ backgroundColor: priColor, }}>
                 <StatusBar
-                    backgroundColor='#277dac'
+                    backgroundColor={priColor}
                     barStyle="light-content"
                 />
                 <Left style={{ flex: 1, paddingLeft: 5, backgroundColor: 'transparent' }}>
@@ -22,10 +23,10 @@ class CommonHeader extends Component {
                     </Button>
                 </Left>
 
-                    <Item rounded style={{ flex: 6, backgroundColor: 'white' }}>
-                        <Icon name='ios-search' />
-                        <Input placeholder='Tìm kiếm' style={{ fontSize: responsiveFontSize(1.6) }} />
-                    </Item>
+                <Item rounded style={{ flex: 6, backgroundColor: 'white' }}>
+                    <Icon name='ios-search' />
+                    <Input placeholder='Tìm kiếm' style={{ fontSize: responsiveFontSize(1.6) }} />
+                </Item>
 
                 <Right style={{ flex: 1 }}></Right>
 

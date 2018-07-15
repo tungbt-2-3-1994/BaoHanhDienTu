@@ -6,13 +6,14 @@ import { Header, Button, Icon, Text, Container, Input, Item, InputGroup, Left, R
 import { width } from '../constants/dimensions';
 
 import { responsiveFontSize, responsiveWidth } from '../utils/helpers';
+import { priColor } from '../constants/colors';
 
 class BackHeaderQRCode extends Component {
     render() {
         return (
-            <Header searchBar rounded style={{ backgroundColor: 'red' }}>
+            <Header searchBar rounded style={{ backgroundColor: priColor }}>
                 <StatusBar
-                    backgroundColor='red'
+                    backgroundColor={priColor}
                     barStyle="light-content"
                 />
                 <Left style={{ flex: 1 }}>

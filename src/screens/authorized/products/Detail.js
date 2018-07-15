@@ -8,6 +8,7 @@ import ImageProgress from 'react-native-image-progress';
 import ImageSlider from 'react-native-image-slider';
 import { responsiveFontSize } from '../../../utils/helpers';
 import { Icon } from 'native-base';
+import { text } from 'react-native-communications';
 
 const data = [
     {
@@ -34,12 +35,12 @@ const CrossText = ({ text }) => {
 class Detail extends Component {
 
     componentDidMount() {
-        
+
 
     }
 
     componentWillUnmount() {
-        
+
     }
 
     renderEmpty = () => {
@@ -132,7 +133,7 @@ class Detail extends Component {
                                                     <CrossText text='200.000vnđ' />
                                                     <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -50%</Text>
                                                 </View>
-                                                <TouchableOpacity style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingBottom: 2 }}>
+                                                <TouchableOpacity onPress={() => text('0942606240', 'Anh yêu em')} style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingBottom: 2 }}>
                                                     <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.6) }}>Mua ngay</Text>
                                                 </TouchableOpacity>
                                             </View>

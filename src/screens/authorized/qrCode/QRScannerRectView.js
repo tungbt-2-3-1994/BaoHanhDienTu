@@ -16,7 +16,7 @@ import { width } from '../../../constants/dimensions';
 export default class QRScannerRectView extends Component {
     static defaultProps = {
         maskColor: '#0000004D',
-        cornerColor: 'red',
+        cornerColor: 'white',
         borderColor: '#000000',
         rectHeight: 3 * width / 4,
         rectWidth: 3 * width / 4,

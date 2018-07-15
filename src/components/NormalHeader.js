@@ -8,13 +8,14 @@ import { width } from '../constants/dimensions';
 import { responsiveFontSize, responsiveWidth } from '../utils/helpers';
 
 import IconBadge from 'react-native-icon-badge';
+import { priColor } from '../constants/colors';
 
 class NormalHeader extends Component {
     render() {
         return (
-            <Header style={{ backgroundColor: '#277dac', justifyContent: 'center' }}>
+            <Header style={{ backgroundColor: priColor, justifyContent: 'center' }}>
                 <StatusBar
-                    backgroundColor='#277dac'
+                    backgroundColor={priColor}
                     barStyle="light-content"
                 />
                 <Left style={{ flex: 2, paddingLeft: 2 }}>

@@ -131,12 +131,12 @@ class ScannedProduct extends Component {
     }
 
     componentDidMount() {
-        this.props.navigation.state.params.onDone(false);
+        this.props.navigation.state.params.onDone(false, false);
 
     }
 
     componentWillUnmount() {
-        this.props.navigation.state.params.onDone(true);
+        this.props.navigation.state.params.onDone(true, true);
     }
 
 

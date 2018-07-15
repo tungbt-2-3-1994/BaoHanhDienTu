@@ -6,18 +6,19 @@ import { Header, Button, Body, Icon, Text, Container, Input, Item, InputGroup, L
 import { width } from '../constants/dimensions';
 
 import { responsiveFontSize, responsiveWidth } from '../utils/helpers';
+import { priColor } from '../constants/colors';
 
 class CartHeader extends Component {
     render() {
         return (
-            <Header searchBar rounded style={{ backgroundColor: '#277dac' }}>
+            <Header searchBar rounded style={{ backgroundColor: priColor }}>
                 <StatusBar
-                    backgroundColor='#277dac'
+                    backgroundColor={priColor}
                     barStyle="light-content"
                 />
                 <Left style={{ flex: 1 }}>
                     <Button transparent onPress={() => this.props.navigation.goBack()}>
-                        <Icon name='close' style={{ color: 'red', fontSize: responsiveFontSize(4)}} />
+                        <Icon name='close' style={{ color: 'red', fontSize: responsiveFontSize(4) }} />
                     </Button>
                 </Left>
                 <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center', }}>

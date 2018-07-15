@@ -7,6 +7,7 @@ import { Icon, Button } from 'native-base';
 import { Input, SocialIcon, CheckBox } from 'react-native-elements';
 import { responsiveFontSize } from '../../../utils/helpers';
 import { validateEmail } from '../../../utils/validateEmail';
+import { priColor, activeColor } from '../../../constants/colors';
 
 export default class Account extends Component {
     static navigationOptions = {
@@ -40,7 +41,7 @@ export default class Account extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: '#277dad', }}>
+            <View style={{ flex: 1, backgroundColor: priColor, }}>
                 <BackHeader navigation={this.props.navigation} title='ĐĂNG KÝ' />
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: 'white', fontSize: responsiveFontSize(2.3), textAlign: 'center', }}>Với mạng xã hội</Text>
@@ -121,7 +122,7 @@ export default class Account extends Component {
                                 />
                             </View>
                         </View>
-                        <Button full bordered light style={{ backgroundColor: '#3fa7c7', borderRadius: 30 }} onPress={() => this.onRegister()}>
+                        <Button full bordered light style={{ backgroundColor: activeColor, borderRadius: 30 }} onPress={() => this.onRegister()}>
                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(2) }}>Đăng ký</Text>
                         </Button>
                     </View>

@@ -46,7 +46,8 @@ class QRCode extends Component {
             barcodeCodes: [],
             isShow: true,
             marginTopAnim: new Animated.Value((height - 100 + value) / 2),
-            marginBottomAnim: new Animated.Value((height - 2 * value) / 2)
+            marginBottomAnim: new Animated.Value((height - 2 * value) / 2),
+            status: true
         };
     }
 
@@ -80,47 +81,45 @@ class QRCode extends Component {
                 }
             });
         })
+        Animated.parallel([
+            Animated.timing(
+                this.state.marginTopAnim,
+                {
+                    duration: 2000,
+                    toValue: 800,
+                }),
+            Animated.timing(
+                this.state.marginBottomAnim,
+                {
+                    duration: 2000,
+                    toValue: 800,
+                })
+        ]).start();
 
-        setTimeout(() => {
-            Animated.parallel([
-                Animated.timing(
-                    this.state.marginTopAnim,
-                    {
-                        duration: 2000,
-                        toValue: 800,
-                    }),
-                Animated.timing(
-                    this.state.marginBottomAnim,
-                    {
-                        duration: 2000,
-                        toValue: 800,
-                    })
-            ]).start();
-        }, 200);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.nav.routes[0].routes[0].routes[0].index === 2 && nextProps.nav.routes.length === 1) {
+        if (nextProps.nav.routes[0].routes[0].routes[0].index === 2 && nextProps.nav.routes.length === 1 && this.state.status) {
             this.setState({
                 marginTopAnim: new Animated.Value((height - 100 + value) / 2),
                 marginBottomAnim: new Animated.Value((height - 2 * value) / 2)
             }, () => {
-                setTimeout(() => {
-                    Animated.parallel([
-                        Animated.timing(
-                            this.state.marginTopAnim,
-                            {
-                                duration: 2000,
-                                toValue: 800,
-                            }),
-                        Animated.timing(
-                            this.state.marginBottomAnim,
-                            {
-                                duration: 2000,
-                                toValue: 800,
-                            })
-                    ]).start();
-                }, 200);
+
+                Animated.parallel([
+                    Animated.timing(
+                        this.state.marginTopAnim,
+                        {
+                            duration: 2000,
+                            toValue: 800,
+                        }),
+                    Animated.timing(
+                        this.state.marginBottomAnim,
+                        {
+                            duration: 2000,
+                            toValue: 800,
+                        })
+                ]).start();
+
             });
         }
     }
@@ -174,7 +173,7 @@ class QRCode extends Component {
 
                         </RNCamera>
                     }
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'EditDetailInfor',
                             params: {
@@ -203,15 +202,17 @@ class QRCode extends Component {
                         }));
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to Extracted Infor</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity onPress={() => {
+                        this.setState({ status: false });
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'ScannedProduct',
                             params: {
-                                onDone: (showBool) => {
+                                onDone: (showBool, status) => {
                                     this.setState({
                                         isShow: showBool,
-                                        barcodeCodes: []
+                                        barcodeCodes: [],
+                                        status: status
                                     });
                                 },
                             }
@@ -219,7 +220,7 @@ class QRCode extends Component {
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'DetailProduct',
                             params: {
@@ -233,7 +234,7 @@ class QRCode extends Component {
                         }));
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Chi tiết sản phẩm</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                 </View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginBottomAnim, backgroundColor: priColor }}>
@@ -253,7 +254,8 @@ class QRCode extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Platform.OS === 'ios' ? 64 : 56
+        marginTop: Platform.OS === 'ios' ? 64 : 56,
+        backgroundColor: priColor
     },
     preview: {
         flex: 1,

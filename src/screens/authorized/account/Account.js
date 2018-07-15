@@ -244,8 +244,8 @@ export default class Account extends Component {
         }
 
         return (
-            <View style={{ flex: 1, backgroundColor: '#277dad' }}>
-                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: '#277dad', }}>
+            <View style={{ flex: 1, backgroundColor: priColor }}>
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, }}>
                     <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
                     <ScrollView contentContainerStyle={{ alignItems: 'center', paddingVertical: 30 }} style={{ flex: 1 }}>
                         {accountView}
