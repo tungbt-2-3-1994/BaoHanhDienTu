@@ -159,26 +159,16 @@ class Categories extends Component {
                             })}
                         </ScrollView>
                         <ListHeader color='yellow' title='NGÀNH HÀNG' />
-                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                        <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 5 }}>
                             <FlatList
-                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
                                 data={popular_category}
                                 numColumns={3}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
-                                            {/* <View style={{ width: (width - 15) / 2, height: null, flex: 1, }}>
-                                            <Image style={{ width: (width - 30) / 2, height: (width - 30) / 2 }} source={{ uri: item.uri }} />
-                                            <Text numberOfLines={2} ellipsizeMode='tail' style={{ paddingVertical: 5, paddingHorizontal: 20, textAlign: 'center', fontSize: responsiveFontSize(1.9) }}>
-                                                {item.name}
-                                            </Text>
-                                            <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 5 }}>
-                                                <Text style={{ fontSize: responsiveFontSize(1.6), fontWeight: 'bold', }}>{item.price}</Text>
-                                                <Text style={{ fontSize: responsiveFontSize(1.6), }}>1 chiếc</Text>
-                                            </View>
-                                        </View> */}
+                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
                                                 <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
 
@@ -192,14 +182,14 @@ class Categories extends Component {
                         <ListHeader color='yellow' title='NGÀNH MỞ RỘNG' />
                         <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
                             <FlatList
-                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
                                 data={extend_category}
                                 horizontal={true}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null, marginRight: 5, }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
                                                 <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -212,15 +202,15 @@ class Categories extends Component {
                         <ListHeader color='blue' title='SẢN PHẨM' />
                         <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
                             <FlatList
-                                style={{ marginHorizontal: 4.5, backgroundColor: 'white' }}
+                                style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
                                 data={all_products}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ paddingBottom: 10, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 11) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 11) / 9, height: 2 * (width - 11) / 9, resizeMode: 'contain' }} />
+                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
                                                 <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
                                         </TouchableOpacity>
@@ -232,7 +222,7 @@ class Categories extends Component {
                         </View>
                     </ScrollView>
                 </View>
-            </View>
+            </View >
         );
     }
 
