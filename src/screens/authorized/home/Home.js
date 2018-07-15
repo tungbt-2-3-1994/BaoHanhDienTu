@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, WebView, TouchableHighlight, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { Text, View, Image, TouchableOpacity, WebView, TouchableHighlight, ScrollView, FlatList, ActivityIndicator, Platform } from 'react-native';
 import NormalHeader from '../../../components/NormalHeader';
 
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
@@ -13,6 +13,7 @@ import { Card, CardItem, Left, Body, Right, Button, Icon } from 'native-base';
 import ImageProgress from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import { priColor, activeColor } from '../../../constants/colors';
+import { host, host_img } from '../../../constants/api';
 
 const CrossText = ({ text }) => {
     return (
@@ -30,21 +31,25 @@ export default class Home extends Component {
     }
 
     state = {
-        latest_sidings: [],
+        news: [],
         loading: false,
-        page: 1
+        page: 1,
+        current_page: 1,
+        total_page: 1000,
+        refreshing_news: false
     }
 
     componentDidMount() {
         this.setState({ loading: true });
 
-        fetch('http://vatapcheck.com.vn/api/v1/tidings')
+        fetch(`${host}/tidings?page=${this.state.current_page}`)
             .then(response => response.json())
             .then(responseData => {
                 // console.log('as', responseData.data.tidings)
                 if (responseData.code === 200) {
                     this.setState({
-                        latest_sidings: responseData.data.tidings
+                        news: responseData.data.tidings,
+                        total_page: responseData.data.total_page
                     });
                 }
                 this.setState({ loading: false });
@@ -71,6 +76,40 @@ export default class Home extends Component {
     separateView = () => {
         return (
             <View style={{ width: width, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 5 }}></View>
+        );
+    }
+
+    handleLoadMore = () => {
+        if (this.state.current_page + 1 < this.state.total_page) {
+            this.setState({
+                current_page: this.state.current_page + 1,
+                loading: true,
+                refreshing_news: true
+            }, () => {
+                fetch(`${host}/tidings?page=${this.state.current_page}`)
+                    .then(res => res.json())
+                    .then(resData => {
+                        if (resData.code === 200) {
+                            this.setState({
+                                news: [...this.state.news, ...resData.data.tidings],
+                                loading: false,
+                                refreshing_news: false
+                            });
+                        }
+                    })
+                    .catch(e => {
+                        this.setState({ loading: false, refreshing_news: false });
+                    })
+            });
+        }
+    }
+
+    renderFooter = () => {
+        if (!this.state.refreshing_news) return null;
+        return (
+            <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator color='white' animating={true} size='large' />
+            </View>
         );
     }
 
@@ -133,14 +172,17 @@ export default class Home extends Component {
                     {this.state.page === 1 &&
                         <FlatList
                             style={{ marginBottom: 5, paddingTop: 5 }}
-                            data={this.state.latest_sidings}
-                            refreshing={this.state.refreshing}
+                            data={this.state.news}
                             onRefresh={this.handleRefresh}
                             ItemSeparatorComponent={this.separateView}
+                            onEndReached={this.handleLoadMore}
+                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.1}
+                            ListFooterComponent={this.renderFooter}
+                            removeClippedSubviews={true}
                             renderItem={({ item }) => {
                                 return (
                                     <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
-                                        <Image source={{ uri: `http://vatapcheck.com.vn/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
+                                        <Image source={{ uri: `${host_img}/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
                                         <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', }}>
                                             <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.title}</Text>
                                             <View style={{ width: '100%', height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)' }}></View>
@@ -168,7 +210,7 @@ export default class Home extends Component {
                     {this.state.page === 3 &&
                         <FlatList
                             style={{ paddingTop: 5, marginBottom: 5 }}
-                            data={this.state.latest_sidings}
+                            data={this.state.news}
                             refreshing={this.state.refreshing}
                             onRefresh={this.handleRefresh}
                             ItemSeparatorComponent={this.separateView}

@@ -167,10 +167,10 @@ class ScannedProduct extends Component {
         let product = (
             <View style={{ backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
+                    <UppperLabel title='Đơn vị sở hữu mã vạch' content='CÔNG TY TNHH ABC' />
                     <UppperLabel title='Nhà sản xuất' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Nhà phân phối' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Điểm bán' content='CÔNG TY TNHH ABC' />
-                    <UppperLabel title='Điểm bảo hành' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Nhà nhập khẩu' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Thông tin phân phối' content='CÔNG TY TNHH ABC' />
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -178,7 +178,7 @@ class ScannedProduct extends Component {
                             </ScrollView>
                         </View>
                         <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Sản phẩm sở hữu</Text>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Danh mục sản phẩm cùng ngành / catalog</Text>
                         </View>
                     </View>
                 </View>
@@ -256,7 +256,10 @@ class ScannedProduct extends Component {
                             />
                         </View>
                         <View style={{ backgroundColor: 'white' }}>
-                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>Sản phẩm: Nho Ninh Thuận</Text>
+                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
+                                <Text style={[{ flex: 0.3 }, styles.titleStyle]}>Sản phẩm</Text>
+                                <Text style={{ flex: 0.7, marginTop: 10, textAlign: 'center' }}>Nho Ninh Thuận</Text>
+                            </View>
                             <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
                         </View>
                         <View style={{ marginTop: 1 }}>
@@ -281,6 +284,9 @@ class ScannedProduct extends Component {
 }
 
 const styles = {
+    titleStyle: {
+        color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold',
+    },
     product_modal: {
         flex: 1,
         height: null
