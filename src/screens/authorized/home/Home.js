@@ -32,6 +32,7 @@ export default class Home extends Component {
 
     state = {
         news: [],
+        discounts: [],
         loading: false,
         page: 1,
         current_page: 1,
@@ -68,7 +69,7 @@ export default class Home extends Component {
         }
         return (
             <View>
-                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white' }}>Không có phân khúc sản phẩm nào</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: 'white' }}>Không có tin tức cho mục này</Text>
             </View>
         );
     }
@@ -181,7 +182,7 @@ export default class Home extends Component {
                             removeClippedSubviews={true}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
+                                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('HomeNewsDetail', { uri: item.image, content: item.content, title: item.title, link: item.link }) }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor }}>
                                         <Image source={{ uri: `${host_img}/static/common/img/tidings/${item.image}` }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
                                         <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', }}>
                                             <Text numberOfLines={2} ellipsizeMode='tail' style={{ padding: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.title}</Text>
@@ -210,7 +211,7 @@ export default class Home extends Component {
                     {this.state.page === 3 &&
                         <FlatList
                             style={{ paddingTop: 5, marginBottom: 5 }}
-                            data={this.state.news}
+                            data={this.state.discounts}
                             refreshing={this.state.refreshing}
                             onRefresh={this.handleRefresh}
                             ItemSeparatorComponent={this.separateView}

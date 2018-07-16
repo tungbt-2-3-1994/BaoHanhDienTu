@@ -95,13 +95,18 @@ const UppperNotes = ({ title, content, onChangeText }) => {
     );
 }
 
-const CustomerView = ({ icon, brand }) => {
+const CustomerView = ({ icon, brand, content }) => {
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: thirdColor, borderColor: thirdColor, borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
-                <IconFA name={icon} style={{ fontSize: responsiveFontSize(2), color: thirdColor }} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingRight: 3 }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', borderColor: 'white', borderColor: 'white', borderWidth: 1, padding: 10, width: responsiveFontSize(4.6), borderRadius: responsiveFontSize(2.3) }}>
+                <IconFA name={icon} style={{ fontSize: responsiveFontSize(2), color: 'white' }} />
             </View>
-            <Text style={{ fontSize: responsiveFontSize(1.7), marginLeft: 8, color: 'white' }}>{brand} </Text>
+            <View style={{ paddingHorizontal: 2 }}>
+                <Text style={{ marginLeft: 8, paddingRight: 10 }}>
+                    <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white' }}>{brand} </Text>
+                    <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content} </Text>
+                </Text>
+            </View>
         </View>
     );
 }
@@ -126,7 +131,8 @@ class ScannedProduct extends Component {
         this.state = {
             qr_code: '',
             type: 1,
-            notes: ''
+            notes: '',
+            activePage: 0
         }
     }
 
@@ -178,7 +184,7 @@ class ScannedProduct extends Component {
                 <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
                     <View style={{ padding: 5, marginBottom: 10 }}>
                         <Text numberOfLines={2} ellipsizeMode='tail' style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm </Text>
-                        <TouchableOpacity style={{ marginTop: 10, padding: 5, backgroundColor: '#92b742', width: 100, borderRadius: 5 }}>
+                        <TouchableOpacity style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
                             <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
                         </TouchableOpacity>
                     </View>
@@ -203,11 +209,11 @@ class ScannedProduct extends Component {
         let customer = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <CustomerView icon='user' brand='Họ và tên:' />
-                    <CustomerView icon='phone' brand='Số điện thoại:' />
-                    <CustomerView icon='address-card' brand='CMND:' />
-                    <CustomerView icon='envelope' brand='Mail:' />
-                    <CustomerView icon='map-marker' brand='Địa chỉ:' />
+                    <CustomerView icon='user' brand='Họ và tên:' content='Bùi Tiến Tùng' />
+                    <CustomerView icon='phone' brand='Số điện thoại:' content={this.encodeString('01642525299')} />
+                    <CustomerView icon='address-card' brand='CMND:' content='145545501' />
+                    <CustomerView icon='envelope' brand='Mail:' content='tungbt1994@gmail.com' />
+                    <CustomerView icon='map-marker' brand='Địa chỉ:' content='Cầu Giấy, Hà Nội' />
                 </View>
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
                     <ListHeader title='Sản phẩm đã mua' size='1.7' />
@@ -242,9 +248,20 @@ class ScannedProduct extends Component {
                     <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
                     <GuaranteeView brand='Hạn bảo hành' content='12/10/2018' />
                     <GuaranteeView brand='Tình trạng' content='Đang trong thời gian bảo hành' />
-                    <GuaranteeView brand='Sở hữu' content={this.encodeString('01642525299')} />
-                    <GuaranteeView brand='Note' content='Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích' />
+                    <View style={{ marginBottom: 10, flexDirection: 'row' }}>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Sở hữu: </Text>
+                        <TouchableOpacity onPress={() => { this.setState({ activePage: 2 }) }}>
+                            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{this.encodeString('01642525299')}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={{ marginBottom: 10 }}>
+                        <Text style={{ textDecorationLine: 'underline', fontSize: responsiveFontSize(1.7), color: 'white', }}>Note: </Text>
+                        <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích</Text>
+                    </Text>
                 </View>
+                <TouchableOpacity style={{ alignSelf: 'center', marginTop: 15, backgroundColor: '#538240', padding: 10, paddingHorizontal: 20, borderRadius: 10 }}>
+                    <Text style={{ fontSize: responsiveFontSize(2), color: 'white', textAlign: 'center', }}>Điều khoản bảo hành</Text>
+                </TouchableOpacity>
             </View>
         );
 
@@ -298,7 +315,7 @@ class ScannedProduct extends Component {
                             </View>
                         </View>
                         <View style={{ marginTop: 1 }}>
-                            <Tabs locked={true} initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
+                            <Tabs page={this.state.activePage} locked={true} initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>
                                 <Tab style={{ backgroundColor: priColor }} heading="SẢN PHẨM" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
                                     {product}
                                 </Tab>
