@@ -23,7 +23,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome';
 import { normalLogin } from '../../../actions/index';
 import { getAgencyInfo } from '../../../actions/Agency';
 
-import { priColor, thirdColor } from '../../../constants/colors';
+import { priColor, thirdColor, activeColor } from '../../../constants/colors';
 
 const fake_data = [
     { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
@@ -85,7 +85,7 @@ const UppperNotes = ({ title, content, onChangeText }) => {
                     editable={false}
                 /> */}
                 <Text style={{ padding: 10, backgroundColor: 'white', margin: 5, fontSize: responsiveFontSize(1.7) }}>
-                    ajshajs ajsajhs ajhsjas ajsjags asghags ahgshags ahgshags ahgshags
+                    Đây là thông tin chú thích
                 </Text>
             </View>
             <View style={{ position: 'absolute', top: -5, left: 15, backgroundColor: priColor }}>
@@ -157,6 +157,15 @@ class ScannedProduct extends Component {
 
     }
 
+    encodeString = (text) => {
+        if (text !== null && text.length >= 1) {
+            const index = text.length >= 3 ? 3 : text.length;
+            let str = text.slice(0, -index);
+            return str + '***';
+        }
+        return text;
+    }
+
     render() {
         const images = [
             require('../../../assets/imgs/grape1.jpg'),
@@ -167,6 +176,12 @@ class ScannedProduct extends Component {
         let product = (
             <View style={{ backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
+                    <View style={{ padding: 5, marginBottom: 10 }}>
+                        <Text numberOfLines={2} ellipsizeMode='tail' style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm Thông tin vắn tắt sản phẩm </Text>
+                        <TouchableOpacity style={{ marginTop: 10, padding: 5, backgroundColor: '#92b742', width: 100, borderRadius: 5 }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
+                        </TouchableOpacity>
+                    </View>
                     <UppperLabel title='Đơn vị sở hữu mã vạch' content='CÔNG TY TNHH ABC' />
                     <UppperLabel title='Nhà sản xuất' content='CÔNG TY TNHH ABC' />
                     <UppperLabel title='Nhà nhập khẩu' content='CÔNG TY TNHH ABC' />
@@ -208,17 +223,28 @@ class ScannedProduct extends Component {
 
         let guarantee = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
-                <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
-                    <GuaranteeView brand='Hạn sử dụng' content='12/10/2018' />
-                    <GuaranteeView brand='Thời gian bảo hành' content='1 năm' />
-                    <GuaranteeView brand='Tình trạng' content='Còn hạn bảo hành' />
-                    <GuaranteeView brand='Số lô' content='88' />
-                </View>
-                <View style={{ marginTop: 10 }}>
-                    <UppperNotes title='Note' onChangeText={(text) => this.setState({ notes: text })} />
-                </View>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Sản phẩm</Text>
+                    <GuaranteeView brand='Ngày sản xuất' content='12/10/2017' />
+                    <GuaranteeView brand='Hạn sử dụng' content='1 năm' />
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <View style={{ flex: 0.5 }}>
+                            <GuaranteeView brand='Số lô' content='88' />
+                        </View>
+                        <View style={{ flex: 0.5 }}>
+                            <GuaranteeView brand='Ký hiệu' content='808' />
+                        </View>
+                    </View>
 
+                </View>
+                <View style={{ marginTop: 10, borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin bảo hành</Text>
+                    <GuaranteeView brand='Ngày kích hoạt' content='12/10/2017' />
+                    <GuaranteeView brand='Hạn bảo hành' content='12/10/2018' />
+                    <GuaranteeView brand='Tình trạng' content='Đang trong thời gian bảo hành' />
+                    <GuaranteeView brand='Sở hữu' content={this.encodeString('01642525299')} />
+                    <GuaranteeView brand='Note' content='Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích Đây là thông tin chú thích' />
+                </View>
             </View>
         );
 
@@ -255,12 +281,21 @@ class ScannedProduct extends Component {
                                 )}
                             />
                         </View>
-                        <View style={{ backgroundColor: 'white' }}>
-                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row' }}>
-                                <Text style={[{ flex: 0.3 }, styles.titleStyle]}>Sản phẩm</Text>
-                                <Text style={{ flex: 0.7, marginTop: 10, textAlign: 'center' }}>Nho Ninh Thuận</Text>
+                        <View style={{ backgroundColor: 'white', }}>
+                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 20, marginHorizontal: 10 }}>
+                                <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Sản phẩm:</Text>
+                                <Text style={[{ flex: 0.6 }, styles.titleStyle]}>Nho Ninh Thuận</Text>
                             </View>
-                            <Text style={{ color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', alignSelf: 'center', marginTop: 5, marginBottom: 5 }}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}: 12345678</Text>
+                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
+                                <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
+                                <TouchableOpacity onPress={() => text('01642525299', 'SMS text')} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                    <Text style={[styles.titleStyle]}>Click here to send SMS</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 20 }}>
+                                <Text style={[{ flex: 0.4 }, styles.titleStyle]}>{this.state.type === 1 ? 'Serial' : 'Mã vạch'}:</Text>
+                                <Text style={[{ flex: 0.6 }, styles.titleStyle]}>0998900980</Text>
+                            </View>
                         </View>
                         <View style={{ marginTop: 1 }}>
                             <Tabs locked={true} initialPage={0} style={{}} tabBarUnderlineStyle={{ backgroundColor: priColor }}>

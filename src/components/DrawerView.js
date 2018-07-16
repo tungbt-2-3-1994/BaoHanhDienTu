@@ -17,7 +17,7 @@ class DrawerView extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <Container>
-                    <Image source={require('../assets/imgs/logo.png')} style={{ alignSelf: 'center', width: 2 * width / 3, height: width / 3 }} />
+                    <Image source={require('../assets/imgs/logo.png')} style={{ alignSelf: 'center', width: 5 * width / 9, height: 10 * width / 27 }} />
                     <View style={{ width: 7 * width / 9, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)', opacity: 0.4 }}></View>
                     <ScrollView style={{ backgroundColor: priColor }}>
                         <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('MainTab')}>
@@ -56,7 +56,7 @@ class DrawerView extends Component {
                         </Button>
 
                     </ScrollView>
-                    <TouchableOpacity style={{ alignItems: 'center', alignSelf: 'center', flexDirection: 'row', backgroundColor: priColor, borderColor: 'white', borderWidth: 1, position: 'absolute', bottom: 0, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 30 }} onPress={() => alert('logout')}>
+                    <TouchableOpacity style={{ alignItems: 'center', alignSelf: 'center', flexDirection: 'row', backgroundColor: priColor, borderColor: 'white', borderWidth: 1, position: 'absolute', bottom: 0, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 30, marginBottom: 10 }} onPress={() => alert('logout')}>
                         <Icon active={true} style={[{ color: 'white' }]} name='ios-log-out-outline' />
                         <Text uppercase={false} style={[{ marginLeft: 10, color: 'white', fontSize: responsiveFontSize(2.2) }]}>Đăng xuất</Text>
                     </TouchableOpacity>

@@ -75,7 +75,7 @@ export default class Account extends Component {
         if (this.state.isLogin === false) {
             accountView = (
                 <View style={{ alignItems: 'center' }}>
-                    {this.state.show && <Image style={{ alignSelf: 'center', width: 2 * height / 5, height: height / 5 }} source={require('../../../assets/imgs/logo.png')} />}
+                    {this.state.show && <Image style={{ alignSelf: 'center', width: 1 * height / 4, height: height / 6 }} source={require('../../../assets/imgs/logo.png')} />}
                     < View style={{ borderWidth: 1, borderColor: 'white', width: width - 20, paddingHorizontal: 10, paddingVertical: 25, alignItems: 'center', marginTop: 20 }
                     }>
                         <Input
