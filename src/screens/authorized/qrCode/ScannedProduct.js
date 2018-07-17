@@ -120,6 +120,15 @@ const GuaranteeView = ({ brand, content }) => {
     );
 }
 
+const CustomerInfoView = ({ brand, content }) => {
+    return (
+        <Text style={{ marginBottom: 15, flex: 1 }}>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', flex: 0.3, }}>{brand}: </Text>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold', flex: 0.7 }}>{content}</Text>
+        </Text>
+    );
+}
+
 
 class ScannedProduct extends Component {
 
@@ -215,8 +224,31 @@ class ScannedProduct extends Component {
                     <CustomerView icon='envelope' brand='Mail:' content='tungbt1994@gmail.com' />
                     <CustomerView icon='map-marker' brand='Địa chỉ:' content='Cầu Giấy, Hà Nội' />
                 </View>
+                <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15, marginTop: 10 }}>
+                    <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin mua hàng</Text>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
+                        <View style={{ flex: 0.5 }}>
+                            <CustomerInfoView brand='Sản phẩm' content='QVRY12' />
+                        </View>
+                        <View style={{ flex: 0.5 }}>
+                            <CustomerInfoView brand='Tên sp' content='Xoong chảo' />
+                        </View>
+                    </View>
+                    <CustomerInfoView brand='Thương hiệu' content='Sunhouse' />
+                    <CustomerInfoView brand='Địa chỉ shop' content='Cầu Giấy' />
+                    <CustomerInfoView brand='Ngày mua' content='12/12/2018' />
+                    <CustomerInfoView brand='Địa chỉ' content='Hà Nội' />
+                </View>
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
                     <ListHeader title='Sản phẩm đã mua' size='1.7' />
+                    <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                            {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
+                        </ScrollView>
+                    </View>
+                </View>
+                <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
+                    <ListHeader title='Sản phẩm khuyến mại' size='1.7' />
                     <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                             {images.map((product, index) => (<SameProduct key={index.toString() + 'SameProduct'} item={product} />))}
