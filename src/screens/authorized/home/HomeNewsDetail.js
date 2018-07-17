@@ -21,13 +21,13 @@ class HomeNewsDetail extends Component {
                 <BackHeader navigation={this.props.navigation} title='Tin tức' />
                 <View style={{ flex: 1 }}>
                     <ScrollView>
-                        <Image style={{ width: width, height: height / 4, resizeMode: 'contain' }} source={{ uri: `${host_img}/static/common/img/tidings/${uri}` }} />
+                        <Image style={{ width: width, height: height / 4, resizeMode: 'cover' }} source={{ uri: `${host_img}/static/common/img/tidings/${uri}` }} />
+                        <View style={styles.foreground}>
+                            <Image style={{ width: width, height: height / 4, resizeMode: 'contain' }} source={{ uri: `${host_img}/static/common/img/tidings/${uri}` }} />
+                        </View>
                         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
                             <Text style={{ marginTop: 5, textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: 'bold' }}>{title}</Text>
-                            <Text style={{ marginTop: 10, textAlign: 'auto', fontSize: responsiveFontSize(1.5) }}>{content}</Text>
-                            <TouchableOpacity onPress={() => Linking.openURL(link)}>
-                                <Text style={{ color: '#1f14a4', fontSize: responsiveFontSize(1.5), marginTop: 10 }}>{link}</Text>
-                            </TouchableOpacity>
+                            <Text style={{ marginTop: 10, textAlign: 'auto', fontSize: responsiveFontSize(1.5), textAlignVertical: 'center' }}>{content}</Text>
                         </View>
                     </ScrollView>
                 </View>
@@ -42,6 +42,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
+    foreground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: height / 4,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 //make this component available to the app

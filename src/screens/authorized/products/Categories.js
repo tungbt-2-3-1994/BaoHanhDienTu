@@ -23,7 +23,7 @@ const ListHeader = ({ title, color }) => {
 
 const HotTrend = ({ navigation, uri, price }) => {
     return (
-        <TouchableOpacity onPress={() => { navigation.navigate('Detail') }} style={{ width: width / 3 - 6.66, height: null, flex: 1, marginRight: 5, backgroundColor: 'white', }}>
+        <TouchableOpacity onPress={() => { navigation.navigate('Detail') }} style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null, marginRight: 5, }}>
             {uri !== null ?
                 <Image source={{ uri: uri }} style={{ height: width / 3 - 6.66, width: width / 3 - 6.66, }} />
                 :
@@ -39,19 +39,19 @@ const HotTrend = ({ navigation, uri, price }) => {
 
 const hot_trend = [
     {
-        uri: 'http://honeys.vn/vnt_upload/product/01_2016/noi-inox-3-day-honeys-hop02s32401-24cm.jpg',
-        price: '50.000 vnđ',
-        name: 'Nổi lẩu gia đình cỡ lớn Nổi lẩu gia đình cỡ lớn Nổi lẩu gia đình cỡ lớn'
+        uri: 'https://www.thegioinuochoa.com.vn/img/1.png',
+        price: '500.000 vnđ',
+        name: 'Nước hoa Amo'
     },
     {
-        uri: 'http://honeys.vn/vnt_upload/product/01_2016/noi-inox-3-day-honeys-hop02s32401-24cm.jpg',
+        uri: 'http://thosuadieuhoa.net/wp-content/uploads/2016/03/dieu-hoa-toshiba.jpg',
         price: '50.000 vnđ',
-        name: 'Nổi lẩu gia đình cỡ lớn'
+        name: 'Điều hòa Toshiba'
     },
     {
-        uri: 'http://honeys.vn/vnt_upload/product/01_2016/noi-inox-3-day-honeys-hop02s32401-24cm.jpg',
+        uri: 'https://cdn.tgdd.vn/Products/Images/1943/100670/tu-lanh-samsung-rf56k9041sg-sv-190x190.png',
         price: '50.000 vnđ',
-        name: 'Nổi lẩu gia đình cỡ lớn'
+        name: 'Tủ lạnh Samsung'
     },
 ];
 
@@ -153,11 +153,35 @@ class Categories extends Component {
                 <View style={{ flex: 1, backgroundColor: priColor }}>
                     <ScrollView style={{ flex: 1, backgroundColor: priColor, }}>
                         <ListHeader color='red' title='SẢN PHẨM BÁN CHẠY' />
-                        <ScrollView style={{ paddingLeft: 5, backgroundColor: 'white' }} horizontal={true} pagingEnabled={true}>
+                        {/* <ScrollView style={{ paddingLeft: 5, backgroundColor: 'white' }} horizontal={true} pagingEnabled={true}>
                             {hot_trend.map((item, index) => {
                                 return <HotTrend key={index} uri={item.uri} price={item.price} navigation={this.props.navigation} />
                             })}
-                        </ScrollView>
+                        </ScrollView> */}
+                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                            <FlatList
+                                style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
+                                data={hot_trend}
+                                showsHorizontalScrollIndicator={false}
+                                horizontal={true}
+                                renderItem={({ item }) => {
+                                    return (
+                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                            <View style={{}}>
+                                                {item.uri !== null ?
+                                                    <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
+                                                    :
+                                                    <Image source={require('../../../assets/imgs/noImg.png')} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
+                                                }
+                                                <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingVertical: 15, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    );
+                                }}
+                                keyExtractor={(item, index) => item.name + index}
+                                ListEmptyComponent={this.renderEmpty}
+                            />
+                        </View>
                         <ListHeader color='yellow' title='NGÀNH HÀNG' />
                         <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 5 }}>
                             <FlatList
