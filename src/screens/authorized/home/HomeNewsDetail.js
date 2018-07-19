@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Linking, Platform, WebView } from 'react-native';
 
 import BackHeader from '../../../components/BackHeader';
 import { width, height } from '../../../constants/dimensions';
@@ -11,7 +11,7 @@ import { host_img } from '../../../constants/api';
 class HomeNewsDetail extends Component {
 
     componentDidMount() {
-        console.log(this.props.navigation.state.params);
+        // console.log(this.props.navigation.state.params);
     }
 
     render() {
@@ -21,13 +21,13 @@ class HomeNewsDetail extends Component {
                 <BackHeader navigation={this.props.navigation} title='Tin tức' />
                 <View style={{ flex: 1 }}>
                     <ScrollView>
-                        <Image style={{ width: width, height: height / 4, resizeMode: 'cover' }} source={{ uri: `${host_img}/static/common/img/tidings/${uri}` }} />
+                        <Image style={{ width: width, height: height / 4, resizeMode: 'cover' }} source={{ uri: uri }} />
                         <View style={styles.foreground}>
-                            <Image style={{ width: width, height: height / 4, resizeMode: 'contain' }} source={{ uri: `${host_img}/static/common/img/tidings/${uri}` }} />
+                            <Image style={{ width: width, height: height / 4, resizeMode: 'contain' }} source={{ uri: uri }} />
                         </View>
                         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
                             <Text style={{ marginTop: 5, textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: 'bold' }}>{title}</Text>
-                            <Text style={{ marginTop: 10, textAlign: 'auto', fontSize: responsiveFontSize(1.5), textAlignVertical: 'center' }}>{content}</Text>
+                            <Text style={{ marginTop: 10, textAlign: 'justify', fontSize: responsiveFontSize(1.5), }}>{content}</Text>
                         </View>
                     </ScrollView>
                 </View>
