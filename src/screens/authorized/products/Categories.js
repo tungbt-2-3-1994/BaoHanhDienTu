@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, TouchableHighlight } from 'react-native';
+import { View, FlatList, Image, TouchableOpacity, ActivityIndicator, ScrollView, TouchableHighlight, RefreshControl, Platform } from 'react-native';
 import NormalHeader from '../../../components/NormalHeader';
 
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
@@ -11,6 +11,7 @@ import { width, height } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
 import { priColor } from '../../../constants/colors';
+import { host } from '../../../constants/api';
 
 const ListHeader = ({ title, color }) => {
     return (
@@ -128,19 +129,143 @@ class Categories extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            refreshing: false
+            loading_popular_category: false,
+            loading_extend_category: false,
+            loading_hot_products: false,
+            loading_all_products: false,
+            popular_category: [],
+            hot_trend: [],
+            all_products: [],
+            extend_category: [],
+            loadMore: false
         }
     }
 
-    renderEmpty = () => {
-        if (this.props.categories.loading === true) {
+    componentDidMount() {
+        this.setState({ loading_popular_category: true, loading_extend_category: true, loading_all_products: true, loading_hot_products: true });
+
+        fetch(`${host}/categories/normal`)
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.code === 200) {
+                    this.setState({
+                        popular_category: responseData.data,
+                    });
+                }
+                this.setState({ loading_popular_category: false });
+            })
+            .catch(e => {
+                this.setState({ loading_popular_category: false });
+                alert('Có lỗi khi lấy ngành hàng');
+            });
+
+        fetch(`${host}/categories/expansion`)
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.code === 200) {
+                    this.setState({
+                        extend_category: responseData.data,
+                    });
+                }
+                this.setState({ loading_extend_category: false });
+            })
+            .catch(e => {
+                this.setState({ loading_extend_category: false });
+                alert('Có lỗi khi lấy ngành hàng mở rộng');
+            });
+
+        fetch(`${host}/products?sort_by=discount&sort_type=desc&per_page=10`)
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.code === 200) {
+                    this.setState({
+                        hot_trend: responseData.data,
+                    });
+                }
+                this.setState({ loading_hot_products: false });
+            })
+            .catch(e => {
+                this.setState({ loading_hot_products: false });
+                alert('Có lỗi khi lấy sản phẩm hot');
+            });
+
+        fetch(`${host}/products`)
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.code === 200) {
+                    this.setState({
+                        all_products: responseData.data,
+                    });
+                }
+                this.setState({ loading_all_products: false });
+            })
+            .catch(e => {
+                this.setState({ loading_all_products: false });
+                alert('Có lỗi khi lấy tất cả sản phẩm');
+            });
+    }
+
+    renderCategoryEmpty = () => {
+        if (this.state.loading_popular_category === true) {
             return (
                 <ActivityIndicator animating={true} color={priColor} size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có phân khúc sản phẩm nào</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có ngành hàng nào</Text>
+            </View>
+        );
+    }
+
+    renderExtendCategoryEmpty = () => {
+        if (this.state.loading_extend_category === true) {
+            return (
+                <ActivityIndicator animating={true} color={priColor} size='large' />
+            );
+        }
+        return (
+            <View>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có ngành hàng nào</Text>
+            </View>
+        );
+    }
+
+    renderHotProductsEmpty = () => {
+        if (this.state.loading_hot_products === true) {
+            return (
+                <ActivityIndicator animating={true} color={priColor} size='large' />
+            );
+        }
+        return (
+            <View>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có ngành hàng nào</Text>
+            </View>
+        );
+    }
+
+    renderAllProductsEmpty = () => {
+        if (this.state.loading_all_products === true) {
+            return (
+                <ActivityIndicator animating={true} color={priColor} size='large' />
+            );
+        }
+        return (
+            <View>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có ngành hàng nào</Text>
+            </View>
+        );
+    }
+
+    handleLoadMore = () => {
+        this.setState({ loadMore: true });
+    }
+
+    renderProductsFooter = () => {
+        if (!this.state.loadMore) return null;
+        return (
+            <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator color='white' animating={true} size='large' />
             </View>
         );
     }
@@ -153,23 +278,18 @@ class Categories extends Component {
                 <View style={{ flex: 1, backgroundColor: priColor }}>
                     <ScrollView style={{ flex: 1, backgroundColor: priColor, }}>
                         <ListHeader color='red' title='SẢN PHẨM BÁN CHẠY' />
-                        {/* <ScrollView style={{ paddingLeft: 5, backgroundColor: 'white' }} horizontal={true} pagingEnabled={true}>
-                            {hot_trend.map((item, index) => {
-                                return <HotTrend key={index} uri={item.uri} price={item.price} navigation={this.props.navigation} />
-                            })}
-                        </ScrollView> */}
-                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                        <View style={{ backgroundColor: 'white', paddingVertical: 10, alignItems: 'center' }}>
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
-                                data={hot_trend}
+                                data={this.state.hot_trend}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 renderItem={({ item }) => {
                                     return (
                                         <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                {item.uri !== null ?
-                                                    <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
+                                                {item.logo !== null ?
+                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
                                                     :
                                                     <Image source={require('../../../assets/imgs/noImg.png')} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
                                                 }
@@ -179,69 +299,72 @@ class Categories extends Component {
                                     );
                                 }}
                                 keyExtractor={(item, index) => item.name + index}
-                                ListEmptyComponent={this.renderEmpty}
+                                ListEmptyComponent={this.renderHotProductsEmpty}
                             />
                         </View>
                         <ListHeader color='yellow' title='NGÀNH HÀNG' />
                         <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 5 }}>
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
-                                data={popular_category}
+                                data={this.state.popular_category}
                                 numColumns={3}
                                 renderItem={({ item }) => {
                                     return (
                                         <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
-                                                <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                                <Image source={{ uri: item.image }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
+                                                <Text numberOfLines={3} ellipsizeMode='tail' style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
-
                                         </TouchableOpacity>
                                     );
                                 }}
                                 keyExtractor={(item, index) => item.name + index}
-                                ListEmptyComponent={this.renderEmpty}
+                                ListEmptyComponent={this.renderCategoryEmpty}
                             />
                         </View>
                         <ListHeader color='yellow' title='NGÀNH MỞ RỘNG' />
-                        <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
+                        <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 5 }}>
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
-                                data={extend_category}
-                                horizontal={true}
+                                data={this.state.extend_category}
+                                numColumns={3}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null, marginRight: 5, }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
-                                                <Text numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                                <Image source={{ uri: item.image }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
+                                                <Text numberOfLines={3} ellipsizeMode='tail' style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     );
                                 }}
                                 keyExtractor={(item, index) => item.name + index}
-                                ListEmptyComponent={this.renderEmpty}
+                                ListEmptyComponent={this.renderExtendCategoryEmpty}
                             />
                         </View>
                         <ListHeader color='blue' title='SẢN PHẨM' />
                         <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
-                                data={all_products}
+                                data={this.state.all_products}
                                 showsHorizontalScrollIndicator={false}
+                                onEndReached={this.handleLoadMore}
+                                onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.1}
                                 horizontal={true}
+                                ListFooterComponent={this.renderProductsFooter}
+                                removeClippedSubviews={true}
                                 renderItem={({ item }) => {
                                     return (
                                         <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
                                             <View style={{}}>
-                                                <Image source={{ uri: item.uri }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
-                                                <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                                <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
+                                                <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingVertical: 20, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     );
                                 }}
                                 keyExtractor={(item, index) => item.name + index}
-                                ListEmptyComponent={this.renderEmpty}
+                                ListEmptyComponent={this.renderAllProductsEmpty}
                             />
                         </View>
                     </ScrollView>
