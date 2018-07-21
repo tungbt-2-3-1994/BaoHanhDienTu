@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Image, TouchableHighlight, FlatList, TouchableOpacity, ActivityIndicator, Platform, ScrollView } from 'react-native';
 
-import BackHeader from '../../../components/BackHeader';
+import BackSearchHeader from '../../../components/BackSearchHeader';
 
-import ImageSlider from 'react-native-image-slider';
 import { width, height } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
@@ -37,14 +36,20 @@ class Products extends Component {
 
     componentDidMount() {
         const { id } = this.props.navigation.state.params;
-        console.log(this.state.loading);
-        this.setState({ loading: true }, () => {
+        // console.log(this.state.loading);
+        this.setState({
+            loading: true
+        }, () => {
             fetch(`${host}/categories/${id}?per_page=12&page=${this.state.current_page}`)
                 .then(res => res.json())
                 .then(resData => {
                     // console.log(resData);
                     if (resData.code === 200) {
-                        this.setState({ products: resData.data, loading: false, total_page: resData.last_page });
+                        this.setState({
+                            products: resData.data,
+                            loading: false,
+                            total_page: resData.last_page
+                        });
                     }
                 })
                 .catch(e => {
@@ -83,12 +88,12 @@ class Products extends Component {
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color='red' size='large' />
+                <ActivityIndicator style={{ alignSelf: 'center' }} animating={true} color={priColor} size='large' />
             );
         }
         return (
             <View>
-                <Text style={{ textAlign: 'center', alignSelf: 'center', fontSize: responsiveFontSize(2), color: priColor }}>Không có mặt hàng nào trong danh mục này</Text>
+                <Text style={{ alignSelf: 'center', fontSize: 20, color: priColor }}>Không có ngành hàng nào</Text>
             </View>
         );
     }
@@ -106,24 +111,31 @@ class Products extends Component {
         const { title, uri } = this.props.navigation.state.params;
         return (
             <View style={styles.container}>
-                <BackHeader navigation={this.props.navigation} />
+                <BackSearchHeader navigation={this.props.navigation} />
                 <View style={{ flex: 1, backgroundColor: 'white' }}>
-                    <View style={{ width: width, height: height / 5 }}>
+                    {/* <View style={{ width: width, height: height / 5 }}>
                         <Image source={{ uri: uri }} style={styles.customImage} />
+                    </View>
+                    <View style={styles.foreground}>
+                        <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: uri }} />
+                    </View> */}
+                    <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: uri }} />
+                    <View style={styles.foreground}>
+                        <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: uri }} />
                     </View>
                     <ListHeader title={title} color='blue' />
                     <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 10, flex: 1 }}>
                         <FlatList
-                            style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white', }}
+                            style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white', flex: 1 }}
                             data={this.state.products}
                             numColumns={3}
                             onEndReached={this.handleLoadMore}
                             onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
                             ListFooterComponent={this.renderFooter}
-                            removeClippedSubviews={true}
+                            // removeClippedSubviews={true}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                    <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail', { item: item }) }}>
                                         <View style={{}}>
                                             <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
                                             <Text numberOfLines={3} ellipsizeMode='tail' style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
@@ -135,7 +147,6 @@ class Products extends Component {
                             ListEmptyComponent={this.renderEmpty}
                         />
                     </View>
-                    {/* </ScrollView> */}
                 </View>
             </View>
         );
@@ -183,6 +194,16 @@ const styles = StyleSheet.create({
         height: null,
         flex: 1,
         resizeMode: 'contain'
+    },
+    foreground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: height / 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 

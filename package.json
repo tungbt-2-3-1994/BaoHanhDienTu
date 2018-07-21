@@ -27,6 +27,7 @@
     "react-native-modalbox": "^1.4.2",
     "react-native-permissions": "^1.1.1",
     "react-native-progress": "^3.5.0",
+    "react-native-render-html": "^3.10.0",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^1.5.11",
     "react-navigation-redux-helpers": "^1.0.5",

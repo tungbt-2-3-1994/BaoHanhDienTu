@@ -34,8 +34,8 @@ const CrossText = ({ text }) => {
 class Detail extends Component {
 
     componentDidMount() {
-
-
+        const { item } = this.props.navigation.state.params;
+        console.log('item', item);
     }
 
     componentWillUnmount() {
@@ -69,12 +69,14 @@ class Detail extends Component {
             require('../../../assets/imgs/grape4.jpeg'),
         ];
 
+        const { item } = this.props.navigation.state.params;
+
         return (
             <View style={styles.container}>
                 <BackHeader navigation={this.props.navigation} title='CHI TIẾT SẢN PHẨM' />
                 <View style={{ flex: 1, paddingBottom: height / 16 }}>
                     <ScrollView style={{ backgroundColor: priColor, flex: 1 }}>
-                        <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
+                        {/* <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
                             <ImageSlider
                                 loopBothSides
                                 autoPlayWithInterval={3000}
@@ -101,19 +103,26 @@ class Detail extends Component {
                                     </View>
                                 )}
                             />
+                        </View> */}
+                        <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: item.logo }} />
+                        <View style={styles.foreground}>
+                            <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: item.logo }} />
                         </View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20 }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Điều hòa Panasonic PC12GKH</Text>
-                            <Text style={{ fontSize: responsiveFontSize(1.6), color: 'white', marginTop: 10 }}>Đơn vị: Chiếc</Text>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>{item.name.toUpperCase()}</Text>
+                            {/* <Text style={{ fontSize: responsiveFontSize(1.6), color: 'white', marginTop: 10 }}>Đơn vị: Chiếc</Text> */}
                             <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 20 }}>
-                                <Text style={{ fontSize: responsiveFontSize(1.6), color: 'yellow' }}>500.000 vnđ</Text>
+                                <Text style={{ fontSize: responsiveFontSize(2), color: 'yellow' }}>{item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} vnđ</Text>
                             </View>
                             <View style={{ padding: 1, marginTop: 20 }}>
-                                <Text style={{ zIndex: 2, padding: 0, fontSize: responsiveFontSize(1.6), color: 'white', }}>Điều hòa Panasonic PC12GKH tiết kiệm điện, làm sạch môi trường. Tự động ngắt điện khi đã đủ nhiệt. More info</Text>
+                                <Text style={{ zIndex: 2, padding: 0, fontSize: responsiveFontSize(1.6), color: 'white', }}>{item.description}</Text>
                             </View>
+                            <TouchableOpacity style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
+                                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
-                        <View style={{ paddingHorizontal: 10, paddingTop: 5, paddingBottom: 10 }}>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
                             <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
                             <FlatList
                                 style={{ marginBottom: 5, marginTop: 15 }}
@@ -132,7 +141,7 @@ class Detail extends Component {
                                                     <CrossText text='200.000vnđ' />
                                                     <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -50%</Text>
                                                 </View>
-                                                <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingBottom: 2 }}>
+                                                <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingVertical: 2, paddingHorizontal: 5 }}>
                                                     <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.6) }}>Mua ngay</Text>
                                                 </TouchableOpacity>
                                             </View>
@@ -202,6 +211,16 @@ const styles = StyleSheet.create({
         height: null,
         flex: 1
     },
+    foreground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: height / 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 export default Detail;

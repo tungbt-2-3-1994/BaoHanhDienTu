@@ -352,7 +352,7 @@ export default class Home extends Component {
                     <View style={{ flex: 1 }}></View>
                 </View>
                 <View style={{ flex: 1, backgroundColor: priColor, }}>
-                    <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
+                    <View style={{ width: width, height: 2 * width / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
                         <ImageSlider
                             loopBothSides
                             autoPlayWithInterval={3000}
