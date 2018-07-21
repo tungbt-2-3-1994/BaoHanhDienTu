@@ -38,89 +38,6 @@ const HotTrend = ({ navigation, uri, price }) => {
     );
 }
 
-const hot_trend = [
-    {
-        uri: 'https://www.thegioinuochoa.com.vn/img/1.png',
-        price: '500.000 vnđ',
-        name: 'Nước hoa Amo'
-    },
-    {
-        uri: 'http://thosuadieuhoa.net/wp-content/uploads/2016/03/dieu-hoa-toshiba.jpg',
-        price: '50.000 vnđ',
-        name: 'Điều hòa Toshiba'
-    },
-    {
-        uri: 'https://cdn.tgdd.vn/Products/Images/1943/100670/tu-lanh-samsung-rf56k9041sg-sv-190x190.png',
-        price: '50.000 vnđ',
-        name: 'Tủ lạnh Samsung'
-    },
-];
-
-const popular_category = [
-    {
-        uri: 'http://bizweb.dktcdn.net/100/074/637/files/91zwiajhz-plus-l-sl1500-copy.jpg?v=1495704707827',
-        name: 'Đồ Gia Dụng'
-    },
-    {
-        uri: 'http://maylocnuocviet.com/data_store/anhdaidien/may-loc-nuoc-kangaroo-kg-104-uv-tu-vtu.jpg',
-        name: 'Máy Lọc Nước'
-    },
-    {
-        uri: 'https://images-na.ssl-images-amazon.com/images/I/71HG3D8-OQL._SL1350_.jpg',
-        name: 'Điện Tử'
-    },
-    {
-        uri: 'http://img1.baza.vn/upload/products-var-721iNnw1/yNlMZqX1large.jpg?v=634902362718235839',
-        name: 'Trang Sức'
-    },
-    {
-        uri: 'https://donghoeverest.vn/wp-content/uploads/2016/09/4-1.jpg',
-        name: 'Đồng Hồ'
-    },
-    {
-        uri: 'http://suachuamaygiat.vn/wp-content/uploads/2013/06/sua-may-giat-electrolux51.jpg',
-        name: 'Điện Lạnh'
-    },
-];
-
-const extend_category = [
-    {
-        uri: 'http://gl.amthuc365.vn/uploads/thumbs/News-thumb/379-333-ham-luong-duong-qua-nhieu-trong-do-uong-cc6a.jpg',
-        name: 'Đồ Uống'
-    },
-    {
-        uri: 'https://chamchut.com/wp-content/uploads/2018/05/04-luu-y-cach-chon-hop-dung-thuc-pham-an-toan.jpg',
-        name: 'Thực phẩm'
-    },
-    {
-        uri: 'http://thammyhanquoc.vn/wp-content/uploads/2017/07/th%E1%BA%A9m-m%E1%BB%B9-m%E1%BA%AFt-cicle-eye.jpg',
-        name: 'Làm Đẹp'
-    },
-];
-
-const all_products = [
-    {
-        uri: 'http://gl.amthuc365.vn/uploads/thumbs/News-thumb/379-333-ham-luong-duong-qua-nhieu-trong-do-uong-cc6a.jpg',
-        name: 'Nước sinh tố'
-    },
-    {
-        uri: 'http://suachuamaygiat.vn/wp-content/uploads/2013/06/sua-may-giat-electrolux51.jpg',
-        name: 'Máy giặt Samsung'
-    },
-    {
-        uri: 'https://donghoeverest.vn/wp-content/uploads/2016/09/4-1.jpg',
-        name: 'Đồng hồ Rolex'
-    },
-    {
-        uri: 'http://maylocnuocviet.com/data_store/anhdaidien/may-loc-nuoc-kangaroo-kg-104-uv-tu-vtu.jpg',
-        name: 'Máy lọc nước Kangaroo'
-    },
-    {
-        uri: 'https://images-na.ssl-images-amazon.com/images/I/71HG3D8-OQL._SL1350_.jpg',
-        name: 'Macbook Pro 2017'
-    },
-];
-
 class Categories extends Component {
 
     static navigationOptions = {
@@ -137,7 +54,9 @@ class Categories extends Component {
             hot_trend: [],
             all_products: [],
             extend_category: [],
-            loadMore: false
+            loadMore: false,
+            current_page: 1,
+            total_page: 10000,
         }
     }
 
@@ -189,12 +108,13 @@ class Categories extends Component {
                 alert('Có lỗi khi lấy sản phẩm hot');
             });
 
-        fetch(`${host}/products`)
+        fetch(`${host}/products?page=${this.state.current_page}`)
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.code === 200) {
                     this.setState({
                         all_products: responseData.data,
+                        total_page: responseData.last_page
                     });
                 }
                 this.setState({ loading_all_products: false });
@@ -247,7 +167,9 @@ class Categories extends Component {
     renderAllProductsEmpty = () => {
         if (this.state.loading_all_products === true) {
             return (
-                <ActivityIndicator animating={true} color={priColor} size='large' />
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator style={{ marginLeft: width / 2 - 26 }} animating={true} color={priColor} size='large' />
+                </View>
             );
         }
         return (
@@ -258,14 +180,32 @@ class Categories extends Component {
     }
 
     handleLoadMore = () => {
-        this.setState({ loadMore: true });
+        if (this.state.current_page + 1 < this.state.total_page) {
+            this.setState({ loadMore: true, current_page: this.state.current_page + 1 }, () => {
+                fetch(`${host}/products?page=${this.state.current_page}`)
+                    .then(response => response.json())
+                    .then(responseData => {
+                        if (responseData.code === 200) {
+                            this.setState({
+                                all_products: [...this.state.all_products, ...responseData.data],
+                            });
+                        }
+                        this.setState({ loadMore: false });
+                    })
+                    .catch(e => {
+                        this.setState({ loadMore: false });
+                        alert('Có lỗi khi lấy thêm sản phẩm');
+                    });
+            });
+        }
+
     }
 
     renderProductsFooter = () => {
         if (!this.state.loadMore) return null;
         return (
-            <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator color='white' animating={true} size='large' />
+            <View style={{ height: null, flex: 1, width: 50, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator color={priColor} animating={true} size='large' />
             </View>
         );
     }
@@ -349,7 +289,7 @@ class Categories extends Component {
                                 data={this.state.all_products}
                                 showsHorizontalScrollIndicator={false}
                                 onEndReached={this.handleLoadMore}
-                                onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.1}
+                                onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
                                 horizontal={true}
                                 ListFooterComponent={this.renderProductsFooter}
                                 removeClippedSubviews={true}
