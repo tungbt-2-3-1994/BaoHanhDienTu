@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableHighlight, FlatList, TouchableOpacity, ActivityIndicator, Platform } from 'react-native';
+import { View, StyleSheet, Image, TouchableHighlight, FlatList, TouchableOpacity, ActivityIndicator, Platform, ScrollView } from 'react-native';
 
 import BackHeader from '../../../components/BackHeader';
 
@@ -10,11 +10,13 @@ import { responsiveFontSize } from '../../../utils/helpers';
 
 import { Tab, Tabs, Button, Icon, Text, Card, Body } from 'native-base';
 import { priColor } from '../../../constants/colors';
+import { host } from '../../../constants/api';
 
-const ListHeader = ({ title }) => {
+const ListHeader = ({ title, color }) => {
     return (
-        <View style={{ backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, marginBottom: 5, marginTop: 10 }}>
-            <Text style={{ color: priColor, fontSize: responsiveFontSize(1.5), fontWeight: 'bold' }}>{title}</Text>
+        <View style={{ backgroundColor: priColor, flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, }}>
+            <View style={{ backgroundColor: color, width: responsiveFontSize(1.5), height: responsiveFontSize(3), marginRight: 10 }}></View>
+            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.9), fontWeight: 'bold' }}>{title}</Text>
         </View>
     );
 }
@@ -27,51 +29,61 @@ class Products extends Component {
         this.state = {
             products: [],
             loading: true,
-            page: 1,
-            resfreshing: false,
+            current_page: 1,
+            loadingMore: false,
             total_page: 1000
         }
     }
 
-    componentWillMount() {
-        console.log('Products', this.props.navigation.state.params);
-        const { id } = this.props.navigation.state.params.item;
-        fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id}`)
-            .then(res => res.json())
-            .then(resData => {
-                console.log(resData)
-                if (resData.code === 200) {
-                    this.setState({ products: resData.data.products, loading: false, total_page: resData.data.total_page });
-                }
-            })
-    }
-
-    handleLoadMore = () => {
-        const { id } = this.props.navigation.state.params.item;
-        this.setState({
-            page: this.state.page + 1,
-            refreshing: true
-        }, () => {
-            fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id}?page=${this.state.page}`)
+    componentDidMount() {
+        const { id } = this.props.navigation.state.params;
+        console.log(this.state.loading);
+        this.setState({ loading: true }, () => {
+            fetch(`${host}/categories/${id}?per_page=12&page=${this.state.current_page}`)
                 .then(res => res.json())
                 .then(resData => {
+                    // console.log(resData);
                     if (resData.code === 200) {
-                        this.setState({
-                            products: [...this.state.products, ...resData.data.products],
-                            refreshing: false
-                        });
+                        this.setState({ products: resData.data, loading: false, total_page: resData.last_page });
                     }
                 })
                 .catch(e => {
-                    this.setState({ refreshing: false });
-                })
+                    alert('Có lỗi khi lấy sản phẩm về');
+                    this.setState({ loading: false });
+                });
         });
+
+    }
+
+    handleLoadMore = () => {
+        if (this.state.current_page + 1 < this.state.total_page) {
+            const { id } = this.props.navigation.state.params;
+            this.setState({
+                current_page: this.state.current_page + 1,
+                loadingMore: true
+            }, () => {
+                fetch(`${host}/categories/${id}?per_page=12&page=${this.state.current_page}`)
+                    .then(res => res.json())
+                    .then(resData => {
+                        // console.log(resData);
+                        if (resData.code === 200) {
+                            this.setState({
+                                products: [...this.state.products, ...resData.data],
+                                loadingMore: false
+                            });
+                        }
+                    })
+                    .catch(e => {
+                        this.setState({ loadingMore: false });
+                    })
+            });
+        }
     }
 
     renderEmpty = () => {
         if (this.state.loading === true) {
             return (
-                <ActivityIndicator animating={true} color={priColor} size='large' />
+                <ActivityIndicator animating={true} color='red' size='large' />
             );
         }
         return (
@@ -82,55 +94,48 @@ class Products extends Component {
     }
 
     renderFooter = () => {
-        if (!this.state.refreshing || this.state.page >= this.state.total_page) return null;
+        if (!this.state.loadingMore) return null;
         return (
-            <View style={{ height: 50, width: width, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: 100, width: width, justifyContent: 'center', alignItems: 'center' }}>
                 <ActivityIndicator color={priColor} animating={true} size='large' />
             </View>
         );
     }
 
     render() {
-        const { name } = this.props.navigation.state.params.item;
+        const { title, uri } = this.props.navigation.state.params;
         return (
             <View style={styles.container}>
-                <BackHeader navigation={this.props.navigation} title={name} />
-                < View style={{ flex: 1, backgroundColor: '#eceaeb' }}>
+                <BackHeader navigation={this.props.navigation} />
+                <View style={{ flex: 1, backgroundColor: 'white' }}>
                     <View style={{ width: width, height: height / 5 }}>
-                        <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/categories/${this.props.navigation.state.params.logo}` }} style={styles.customImage} />
+                        <Image source={{ uri: uri }} style={styles.customImage} />
                     </View>
-                    <ListHeader title='Sản phẩm' />
-                    <FlatList
-                        style={{ paddingHorizontal: 3, }}
-                        data={this.state.products}
-                        refreshing={this.state.refreshing}
-                        onRefresh={this.handleRefresh}
-                        onEndReached={this.handleLoadMore}
-                        onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0}
-                        ListFooterComponent={this.renderFooter}
-                        numColumns={3}
-                        renderItem={({ item }) => {
-                            return (
-                                <TouchableOpacity style={{}} onPress={() => this.props.navigation.navigate('Detail', item.gtin)}>
-                                    <Card style={{ width: (width - 20) / 3, backgroundColor: 'white' }}>
-                                        <View>
-                                            <Body>
-                                                <Image source={{ uri: `https://vatapcheck.com.vn/static/common/img/products/${item.logo}` }} style={{ height: (width - 20) / 3, width: (width - 20) / 3, flex: 1, resizeMode: 'stretch' }} />
-                                                <Text style={{ padding: 3, textAlign: 'center', fontSize: responsiveFontSize(1.5) }}>
-                                                    {item.name}
-                                                </Text>
-                                                <Text style={{ padding: 3, textAlign: 'center', opacity: 0.9, fontSize: responsiveFontSize(1.5), color: priColor }}>
-                                                    {item.price !== null ? item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') : '0'}đ
-                                                </Text>
-                                            </Body>
+                    <ListHeader title={title} color='blue' />
+                    <View style={{ backgroundColor: 'white', paddingTop: 10, paddingBottom: 10, flex: 1 }}>
+                        <FlatList
+                            style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white', }}
+                            data={this.state.products}
+                            numColumns={3}
+                            onEndReached={this.handleLoadMore}
+                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
+                            ListFooterComponent={this.renderFooter}
+                            removeClippedSubviews={true}
+                            renderItem={({ item }) => {
+                                return (
+                                    <TouchableOpacity style={{ backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 40) / 3, flex: 1, height: null, marginRight: 5, marginBottom: 5 }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <View style={{}}>
+                                            <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 40) / 9, height: 2 * (width - 40) / 9, resizeMode: 'contain' }} />
+                                            <Text numberOfLines={3} ellipsizeMode='tail' style={{ paddingVertical: 12, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                         </View>
-                                    </Card>
-                                </TouchableOpacity>
-                            );
-                        }}
-                        keyExtractor={(item, index) => item.id + index + item.gtin}
-                        ListEmptyComponent={this.renderEmpty}
-                    />
+                                    </TouchableOpacity>
+                                );
+                            }}
+                            keyExtractor={(item, index) => item.name + index + item.gtin + item.id + 'products'}
+                            ListEmptyComponent={this.renderEmpty}
+                        />
+                    </View>
+                    {/* </ScrollView> */}
                 </View>
             </View>
         );

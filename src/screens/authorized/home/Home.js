@@ -395,7 +395,7 @@ export default class Home extends Component {
                             }
                             ItemSeparatorComponent={this.separateView}
                             onEndReached={this.handleLoadMore}
-                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.1}
+                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
                             ListFooterComponent={this.renderDiscountFooter}
                             removeClippedSubviews={true}
                             renderItem={({ item }) => {
