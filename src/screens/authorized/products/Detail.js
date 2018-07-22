@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableHighlight, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableHighlight, TouchableOpacity, FlatList, ScrollView, ActivityIndicator } from 'react-native';
 
 import BackHeader from '../../../components/BackHeader';
 import { width, height } from '../../../constants/dimensions';
@@ -25,26 +25,30 @@ class Detail extends Component {
         super(props);
         this.state = {
             same_products: [],
-            product: {}
+            product: {},
+            loading: true
         }
     }
 
     componentWillMount() {
 
         const { item } = this.props.navigation.state.params;
+        // console.log('item', item.organization_id);
         this.setState({ product: item });
 
-        fetch(`${host}/organizations/${item.organization_id}/products?per_page=5`)
+        fetch(`${host}/organizations/${item.organization_id}/products?per_page=10`)
             .then(res => res.json())
             .then(resData => {
                 if (resData.code === 200) {
                     this.setState({
                         same_products: resData.data,
+                        loading: false
                     });
                 }
             })
             .catch(e => {
                 alert('Có lỗi khi lấy sản phẩm về');
+                this.setState({ loading: false });
             });
     }
 

@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import Products from '../screens/authorized/products/Products';
 import Categories from '../screens/authorized/products/Categories';
 import Detail from '../screens/authorized/products/Detail';
-// import Map from '../screens/authorized/products/Map';
+import AllProducts from '../screens/authorized/products/AllProducts';
 
 const ProductsStack = StackNavigator({
     Categories: {
@@ -15,9 +15,9 @@ const ProductsStack = StackNavigator({
     Detail: {
         screen: Detail
     },
-    // Map: {
-    //     screen: Map
-    // }
+    AllProducts: {
+        screen: AllProducts
+    }
 }, {
         navigationOptions: {
             header: null

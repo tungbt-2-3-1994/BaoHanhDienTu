@@ -13,7 +13,21 @@ import { responsiveFontSize } from '../../../utils/helpers';
 import { priColor } from '../../../constants/colors';
 import { host } from '../../../constants/api';
 
-const ListHeader = ({ title, color }) => {
+const ListProductHeader = ({ title, color, onPress }) => {
+    return (
+        <View style={{ flexDirection: 'row', paddingHorizontal: 10, justifyContent: 'space-between', alignItems: 'center', paddingVertical: 15, }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ backgroundColor: color, width: responsiveFontSize(1.5), height: responsiveFontSize(3), marginRight: 10 }}></View>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.9), fontWeight: 'bold' }}>{title}</Text>
+            </View>
+            <TouchableOpacity onPress={onPress}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7) }}>Xem thêm ></Text>
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+const ListHeader = ({ title, color, onPress }) => {
     return (
         <View style={{ flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center', paddingVertical: 15, }}>
             <View style={{ backgroundColor: color, width: responsiveFontSize(1.5), height: responsiveFontSize(3), marginRight: 10 }}></View>
@@ -226,7 +240,7 @@ class Categories extends Component {
                                 horizontal={true}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail', { item: item }) }}>
                                             <View style={{}}>
                                                 {item.logo !== null ?
                                                     <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
@@ -284,7 +298,7 @@ class Categories extends Component {
                                 ListEmptyComponent={this.renderExtendCategoryEmpty}
                             />
                         </View>
-                        <ListHeader color='blue' title='SẢN PHẨM' />
+                        <ListProductHeader color='blue' title='SẢN PHẨM' onPress={() => this.props.navigation.navigate('AllProducts')} />
                         <View style={{ backgroundColor: 'white', paddingVertical: 10 }}>
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
@@ -297,10 +311,10 @@ class Categories extends Component {
                                 removeClippedSubviews={true}
                                 renderItem={({ item }) => {
                                     return (
-                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail') }}>
+                                        <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: 'white', borderColor: 'rgba(0, 0, 0, 0.3)', borderWidth: 1, width: (width - 30) / 3, flex: 1, height: null }} onPress={() => { this.props.navigation.navigate('Detail', { item: item }) }}>
                                             <View style={{}}>
                                                 <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: 2 * (width - 30) / 9, height: 2 * (width - 30) / 9, resizeMode: 'contain' }} />
-                                                <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingVertical: 20, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
+                                                <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingBottom: 28, paddingTop: 10, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     );
