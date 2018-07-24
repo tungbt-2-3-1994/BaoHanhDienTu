@@ -79,8 +79,8 @@ const styles = {
         justifyContent: 'center',
     },
     img: {
-        width: width * 3 / 4,
-        height: width / 2,
+        width: width,
+        height: 2 * width / 3,
         resizeMode: 'contain'
     }
 };

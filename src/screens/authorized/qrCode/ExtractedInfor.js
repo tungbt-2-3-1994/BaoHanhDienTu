@@ -84,10 +84,8 @@ class ExtractedInfor extends Component {
 
     render() {
         const images = [
-            require('../../../assets/imgs/grape1.jpg'),
-            require('../../../assets/imgs/grape2.jpeg'),
-            require('../../../assets/imgs/grape3.jpg'),
-            require('../../../assets/imgs/grape4.jpeg'),
+            require('../../../assets/imgs/banner1.png'),
+            require('../../../assets/imgs/banner2.png'),
         ];
 
         return (

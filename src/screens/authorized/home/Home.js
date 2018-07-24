@@ -327,10 +327,8 @@ export default class Home extends Component {
     render() {
 
         const images = [
-            require('../../../assets/imgs/grape1.jpg'),
-            require('../../../assets/imgs/grape2.jpeg'),
-            require('../../../assets/imgs/grape3.jpg'),
-            require('../../../assets/imgs/grape4.jpeg'),
+            require('../../../assets/imgs/banner1.png'),
+            require('../../../assets/imgs/banner2.png'),
         ];
 
         return (
@@ -395,7 +393,7 @@ export default class Home extends Component {
                             }
                             ItemSeparatorComponent={this.separateView}
                             onEndReached={this.handleLoadMore}
-                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
+                            onEndReachedThreshold={Platform.OS === 'ios' ? -0.2 : 0.2}
                             ListFooterComponent={this.renderDiscountFooter}
                             removeClippedSubviews={true}
                             renderItem={({ item }) => {
@@ -481,7 +479,7 @@ export default class Home extends Component {
                             removeClippedSubviews={true}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
+                                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('DetailProduct', { item: item }) }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
                                         <Image source={{ uri: item.logo }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
                                         <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
                                             <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
@@ -543,6 +541,8 @@ const styles = {
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
+        borderTopWidth: 1, 
+        borderColor: 'rgba(255, 255, 255, 0.5)'
     },
     customImage: {
         width: width,

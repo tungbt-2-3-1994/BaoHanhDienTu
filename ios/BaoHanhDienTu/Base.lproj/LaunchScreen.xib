@@ -23,6 +23,7 @@
                     </constraints>
                 </imageView>
             </subviews>
+            <color key="backgroundColor" red="0.0" green="0.43529411764705883" blue="0.42352941176470588" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="0hk-UD-W4O" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Gzv-6U-Mmo"/>
                 <constraint firstItem="0hk-UD-W4O" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jTW-ZM-F4w"/>
@@ -33,6 +34,6 @@
         </view>
     </objects>
     <resources>
-        <image name="logoApp" width="1024" height="1024"/>
+        <image name="logoApp" width="512" height="512"/>
     </resources>
 </document>

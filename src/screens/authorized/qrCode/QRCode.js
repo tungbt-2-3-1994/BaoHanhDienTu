@@ -29,6 +29,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 const value = (isIphoneX() || Platform.OS === 'android') ? 100 : 48;
 
 import Permissions from 'react-native-permissions';
+import { host } from '../../../constants/api';
 
 class QRCode extends Component {
 
@@ -74,6 +75,26 @@ class QRCode extends Component {
     }
 
     componentDidMount() {
+
+        fetch(`${host}/scan-code`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'code': '8935210216465'
+            })
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                console.log(responseData);
+            })
+            .catch(e => {
+                alert('Có lỗi khi lấy tin tức mới nhất');
+            });
+
+
         Permissions.check('camera').then(response => {
             this.setState({ cameraPermission: response }, () => {
                 if (this.state.cameraPermission !== 'authorized') {
@@ -133,12 +154,13 @@ class QRCode extends Component {
                 }, () => {
                     // this.props.navigation.navigate('ProductDetail', scanResult.data, this);
                     this.props.navigation.dispatch(NavigationActions.navigate({
-                        routeName: 'ProductDetail',
+                        routeName: 'ScannedProduct',
                         params: {
-                            onDone: (showBool) => {
+                            onDone: (showBool, status) => {
                                 this.setState({
                                     isShow: showBool,
-                                    barcodeCodes: []
+                                    barcodeCodes: [],
+                                    status: status
                                 });
                             },
                             'code': scanResult.data
@@ -157,6 +179,7 @@ class QRCode extends Component {
             <View style={{ flex: 1 }}>
 
                 <View style={styles.container}>
+                    <Image style={{ position: 'absolute', top: (height-175) / 2 - 50, left: width / 2 - 50, width: 100, height: 100, alignSelf: 'center' }} source={require('../../../assets/imgs/vbh.png')} />
                     {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow && this.props.nav.routes.length === 1 &&
                         <RNCamera
                             ref={ref => {
@@ -203,7 +226,7 @@ class QRCode extends Component {
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to Extracted Infor</Text>
                     </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => {
+                    {/* <TouchableOpacity onPress={() => {
                         this.setState({ status: false });
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'ScannedProduct',
@@ -219,7 +242,7 @@ class QRCode extends Component {
                         }));
                     }} style={{ alignSelf: 'center', padding: 10 }}>
                         <Text>Go to thông tin quét</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {/* <TouchableOpacity onPress={() => {
                         this.props.navigation.dispatch(NavigationActions.navigate({
                             routeName: 'DetailProduct',

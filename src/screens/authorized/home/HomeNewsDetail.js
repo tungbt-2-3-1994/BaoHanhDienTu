@@ -27,7 +27,7 @@ class HomeNewsDetail extends Component {
                         </View>
                         <View style={{ paddingVertical: 10, paddingHorizontal: 10 }}>
                             <Text style={{ marginTop: 5, textAlign: 'center', fontSize: responsiveFontSize(2), fontWeight: 'bold' }}>{title}</Text>
-                            <Text style={{ marginTop: 10, textAlign: 'justify', fontSize: responsiveFontSize(1.5), }}>{content}</Text>
+                            <Text style={{ marginTop: 10, textAlign: 'justify', fontSize: responsiveFontSize(1.8), }}>{content}</Text>
                         </View>
                     </ScrollView>
                 </View>

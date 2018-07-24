@@ -61,23 +61,25 @@ class SearchView extends Component {
     }
 
     onSearch = () => {
-        if (this.state.phone_number.length === 0) {
-            this.setState({ error_phone_number: 'Bạn cần nhập số điện thoại' });
-        } else {
-            if (this.state.serial.length === 0) {
-                this.setState({ error_serial: 'Bạn cần nhập serial' });
-            } else {
-                if (this.state.category.length === 0) {
-                    this.setState({ error_category: 'Bạn phải chọn ngành hàng' });
-                } else {
-                    if (this.state.brand.length === 0) {
-                        this.setState({ error_brand: 'Bạn cần nhập thương hiệu' });
-                    } else {
-                        alert('search');
-                    }
-                }
-            }
-        }
+        this.props.navigation.navigate('ViewAll');
+        // if (this.state.phone_number.length === 0) {
+        //     this.setState({ error_phone_number: 'Bạn cần nhập số điện thoại' });
+        // } else {
+        //     if (this.state.serial.length === 0) {
+        //         this.setState({ error_serial: 'Bạn cần nhập serial' });
+        //     } else {
+        //         if (this.state.category.length === 0) {
+        //             this.setState({ error_category: 'Bạn phải chọn ngành hàng' });
+        //         } else {
+        //             if (this.state.brand.length === 0) {
+        //                 this.setState({ error_brand: 'Bạn cần nhập thương hiệu' });
+        //             } else {
+        //                 // this.props.navigation.navigate('ViewAll');
+        //                 alert('search');
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     setPickerValue = (value, i) => {
