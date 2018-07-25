@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -29,16 +29,26 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to Apple Music for future features</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Access to Bluetooth for the futher features</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Access to Calender for the futher features</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>Chúng tôi muốn truy cập Camera của bạn để quét mã vạch</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Access to Location for the futher features</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microphone is accessed for the first time</string>
+	<string>Access to Microphone for the futher features</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Access to Motion for future features</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Access to the photo library</string>
+	<string>Chúng tôi muốn truy cập ảnh của bạn để giúp bạn thay đổi avatar</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>Chúng tôi muốn truy cập ảnh của bạn để giúp bạn thay đổi avatar</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Access to Speech Recognition for future features</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
