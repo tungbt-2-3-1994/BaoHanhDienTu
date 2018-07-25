@@ -10,7 +10,7 @@ import { validateEmail } from '../../../utils/validateEmail';
 import { phoneNumber } from '../../../utils/validatePhoneNumber';
 import { priColor, activeColor, thirdColor } from '../../../constants/colors';
 import { connect } from 'react-redux';
-import { normalLogin } from '../../../actions/index';
+
 import { host } from '../../../constants/api';
 
 import Modal from 'react-native-modalbox';

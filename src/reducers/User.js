@@ -3,15 +3,17 @@ import * as Types from '../constants/ActionTypes';
 var INITIAL = {
     user: {},
     loading: true,
-    status: false
+    isLogin: false
 };
 
 const User = (state = INITIAL, action) => {
     switch (action.type) {
         case Types.NORMAL_LOGIN_SUCCESS:
-            return { ...state, user: action.payload, loading: false, status: true };
+            return { ...state, user: action.payload, loading: false, isLogin: true };
         case Types.NORMAL_LOGIN_FAIL:
-            return { ...state, loading: false, status: false };
+            return { ...state, loading: false, isLogin: false };
+        case Types.LOGOUT:
+            return { ...INITIAL };
         default:
             return state;
     }

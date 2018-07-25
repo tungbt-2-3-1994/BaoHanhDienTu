@@ -76,23 +76,23 @@ class QRCode extends Component {
 
     componentDidMount() {
 
-        fetch(`${host}/scan-code`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                'code': '8935210216465'
-            })
-        })
-            .then(response => response.json())
-            .then(responseData => {
-                console.log(responseData);
-            })
-            .catch(e => {
-                alert('Có lỗi khi lấy tin tức mới nhất');
-            });
+        // fetch(`${host}/scan-code`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         'code': '8935210216465'
+        //     })
+        // })
+        //     .then(response => response.json())
+        //     .then(responseData => {
+        //         console.log(responseData);
+        //     })
+        //     .catch(e => {
+        //         alert('Có lỗi khi lấy tin tức mới nhất');
+        //     });
 
 
         Permissions.check('camera').then(response => {

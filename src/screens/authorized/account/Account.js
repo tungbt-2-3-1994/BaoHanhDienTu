@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, Image, TouchableOpacity, ScrollView, Modal, Platform, KeyboardAvoidingView, PixelRatio } from 'react-native';
+import { TextInput, Text, View, Image, TouchableOpacity, ScrollView, Modal, Platform, KeyboardAvoidingView, PixelRatio, ActivityIndicator } from 'react-native';
 import TextHeader from '../../../components/TextHeader';
 import { width, height } from '../../../constants/dimensions';
 
@@ -11,7 +11,10 @@ import { validateEmail } from '../../../utils/validateEmail';
 import ImagePicker from 'react-native-image-picker';
 import { priColor } from '../../../constants/colors';
 
-export default class Account extends Component {
+import { connect } from 'react-redux';
+import { normalLogin } from '../../../actions/index';
+
+class Account extends Component {
     static navigationOptions = {
     }
 
@@ -27,11 +30,26 @@ export default class Account extends Component {
         address: 'Hà Nội',
         dob: '01/01/1981',
         dos: '14/04/2018',
-        editable: false
+        editable: false,
+        loading: false
     }
 
     onLogin = () => {
-        this.setState({ isLogin: true });
+        this.setState({ loading: true });
+        let { email, password } = this.state;
+        console.log(email, password);
+        this.props.normalLogin(email, password);
+        // this.setState({ isLogin: true });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.user.isLogin === true && !this.props.isLogin) {
+            this.setState({ isLogin: true });
+        }
+
+        if (nextProps.user.loading === false) {
+            this.setState({ loading: false });
+        }
     }
 
     selectPhotoTapped() {
@@ -82,10 +100,10 @@ export default class Account extends Component {
                             containerStyle={{ width: 2 * width / 3, marginBottom: 10 }}
                             inputContainerStyle={{ borderColor: 'white' }}
                             inputStyle={{ color: 'white', fontSize: responsiveFontSize(1.7) }}
-                            leftIcon={<Icon name='ios-mail' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
-                            placeholder='Email ID'
+                            leftIcon={<Icon name='ios-call' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
+                            placeholder='Số điện thoại'
                             placeholderTextColor='white'
-                            keyboardType='email-address'
+                            keyboardType='number-pad'
                             underlineColorAndroid='transparent'
                             onFocus={() => this.setState({ show: false })}
                             returnKeyType='next'
@@ -119,11 +137,11 @@ export default class Account extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-between', marginTop: 20 }}>
-                            <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
-                                <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
-                            </Button>
                             <Button bordered light style={styles.btnStyle} onPress={() => this.props.navigation.navigate('Register')}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng ký</Text>
+                            </Button>
+                            <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
+                                <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                             </Button>
                         </View>
                     </View >
@@ -247,10 +265,11 @@ export default class Account extends Component {
             <View style={{ flex: 1, backgroundColor: priColor }}>
                 <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, }}>
                     <TextHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' />
-                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingVertical: 30 }} style={{ flex: 1 }}>
+                    <ScrollView contentContainerStyle={{ alignItems: 'center', paddingVertical: 30, flexGrow: 1 }}>
                         {accountView}
                     </ScrollView>
                 </KeyboardAvoidingView>
+                {this.state.loading && <ActivityIndicator animating={true} size='large' color='red' style={{ position: 'absolute', top: height / 2 - 15, left: width / 2 - 15 }} />}
             </View >
         );
     }
@@ -278,3 +297,19 @@ const styles = {
         backgroundColor: priColor
     }
 };
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        normalLogin: (username, password) => {
+            dispatch(normalLogin(username, password));
+        },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

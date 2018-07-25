@@ -7,7 +7,5 @@ import Agency from './Agency';
 
 export default combineReducers({
     nav: navReducer,
-    category: Category,
     user: User,
-    agency: Agency,
 });

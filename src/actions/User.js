@@ -3,47 +3,43 @@ import { NavigationActions } from 'react-navigation';
 import * as Types from '../constants/ActionTypes';
 import { host } from '../constants/api';
 
-export const normalLogin = (name, phone, pass, confirm) => {
-    console.log(name, phone, pass, confirm);
+export const normalLogin = (username, password) => {
     return (dispatch) => {
-        fetch(`${host}/signup`, {
+        fetch(`${host}/signin`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                'name': name,
-                'password': pass,
-                'password_confirmation': confirm,
-                'telephone': phone,
+                'username': username,
+                'password': password,
                 'client_id': '1',
                 'client_secret': 'ieFnVZkuuJfrou5HFK2VVGQqmVUwwcTSrgHql9fb'
             })
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('asas', responseData);
-                if (responseData.code === 200) {
+                // console.log('asas', responseData);
+                if (typeof (responseData.token_type) !== 'undefined') {
                     dispatch({
-                        type: Types.REGISTER_SUCCESS,
-
+                        type: Types.NORMAL_LOGIN_SUCCESS,
+                        payload: responseData
                     });
+                } else {
+                    dispatch({
+                        type: Types.NORMAL_LOGIN_FAIL,
+                    });
+                    alert('Số điện thoại hoặc mật khẩu bạn nhập đã sai. \n Vui lòng đăng nhập lại');
                 }
-                // if (typeof (responseData.access_token) === 'undefined') {
-                //     dispatch({
-                //         type: Types.NORMAL_LOGIN_FAIL
-                //     });
-                //     alert('Đăng nhập không thành công');
-                // } else {
-                //     dispatch({
-                //         type: Types.NORMAL_LOGIN_SUCCESS,
-                //         payload: responseData
-                //     });
-                //     alert('Đăng nhập thành công');
-                // }
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+                console.log(e);
+                dispatch({
+                    type: Types.NORMAL_LOGIN_FAIL,
+                });
+                alert('Số điện thoại hoặc mật khẩu bạn nhập đã sai. \n Vui lòng đăng nhập lại');
+            })
             .done();
     }
 }
