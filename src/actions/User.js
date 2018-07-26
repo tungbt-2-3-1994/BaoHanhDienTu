@@ -89,7 +89,11 @@ export const logout = (accessToken) => {
             .then((response) => response.json())
             .then((responseData) => {
                 console.log('asas', responseData);
-
+                if (responseData.code === 200) {
+                    dispatch({
+                        type: Types.LOGOUT
+                    });
+                }
             })
             .catch(e => {
                 console.log(e);

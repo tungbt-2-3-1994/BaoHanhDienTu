@@ -1,5 +1,5 @@
 export const phoneNumber = (input_txt) => {
-    var phoneNo = /^\(\d{3}\)\s*\d{3}(?:-|\s*)\d{4}$/;
+    var phoneNo = /^\d{10}$/;
     if (input_txt.match(phoneNo)) {
         return true;
     }

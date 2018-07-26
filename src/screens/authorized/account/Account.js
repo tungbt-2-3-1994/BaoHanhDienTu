@@ -7,6 +7,7 @@ import { Icon, Button } from 'native-base';
 import { Input } from 'react-native-elements';
 import { responsiveFontSize } from '../../../utils/helpers';
 import { validateEmail } from '../../../utils/validateEmail';
+import { phoneNumber } from '../../../utils/validatePhoneNumber';
 
 import ImagePicker from 'react-native-image-picker';
 import { priColor } from '../../../constants/colors';
@@ -26,20 +27,25 @@ class Account extends Component {
         avatarSource: null,
         phoneNumber: '01642525299',
         name: 'Nguyễn Văn A',
-        email: 'jsmile@gmail.com',
         address: 'Hà Nội',
         dob: '01/01/1981',
         dos: '14/04/2018',
         editable: false,
-        loading: false
+        loading: false,
+        error_phone: '',
+        error_pass: ''
     }
 
     onLogin = () => {
         this.setState({ loading: true });
         let { email, password } = this.state;
-        console.log(email, password);
-        this.props.normalLogin(email, password);
-        // this.setState({ isLogin: true });
+        console.log(email);
+        if (email.length === 0 || email === '') {
+            this.setState({ error_phone: 'Bạn cần phải nhập số điện thoại' });
+            this.setState({ loading: false });
+        } else {
+            this.props.normalLogin(email, password);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -88,7 +94,7 @@ class Account extends Component {
         this.setState({ editable: false });
     }
     onLogout = () => {
-        this.props.logout();
+        this.props.logout(this.props.user.token.access_token);
     }
 
     getDate = (time) => {
@@ -112,9 +118,11 @@ class Account extends Component {
                             leftIcon={<Icon name='ios-call' style={{ fontSize: responsiveFontSize(2.5), color: 'white' }} />}
                             placeholder='Số điện thoại'
                             placeholderTextColor='white'
+                            errorStyle={{ color: 'red' }}
+                            errorMessage={this.state.error_phone === '' ? null : this.state.error_phone}
                             keyboardType='number-pad'
                             underlineColorAndroid='transparent'
-                            onFocus={() => this.setState({ show: false })}
+                            onFocus={() => this.setState({ show: false, error_pass: '', error_phone: '' })}
                             returnKeyType='next'
                             selectionColor='white'
                             onSubmitEditing={() => {
@@ -133,7 +141,9 @@ class Account extends Component {
                             placeholderTextColor='white'
                             secureTextEntry={true}
                             returnKeyType='done'
-                            onFocus={() => this.setState({ show: false })}
+                            errorStyle={{ color: 'red' }}
+                            errorMessage={this.state.error_pass === '' ? null : this.state.error_pass}
+                            onFocus={() => this.setState({ show: false, error_pass: '', error_phone: '' })}
                             ref={(input) => this.password = input}
                             selectionColor='white'
                             onBlur={() => this.setState({ show: true })}
