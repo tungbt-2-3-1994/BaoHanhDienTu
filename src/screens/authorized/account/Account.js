@@ -12,7 +12,7 @@ import ImagePicker from 'react-native-image-picker';
 import { priColor } from '../../../constants/colors';
 
 import { connect } from 'react-redux';
-import { normalLogin } from '../../../actions/index';
+import { normalLogin, logout } from '../../../actions/index';
 
 class Account extends Component {
     static navigationOptions = {
@@ -43,12 +43,16 @@ class Account extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.user.isLogin === true && !this.props.isLogin) {
+        if (nextProps.user.isLogin === true && !this.state.isLogin) {
             this.setState({ isLogin: true });
         }
 
         if (nextProps.user.loading === false) {
             this.setState({ loading: false });
+        }
+
+        if (this.state.isLogin && nextProps.user.isLogin === false) {
+            this.setState({ isLogin: false });
         }
     }
 
@@ -83,12 +87,17 @@ class Account extends Component {
     onSubmit = () => {
         this.setState({ editable: false });
     }
-    onExit = () => {
-        this.setState({ isLogin: false });
+    onLogout = () => {
+        this.props.logout();
+    }
+
+    getDate = (time) => {
+        let parts = time.split(" ");
+        return parts[0];
     }
 
     render() {
-
+        let userInfor = this.props.user;
         let accountView;
         if (this.state.isLogin === false) {
             accountView = (
@@ -164,69 +173,94 @@ class Account extends Component {
                             }
                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.titleName}>NGUYỄN VĂN A</Text>
+                    <Text style={styles.titleName}>{userInfor.infor.name.toUpperCase()}</Text>
                     <View style={styles.contentContainer}>
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Điện thoại</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.phoneNumber}
                                 onChangeText={(text) => { this.setState({ phoneNumber: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>+{this.props.user.infor.telephone}</Text>
+                            </View>
                         </View>
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Họ tên</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.name}
                                 onChangeText={(text) => { this.setState({ name: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.name}</Text>
+                            </View>
                         </View>
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Email</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.email}
                                 onChangeText={(text) => { this.setState({ email: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.email}</Text>
+                            </View>
                         </View>
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Địa chỉ</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.address}
                                 onChangeText={(text) => { this.setState({ address: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.address}</Text>
+                            </View>
                         </View>
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Ngày sinh</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dob}
                                 onChangeText={(text) => { this.setState({ dob: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.birthday}</Text>
+                            </View>
                         </View>
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Tham gia</Text>
-                            <TextInput
+                            {/* <TextInput
                                 underlineColorAndroid='transparent'
                                 editable={this.state.editable}
                                 style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dos}
                                 onChangeText={(text) => { this.setState({ dos: text }) }}
-                            />
+                            /> */}
+                            <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
+                                <Text style={[styles.textStyle]}>{this.getDate(this.props.user.infor.created_at)}</Text>
+                            </View>
                         </View>
 
-                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20, marginTop: 30 }}>
+                        <TouchableOpacity style={{ marginTop: 30, alignSelf: 'center' }} onPress={() => this.onLogout()}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Icon type='MaterialIcons' name='power-settings-new' style={{ color: 'red' }} />
+                                <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Đăng xuất</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        {/* <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20, marginTop: 30 }}>
                             {
                                 !this.state.editable ?
                                     (<TouchableOpacity onPress={() => this.onEdit()}>
@@ -245,7 +279,7 @@ class Account extends Component {
 
                             {
                                 !this.state.editable ?
-                                    (<TouchableOpacity onPress={() => this.onExit()}>
+                                    (<TouchableOpacity onPress={() => this.onLogout()}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <Icon type='MaterialIcons' name='power-settings-new' style={{ color: 'red' }} />
                                             <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Đăng xuất</Text>
@@ -255,7 +289,7 @@ class Account extends Component {
                                     <View></View>
                             }
 
-                        </View>
+                        </View> */}
                     </View>
                 </View>
             );
@@ -309,6 +343,9 @@ const mapDispatchToProps = (dispatch, props) => {
         normalLogin: (username, password) => {
             dispatch(normalLogin(username, password));
         },
+        logout: (accessToken) => {
+            dispatch(logout(accessToken));
+        }
     }
 }
 

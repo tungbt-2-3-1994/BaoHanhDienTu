@@ -21,6 +21,8 @@ export const NORMAL_LOGIN_FAIL = 'NORMAL_LOGIN_FAIL';
 export const REGISTER = 'REGISTER';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const GET_INFOR_SUCCESS = 'GET_INFOR_SUCCESS';
+export const GET_INFOR_FAIL = 'GET_INFOR_FAIL';
 export const LOGOUT = 'LOGOUT';
 
 /**
