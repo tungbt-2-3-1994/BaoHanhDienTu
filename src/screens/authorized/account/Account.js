@@ -50,7 +50,7 @@ class Account extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.isLogin === true && !this.state.isLogin) {
-            this.setState({ isLogin: true });
+            this.setState({ isLogin: true, show: true });
         }
 
         if (nextProps.user.loading === false) {
