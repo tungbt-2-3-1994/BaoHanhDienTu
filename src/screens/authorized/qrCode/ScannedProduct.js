@@ -155,7 +155,7 @@ class ScannedProduct extends Component {
     }
 
     componentWillMount() {
-        // console.log('11111111', this.props.navigation.state.params.code);
+        console.log('11111111', this.props.navigation.state.params.code);
         this.props.navigation.state.params.onDone(false, false);
         const { code } = this.props.navigation.state.params;
         var pieces = code.split('/');
@@ -242,9 +242,10 @@ class ScannedProduct extends Component {
                         </View>
                     }
                     <UppperLabel title='Đơn vị sở hữu mã vạch' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Nhà sản xuất' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Nhà nhập khẩu' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Thông tin phân phối' content='Chưa có thông tin này' />
+                    <UppperLabel title='Nhà sản xuất' content={(typeof (this.state.data.producer) !== 'undefined' && this.state.data.producer !== null && typeof (this.state.data.producer.name) !== 'undefined') ? this.state.data.producer.name : ' '} />
+                    <UppperLabel title='Nhà nhập khẩu' content={(typeof (this.state.data.importer) !== 'undefined' && this.state.data.importer !== null && typeof (this.state.data.importer.name) !== 'undefined') ? this.state.data.importer.name : ' '} />
+                    {/* <UppperLabel title='Thông tin phân phối' content='Chưa có thông tin này' /> */}
+
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                             {typeof (this.state.data) !== 'undefined' && typeof (this.state.data.product_same_category) !== 'undefined' ?
@@ -270,14 +271,14 @@ class ScannedProduct extends Component {
                     <GuaranteeView brand='Ngày sản xuất' content={typeof (this.state.data) !== 'undefined' && typeof (this.state.data.manufacturing_date) !== 'undefined' && this.state.data.manufacturing_date} />
                     <GuaranteeView brand='Hạn sử dụng' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.warranty_period) !== 'undefined' && typeof (this.state.data.warranty_period_unit) !== 'undefined') && this.state.data.warranty_period + ' ' + this.state.data.warranty_period_unit} />
                     <GuaranteeView brand='Giá' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.price) !== 'undefined') && this.state.data.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + ' vnđ'} />
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                    {/* <View style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={{ flex: 0.5 }}>
                             <GuaranteeView brand='Số lô' content={typeof (this.state.data.batch) !== 'undefined' && typeof (this.state.data.batch.id) !== 'undefined' && this.state.data.batch.id} />
                         </View>
                         <View style={{ flex: 0.5 }}>
                             <GuaranteeView brand='Ký hiệu' content={typeof (this.state.data.batch) !== 'undefined' && typeof (this.state.data.batch.name) !== 'undefined' && this.state.data.batch.name} />
                         </View>
-                    </View>
+                    </View> */}
 
                 </View>
             </View>
@@ -287,19 +288,38 @@ class ScannedProduct extends Component {
         let product = (
             <View style={{ backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
-                    {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) &&
+                    {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.short_description) !== 'undefined' && this.state.data.product.short_description !== null) &&
                         <View style={{ padding: 5, marginBottom: 10 }}>
-                            <Text numberOfLines={2} ellipsizeMode='tail' style={{ color: 'white', fontSize: responsiveFontSize(1.8) }}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) && this.state.data.product.description}</Text>
+                            <Text numberOfLines={3} ellipsizeMode='tail' style={{ textAlign: 'justify', color: 'white', fontSize: responsiveFontSize(1.8) }}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.short_description) !== 'undefined' && this.state.data.product.short_description !== null) && this.state.data.product.short_description}</Text>
 
-                            <TouchableOpacity style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
+                            <TouchableOpacity onPress={() => this.refs.moreInfo.open()} style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
                                 <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
                             </TouchableOpacity>
                         </View>
                     }
                     <UppperLabel title='Đơn vị sở hữu mã vạch' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Nhà sản xuất' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Nhà nhập khẩu' content={typeof (this.state.data.organization) !== 'undefined' && this.state.data.organization.name} />
-                    <UppperLabel title='Thông tin phân phối' content='CÔNG TY TNHH ABC' />
+                    <UppperLabel title='Nhà sản xuất' content={(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.importer) !== 'undefined' && this.state.data.product.importer !== null) ? this.state.data.product.importer.name : ' '} />
+                    <UppperLabel title='Nhà nhập khẩu' content={(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.importer) !== 'undefined' && this.state.data.product.importer !== null) ? this.state.data.product.importer.name : ' '} />
+                    {/* <UppperLabel title='Thông tin phân phối' content='CÔNG TY TNHH ABC' /> */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
+                        <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                            <View style={{ marginTop: 5, flexDirection: 'row' }}>
+                                <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Nhà phân phối độc quyền: </Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agent) !== 'undefined' && typeof (this.state.data.agent.name) !== 'undefined' && this.state.data.agent.name}</Text>
+                            </View>
+                            <View style={{ marginTop: 5, flexDirection: 'row' }}>
+                                <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Điểm bán: </Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agency) !== 'undefined' && typeof (this.state.data.agency.name) !== 'undefined' && this.state.data.agency.name}</Text>
+                            </View>
+                            <View style={{ marginTop: 5, flexDirection: 'row' }}>
+                                <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Đại lý cấp 1: </Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.first_class_agent) !== 'undefined' && typeof (this.state.data.first_class_agent.name) !== 'undefined' && this.state.data.first_class_agent.name}</Text>
+                            </View>
+                        </View>
+                        <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Thông tin phân phối</Text>
+                        </View>
+                    </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                             {typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.product_same_category) !== 'undefined' ?
@@ -447,9 +467,14 @@ class ScannedProduct extends Component {
                                     </View>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
-                                        <TouchableOpacity onPress={() => text('01642525299', 'SMS text')} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
-                                            <Text style={[styles.titleStyle]}>Click here to send SMS</Text>
+                                        <TouchableOpacity onPress={() => text('01642525299', this.state.data.sms)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                            <Text style={[styles.titleStyle]}>{this.state.data.sms}</Text>
+
                                         </TouchableOpacity>
+                                    </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
+                                        <Text style={{ flex: 0.4 }}></Text>
+                                        <Text style={{ flex: 0.6, color: 'red', fontSize: responsiveFontSize(1.7), textAlign: 'justify' }}>(Nhấn vào mã SMS để gửi tin nhắn truy xuất)</Text>
                                     </View>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 20 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>{this.state.data.type === 'product' ? 'Serial' : 'Mã vạch'}:</Text>
@@ -465,9 +490,15 @@ class ScannedProduct extends Component {
                                         <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
                                             {guarantee}
                                         </Tab>
-                                        <Tab style={{ backgroundColor: priColor }} heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                            {customer}
-                                        </Tab>
+                                        {typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null ?
+                                            <Tab style={{ backgroundColor: priColor }} heading="KHÁCH HÀNG" tabStyle={{ backgroundColor: 'white', }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor, }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                                {customer}
+                                            </Tab>
+                                            :
+                                            <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                                {guarantee}
+                                            </Tab>
+                                        }
                                     </Tabs>
                                 </View>
                             </View>
@@ -548,8 +579,43 @@ class ScannedProduct extends Component {
                         }
 
                         {/* <ActivityIndicator style={{ position: 'absolute', bottom: 10, left: width / 2 }} size='large' animating={this.state.loading} color='red' /> */}
-                    </ScrollView>
 
+                    </ScrollView>
+                    <Modal
+                        ref={'moreInfo'}
+                        style={{
+
+                            backgroundColor: 'white',
+                            alignItems: 'center',
+                            borderRadius: Platform.OS === 'ios' ? 15 : 10,
+                            shadowRadius: 10,
+                            width: 3 * width / 4,
+                            height: 3 * height / 5,
+
+                        }}
+                        position='center'
+                        backdrop={true}
+                        swipeToClose={false}
+                        entry='bottom'
+                    >
+                        <View>
+                            {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) ?
+                                <View>
+                                    <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 5 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
+                                    <TouchableOpacity onPress={() => this.refs.moreInfo.close()} style={{ position: 'absolute', right: 10 }}>
+                                        <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
+                                    </TouchableOpacity>
+
+                                    <ScrollView style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, }}>
+                                        <HTML html={this.state.data.product.description} imagesMaxWidth={width} />
+                                    </ScrollView>
+                                </View>
+                                :
+                                <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Không có thông tin chi tiết cho sản phẩm này</Text>
+                            }
+                        </View>
+
+                    </Modal>
                 </View>
             </View>
         );

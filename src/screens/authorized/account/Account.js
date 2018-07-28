@@ -25,11 +25,11 @@ class Account extends Component {
         show: true,
         isLogin: false,
         avatarSource: null,
-        phoneNumber: '01642525299',
-        name: 'Nguyễn Văn A',
-        address: 'Hà Nội',
-        dob: '01/01/1981',
-        dos: '14/04/2018',
+        phoneNumber: '',
+        name: '',
+        address: '',
+        dob: '',
+        dos: '',
         editable: false,
         loading: false,
         error_phone: '',
@@ -194,7 +194,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ phoneNumber: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>+{this.props.user.infor.telephone}</Text>
+                                <Text style={[styles.textStyle]}>+{this.props.user.infor.telephone !== null ? this.props.user.infor.telephone : ' '}</Text>
                             </View>
                         </View>
 
@@ -207,7 +207,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ name: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>{this.props.user.infor.name}</Text>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.name !== null ? this.props.user.infor.name : ' '}</Text>
                             </View>
                         </View>
 
@@ -220,7 +220,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ email: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>{this.props.user.infor.email}</Text>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.email !== null ? this.props.user.infor.email : ' '}</Text>
                             </View>
                         </View>
 
@@ -233,7 +233,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ address: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>{this.props.user.infor.address}</Text>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.address !== null ? this.props.user.infor.address : ' '}</Text>
                             </View>
                         </View>
 
@@ -246,7 +246,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ dob: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>{this.props.user.infor.birthday}</Text>
+                                <Text style={[styles.textStyle]}>{this.props.user.infor.birthday !== null ? this.props.user.infor.birthday : ' '}</Text>
                             </View>
                         </View>
 
@@ -259,7 +259,7 @@ class Account extends Component {
                                 onChangeText={(text) => { this.setState({ dos: text }) }}
                             /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
-                                <Text style={[styles.textStyle]}>{this.getDate(this.props.user.infor.created_at)}</Text>
+                                <Text style={[styles.textStyle]}>{this.getDate(this.props.user.infor.created_at !== null ? this.props.user.infor.created_at : ' ')}</Text>
                             </View>
                         </View>
 
