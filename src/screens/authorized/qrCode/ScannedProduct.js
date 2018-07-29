@@ -119,9 +119,9 @@ const CustomerView = ({ icon, brand, content }) => {
 
 const GuaranteeView = ({ brand, content }) => {
     return (
-        <Text style={{ marginBottom: 10 }}>
+        <Text style={{ marginBottom: 10, textAlign: 'justify' }}>
             <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>{brand}: </Text>
-            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold' }}>{content}</Text>
+            <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', fontWeight: 'bold', }}>{content}</Text>
         </Text>
     );
 }
@@ -315,6 +315,11 @@ class ScannedProduct extends Component {
             });
     }
 
+    getDate = (time) => {
+        let parts = time.split(" ");
+        return parts[0];
+    }
+
     render() {
 
         let productBarcode = (
@@ -357,7 +362,8 @@ class ScannedProduct extends Component {
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin sử dụng</Text>
                     <GuaranteeView brand='Ngày sản xuất' content={typeof (this.state.data) !== 'undefined' && typeof (this.state.data.manufacturing_date) !== 'undefined' && this.state.data.manufacturing_date} />
-                    <GuaranteeView brand='Hạn sử dụng' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.warranty_period) !== 'undefined' && typeof (this.state.data.warranty_period_unit) !== 'undefined') && this.state.data.warranty_period + ' ' + this.state.data.warranty_period_unit} />
+                    <GuaranteeView brand='Thời gian bảo hành' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.warranty_period) !== 'undefined' && typeof (this.state.data.warranty_period_unit) !== 'undefined') && this.state.data.warranty_period + ' ' + this.state.data.warranty_period_unit} />
+                    <GuaranteeView brand='Hạn sử dụng' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.expiry) !== 'undefined' && typeof (this.state.data.expiry_unit) !== 'undefined' && this.state.data.expiry !== 0) ? (this.state.data.expiry + ' ' + this.state.data.expiry_unit) : 'Không có hạn sử dụng cho sản phẩm này'} />
                     <GuaranteeView brand='Giá' content={(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.price) !== 'undefined') && this.state.data.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + ' vnđ'} />
                     {/* <View style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={{ flex: 0.5 }}>
@@ -475,7 +481,8 @@ class ScannedProduct extends Component {
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Sản phẩm</Text>
                     <GuaranteeView brand='Ngày sản xuất' content={typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.manufacturing_date) !== 'undefined' && this.state.data.product.manufacturing_date} />
-                    <GuaranteeView brand='Hạn sử dụng' content={(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.warranty_period) !== 'undefined' && typeof (this.state.data.product.warranty_period_unit) !== 'undefined') && this.state.data.product.warranty_period + ' ' + this.state.data.product.warranty_period_unit} />
+                    <GuaranteeView brand='Thời gian bảo hành' content={(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.warranty_period) !== 'undefined' && typeof (this.state.data.product.warranty_period_unit) !== 'undefined') && this.state.data.product.warranty_period + ' ' + this.state.data.product.warranty_period_unit} />
+                    <GuaranteeView brand='Hạn sử dụng' content={(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.expiry) !== 'undefined' && typeof (this.state.data.product.expiry_unit) !== 'undefined' && this.state.data.product.expiry !== 0) ? (this.state.data.product.expiry + ' ' + this.state.data.product.warranty_period_unit) : 'Không có hạn sử dụng cho sản phẩm này'} />
                     <View style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={{ flex: 0.5 }}>
                             <GuaranteeView brand='Số lô' content={typeof (this.state.data.batch) !== 'undefined' && typeof (this.state.data.batch.id) !== 'undefined' && this.state.data.batch.id} />
@@ -488,8 +495,9 @@ class ScannedProduct extends Component {
                 </View>
                 <View style={{ marginTop: 10, borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin bảo hành</Text>
-                    <GuaranteeView brand='Ngày kích hoạt' content={typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.active_warranty_date) !== 'undefined' && this.state.data.product.active_warranty_date} />
-                    <GuaranteeView brand='Hạn bảo hành' content={typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.expiration_warranty_date) !== 'undefined' && this.state.data.product.expiration_warranty_date} />
+                    {typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null &&
+                        <GuaranteeView brand='Ngày kích hoạt' content={typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null && this.getDate(this.state.data.active_warranty_date)} />
+                    }
                     <GuaranteeView brand='Tình trạng' content='Đang trong thời gian bảo hành' />
                     <View style={{ marginBottom: 10, flexDirection: 'row' }}>
                         <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Sở hữu: </Text>
@@ -640,12 +648,16 @@ class ScannedProduct extends Component {
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Sản phẩm:</Text>
                                         <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.name) !== 'undefined') && this.state.data.name}</Text>
                                     </View>
-                                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
+                                    {/* <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
-                                        <TouchableOpacity onPress={() => text('01642525299', 'SMS text')} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
-                                            <Text style={[styles.titleStyle]}>Click here to send SMS</Text>
+                                        <TouchableOpacity onPress={() => text('01642525299', this.state.data.sms)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                            <Text style={[styles.titleStyle]}>{this.state.data.sms}</Text>
                                         </TouchableOpacity>
                                     </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
+                                        <Text style={{ flex: 0.4 }}></Text>
+                                        <Text style={{ flex: 0.6, color: 'red', fontSize: responsiveFontSize(1.7), textAlign: 'justify' }}>(Nhấn vào mã SMS để gửi tin nhắn truy xuất)</Text>
+                                    </View> */}
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 20 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã vạch:</Text>
                                         <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data) !== 'undefined' && typeof (this.state.data.gtin) !== 'undefined') && this.state.data.gtin}</Text>
@@ -741,13 +753,13 @@ class ScannedProduct extends Component {
 
 const styles = {
     titleActiveStyle: {
-        color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold',
+        color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold', textAlign: 'justify'
     },
     normalTitleActiveStyle: {
         color: 'white', fontSize: responsiveFontSize(2),
     },
     titleStyle: {
-        color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold',
+        color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold', textAlign: 'justify'
     },
     normalTitleStyle: {
         color: priColor, fontSize: responsiveFontSize(2),
