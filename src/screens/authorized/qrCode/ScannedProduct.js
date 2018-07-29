@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput } from 'react-native';
+import { View, Image, TouchableOpacity, ScrollView, TouchableHighlight, FlatList, ActivityIndicator, Platform, TextInput, Alert } from 'react-native';
 import BackHeader from '../../../components/BackHeader';
 
 import { width, height } from '../../../constants/dimensions';
@@ -151,6 +151,8 @@ class ScannedProduct extends Component {
             loading: true,
             data: {},
             same_products: [],
+            active_info: {},
+            active_code: ''
         }
     }
 
@@ -221,13 +223,99 @@ class ScannedProduct extends Component {
         return text;
     }
 
+    activateProduct = () => {
+        if (this.props.user.isLogin === true) {
+            fetch(`${host}/codes/active-warranty`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.props.user.token.access_token}`
+                },
+                body: JSON.stringify({
+                    'code': this.state.data.serial
+                })
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                    if (responseData.code === 200) {
+                        this.setState({ active_info: responseData });
+                        if (responseData.can_active_warranty === 1) {
+                            this.refs.activateProduct.open();
+                        } else {
+                            alert('Không thể kích hoạt cho sản phẩm này');
+                        }
+                    } else {
+                        alert('Không thể kích hoạt cho sản phẩm này');
+                    }
+                })
+                .catch(e => {
+                    this.setState({ loading: false });
+                    alert('Có lỗi khi lấy tin tức mới nhất');
+                });
+        } else {
+            Alert.alert(
+                'Lỗi!!!',
+                'Bạn cần phải đăng nhập thì mới kích hoạt được',
+                [
+                    { text: 'Hủy', onPress: () => { }, style: 'cancel' },
+                    { text: 'OK', onPress: () => this.props.navigation.navigate('AccountStack') },
+                ],
+                { cancelable: false }
+            )
+        }
+    }
+
+    onActivateWarranty = () => {
+        fetch(`${this.state.active_info.confirm_url}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.props.user.token.access_token}`
+            },
+            body: JSON.stringify({
+                'code': this.state.active_code
+            })
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                console.log('asas', responseData);
+                if (responseData.code === 200 && responseData.status === 'success' && responseData.response_message === 'Verify success!') {
+                    alert('Kích hoạt thành công');
+                    fetch(`${host}/scan-code`, {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            'code': this.state.qr_code.toString()
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(resData => {
+                            console.log('tungbt', resData);
+                            if (resData.code === 200) {
+                                this.setState({
+                                    data: resData.data,
+                                    loading: false,
+                                });
+                            }
+                        })
+                        .catch(e => {
+                            this.setState({ loading: false });
+                            alert('Lỗi lấy dữ liệu');
+                        });
+                }
+            })
+            .catch(e => {
+                alert('Kích hoạt không thành công');
+            });
+    }
+
     render() {
-        // const images = [
-        //     require('../../../assets/imgs/grape1.jpg'),
-        //     require('../../../assets/imgs/grape2.jpeg'),
-        //     require('../../../assets/imgs/grape3.jpg'),
-        //     require('../../../assets/imgs/grape4.jpeg'),
-        // ];
 
         let productBarcode = (
             <View style={{ backgroundColor: priColor, }}>
@@ -420,40 +508,39 @@ class ScannedProduct extends Component {
             </View>
         );
 
+        let activate = (
+            <View style={{ backgroundColor: priColor, }}>
+                <View style={{ paddingVertical: 15, paddingHorizontal: 10 }}>
+                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', }}>
+                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Họ tên: </Text>
+                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>Bùi Tiến Tùng</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Địa chỉ: </Text>
+                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>Hưng Yên, Việt Nam</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>SĐT: </Text>
+                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>01642525299</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>CMND: </Text>
+                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>19982829628</Text>
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={() => this.activateProduct()} style={{ borderRadius: 10, marginTop: 20, padding: 10, paddingHorizontal: 30, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
+                    <Text style={{ color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>KÍCH HOẠT</Text>
+                </TouchableOpacity>
+
+            </View>
+        );
+
         return (
             <View style={styles.container}>
                 <BackHeader navigation={this.props.navigation} title='THÔNG TIN TRUY XUẤT' />
                 <View style={{ flex: 1 }}>
                     <ScrollView style={{ paddingBottom: 5, backgroundColor: priColor }}>
-                        {/* <View style={{ width: width, height: height / 5 }}>
-                            <ImageSlider
-                                loopBothSides
-                                autoPlayWithInterval={3000}
-                                images={images}
-                                customSlide={({ index, item, style, width }) => (
-                                    <View key={index} style={[style, styles.customSlide]}>
-                                        <Image source={item} style={styles.customImage} />
-                                    </View>
-                                )}
-                                customButtons={(position, move) => (
-                                    <View style={styles.buttons}>
-                                        {images.map((image, index) => {
-                                            return (
-                                                <TouchableHighlight
-                                                    key={index}
-                                                    underlayColor="#ccc"
-                                                    onPress={() => move(index)}
-                                                    style={styles.button}
-                                                >
-                                                    <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
-                                                </TouchableHighlight>
-                                            );
-                                        })}
-                                    </View>
-                                )}
-                            />
-                        </View> */}
-
                         {this.state.type === 'code' &&
                             <View>
                                 <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: typeof (this.state.data.product) !== 'undefined' ? this.state.data.product.logo : '' }} />
@@ -495,8 +582,8 @@ class ScannedProduct extends Component {
                                                 {customer}
                                             </Tab>
                                             :
-                                            <Tab style={{ backgroundColor: priColor }} heading="BẢO HÀNH" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
-                                                {guarantee}
+                                            <Tab style={{ backgroundColor: priColor }} heading="KÍCH HOẠT" tabStyle={{ backgroundColor: 'white' }} textStyle={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }} activeTabStyle={{ backgroundColor: priColor }} activeTextStyle={{ textAlign: 'center', color: '#fff', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>
+                                                {activate}
                                             </Tab>
                                         }
                                     </Tabs>
@@ -616,44 +703,54 @@ class ScannedProduct extends Component {
                         </View>
 
                     </Modal>
+                    <Modal
+                        ref={'activateProduct'}
+                        style={{
+                            paddingVertical: 20,
+                            backgroundColor: 'white',
+                            alignItems: 'center',
+                            borderRadius: Platform.OS === 'ios' ? 15 : 10,
+                            shadowRadius: 10,
+                            width: 7 * width / 8,
+                            height: null,
+                            paddingHorizontal: 10,
+                        }}
+                        position='center'
+                        backdrop={true}
+                        swipeToClose={false}
+                        entry='top'
+                    >
+                        <View>
+                            <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Nhập mã kích hoạt đã được gửi qua SMS</Text>
+                            <TextInput underlineColorAndroid='transparent' placeholder='Mã kích hoạt' value={this.state.active_code} onChangeText={(text) => this.setState({ active_code: text })} style={{ fontWeight: 'bold', paddingTop: 15, width: 3 * width / 4, padding: 10, textAlign: 'center', fontSize: responsiveFontSize(2) }} />
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: width / 10, paddingTop: 15 }}>
+                                <TouchableOpacity onPress={() => this.refs.activateProduct.close()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
+                                    <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Hủy</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => this.onActivateWarranty()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
+                                    <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Kích hoạt</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             </View>
         );
     }
-
 }
 
 const styles = {
+    titleActiveStyle: {
+        color: 'white', fontSize: responsiveFontSize(2), fontWeight: 'bold',
+    },
+    normalTitleActiveStyle: {
+        color: 'white', fontSize: responsiveFontSize(2),
+    },
     titleStyle: {
         color: priColor, fontSize: responsiveFontSize(2), fontWeight: 'bold',
     },
-    product_modal: {
-        flex: 1,
-        height: null
-    },
-    product_modal_text: {
-        fontSize: responsiveFontSize(1.8),
-        textAlign: 'left',
-        color: 'black',
-
-    },
-    product_modal_dropdown: {
-        flex: 1,
-        borderRadius: 10,
-        padding: 5,
-        marginTop: 5
-    },
-    product_modal_row: {
-        padding: 4,
-        flex: 1,
-        alignItems: 'flex-start',
-    },
-    product_modal_row_text: {
-        fontSize: responsiveFontSize(1.8),
-    },
-    product_modal_separator: {
-        height: 1,
-        backgroundColor: 'cornflowerblue',
+    normalTitleStyle: {
+        color: priColor, fontSize: responsiveFontSize(2),
     },
     title: {
         fontSize: responsiveFontSize(1.8), flex: 0.3, color: priColor,
@@ -717,18 +814,11 @@ const styles = {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
-        agency: state.agency,
     }
 }
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        normalLogin: (username, password) => {
-            dispatch(normalLogin(username, password));
-        },
-        getAgencyInfo: (auth) => {
-            dispatch(getAgencyInfo(auth));
-        },
     }
 }
 

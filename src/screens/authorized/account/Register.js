@@ -267,37 +267,38 @@ class Register extends Component {
 
                         </View>
                     </KeyboardAvoidingView>
-                    <Modal
-                        ref={'activateModal'}
-                        style={{
-                            paddingVertical: 20,
-                            backgroundColor: 'white',
-                            alignItems: 'center',
-                            borderRadius: Platform.OS === 'ios' ? 15 : 10,
-                            shadowRadius: 10,
-                            width: 7 * width / 8,
-                            height: null,
-                            paddingHorizontal: 10,
-                        }}
-                        position='center'
-                        backdrop={true}
-                        swipeToClose={false}
-                        entry='top'
-                    >
-                        <View>
-                            <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Nhập mã kích hoạt đã được gửi qua SMS</Text>
-                            <TextInput underlineColorAndroid='transparent' placeholder='Mã kích hoạt' value={this.state.active_code} onChangeText={(text) => this.setState({ active_code: text })} style={{ fontWeight: 'bold', paddingTop: 15, width: 3 * width / 4, padding: 10, textAlign: 'center', fontSize: responsiveFontSize(2) }} />
-                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: width / 10, paddingTop: 15 }}>
-                                <TouchableOpacity onPress={() => this.refs.activateModal.close()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
-                                    <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Hủy</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => this.onActivate()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
-                                    <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Kích hoạt</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
+
                 </ScrollView>
+                <Modal
+                    ref={'activateModal'}
+                    style={{
+                        paddingVertical: 20,
+                        backgroundColor: 'white',
+                        alignItems: 'center',
+                        borderRadius: Platform.OS === 'ios' ? 15 : 10,
+                        shadowRadius: 10,
+                        width: 7 * width / 8,
+                        height: null,
+                        paddingHorizontal: 10,
+                    }}
+                    position='center'
+                    backdrop={true}
+                    swipeToClose={false}
+                    entry='top'
+                >
+                    <View>
+                        <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Nhập mã kích hoạt đã được gửi qua SMS</Text>
+                        <TextInput underlineColorAndroid='transparent' placeholder='Mã kích hoạt' value={this.state.active_code} onChangeText={(text) => this.setState({ active_code: text })} style={{ fontWeight: 'bold', paddingTop: 15, width: 3 * width / 4, padding: 10, textAlign: 'center', fontSize: responsiveFontSize(2) }} />
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: width / 10, paddingTop: 15 }}>
+                            <TouchableOpacity onPress={() => this.refs.activateModal.close()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
+                                <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Hủy</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.onActivate()} style={{ borderRadius: 10, justifyContent: 'center', alignItems: 'center', width: width / 4, backgroundColor: priColor, paddingVertical: 8 }}>
+                                <Text style={{ color: 'rgba(255, 255, 255, 1)', fontSize: responsiveFontSize(1.7) }}>Kích hoạt</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
                 {this.state.loading && <ActivityIndicator animating={true} size='large' color='red' style={{ position: 'absolute', top: height / 2 - 15, left: width / 2 - 15 }} />}
             </View>
         );
