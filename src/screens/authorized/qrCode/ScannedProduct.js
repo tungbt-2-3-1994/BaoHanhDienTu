@@ -714,18 +714,26 @@ class ScannedProduct extends Component {
                     >
                         <View>
                             {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) ?
-                                <View>
-                                    <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 5 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
+                                <View style={{ flex: 1, padding: 5 }}>
+                                    <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
                                     <TouchableOpacity onPress={() => this.refs.moreInfo.close()} style={{ position: 'absolute', right: 10 }}>
                                         <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
                                     </TouchableOpacity>
 
-                                    <ScrollView style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, }}>
-                                        <HTML html={this.state.data.product.description} imagesMaxWidth={width} />
+                                    <ScrollView style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, paddingTop: 25 }}>
+                                        <HTML containerStyle={{ paddingBottom: 5 }} html={this.state.data.product.description} imagesMaxWidth={2 * width / 3} />
+                                        <Text>                                                                                 </Text>
                                     </ScrollView>
                                 </View>
                                 :
-                                <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Không có thông tin chi tiết cho sản phẩm này</Text>
+                                <View style={{ flex: 1, padding: 5 }}>
+                                    <TouchableOpacity onPress={() => this.refs.moreInfoView.close()} style={{ position: 'absolute', right: 10 }}>
+                                        <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
+                                    </TouchableOpacity>
+                                    <View style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, marginTop: 20 }}>
+                                        <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Không có thông tin chi tiết cho sản phẩm này</Text>
+                                    </View>
+                                </View>
                             }
                         </View>
 
