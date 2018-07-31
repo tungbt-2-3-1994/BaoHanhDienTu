@@ -81,11 +81,17 @@ class Detail extends Component {
     }
 
     getDetail = (id_product) => {
-        console.log(id_product);
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
-                console.log('res', resData);
+                if (resData.code === 200) {
+                    this.setState({ product: resData });
+                } else {
+                    alert('Có lỗi khi lấy thông tin sản phẩm');
+                }
+            })
+            .catch(e => {
+                alert('Có lỗi khi lấy thông tin sản phẩm');
             })
     }
 
@@ -165,10 +171,7 @@ class Detail extends Component {
                                 renderItem={({ item }) => {
                                     return (
                                         <TouchableOpacity onPress={() => {
-                                            this.getDetail(item.gtin);
-                                            this.setState({
-                                                product: item
-                                            });
+                                            this.getDetail(item.id);
                                             this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
                                         }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
                                             <Image source={{ uri: item.logo }} style={{ height: 2 * (width - 20) / 9 - 5, width: 2 * (width - 20) / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
@@ -224,8 +227,6 @@ class Detail extends Component {
                         {(this.state.product.description !== null) ?
                             <View style={{ flex: 1, padding: 5 }}>
                                 <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.product) !== 'undefined' && typeof (this.state.product.name) !== 'undefined' && this.state.product.name}</Text>
-
-
                                 <ScrollView style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, paddingTop: 25 }}>
                                     <HTML containerStyle={{ paddingBottom: 5 }} html={this.state.product.description} imagesMaxWidth={2 * width / 3} />
                                     <Text>                                                                                 </Text>
@@ -236,7 +237,6 @@ class Detail extends Component {
                             </View>
                             :
                             <View style={{ flex: 1, padding: 5 }}>
-
                                 <View style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, marginTop: 20 }}>
                                     <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Không có thông tin chi tiết cho sản phẩm này</Text>
                                 </View>

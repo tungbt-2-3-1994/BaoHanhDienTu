@@ -698,14 +698,12 @@ class ScannedProduct extends Component {
                     <Modal
                         ref={'moreInfo'}
                         style={{
-
                             backgroundColor: 'white',
                             alignItems: 'center',
                             borderRadius: Platform.OS === 'ios' ? 15 : 10,
                             shadowRadius: 10,
                             width: 3 * width / 4,
                             height: 3 * height / 5,
-
                         }}
                         position='center'
                         backdrop={true}

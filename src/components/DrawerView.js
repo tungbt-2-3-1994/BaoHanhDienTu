@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { Container, Header, Body, Content, Button, Icon } from 'native-base';
@@ -9,7 +9,21 @@ import { width } from '../constants/dimensions';
 import { responsiveFontSize } from '../../../BaoHanhDienTu/src/utils/helpers';
 import { priColor } from '../constants/colors';
 
+import { connect } from 'react-redux';
+
 class DrawerView extends Component {
+
+    onLogout = () => {
+        Alert.alert(
+            'Đăng xuất',
+            'Bạn có thực sự muốn đăng xuất?',
+            [
+                { text: 'Hủy', onPress: () => { }, style: 'cancel' },
+                { text: 'Đồng ý', onPress: () => this.props.logout(this.props.user.token.access_token) },
+            ],
+            { cancelable: false }
+        )
+    }
 
     render() {
         const { navigation } = this.props;
@@ -32,7 +46,7 @@ class DrawerView extends Component {
                         </Button>
                         <View style={{ width: 7 * width / 9, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)', opacity: 0.4 }}></View>
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Support')}>
+                        {/* <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Support')}>
                             <Icon type='MaterialIcons' style={[{ color: 'rgba(255, 255, 255, 0.7)' }, navigation.state.index === 2 && focusedStyle]} name='perm-phone-msg' />
                             <Text uppercase={false} style={[{ marginLeft: 10, color: 'rgba(255, 255, 255, 0.7)', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 2 && focusedStyle]}>Hỗ trợ</Text>
                         </Button>
@@ -48,20 +62,22 @@ class DrawerView extends Component {
                             <Icon type='MaterialIcons' style={[{ color: 'rgba(255, 255, 255, 0.7)' }, navigation.state.index === 4 && focusedStyle]} name='add-shopping-cart' />
                             <Text uppercase={false} style={[{ marginLeft: 10, color: 'rgba(255, 255, 255, 0.7)', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 4 && focusedStyle]}>Đơn hàng</Text>
                         </Button>
-                        <View style={{ width: 7 * width / 9, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)', opacity: 0.4 }}></View>
+                        <View style={{ width: 7 * width / 9, height: 1, backgroundColor: 'rgba(255, 255, 255, 0.4)', opacity: 0.4 }}></View> */}
 
-                        <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Modify')}>
+                        {/* <Button large style={commonStyle} full transparent iconLeft onPress={() => navigation.navigate('Modify')}>
                             <Icon type='MaterialIcons' style={[{ color: 'rgba(255, 255, 255, 0.7)' }, navigation.state.index === 5 && focusedStyle]} name="border-color" />
                             <Text uppercase={false} style={[{ marginLeft: 10, color: 'rgba(255, 255, 255, 0.7)', fontSize: responsiveFontSize(2.2) }, navigation.state.index === 5 && focusedStyle]}>Chỉnh sửa</Text>
-                        </Button>
+                        </Button> */}
 
                     </ScrollView>
-                    <TouchableOpacity style={{ alignItems: 'center', alignSelf: 'center', flexDirection: 'row', backgroundColor: priColor, borderColor: 'white', borderWidth: 1, position: 'absolute', bottom: 0, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 30, marginBottom: 20 }} onPress={() => alert('logout')}>
-                        <Icon active={true} style={[{ color: 'white' }]} name='ios-log-out-outline' />
-                        <Text uppercase={false} style={[{ marginLeft: 10, color: 'white', fontSize: responsiveFontSize(2.2) }]}>Đăng xuất</Text>
-                    </TouchableOpacity>
+                    {this.props.user.isLogin &&
+                        < TouchableOpacity style={{ alignItems: 'center', alignSelf: 'center', flexDirection: 'row', backgroundColor: priColor, borderColor: 'white', borderWidth: 1, position: 'absolute', bottom: 0, paddingVertical: 10, paddingHorizontal: 30, borderRadius: 30, marginBottom: 20 }} onPress={() => this.onLogout()}>
+                            <Icon active={true} style={[{ color: 'white' }]} name='ios-log-out-outline' />
+                            <Text uppercase={false} style={[{ marginLeft: 10, color: 'white', fontSize: responsiveFontSize(2.2) }]}>Đăng xuất</Text>
+                        </TouchableOpacity>
+                    }
                 </Container>
-            </SafeAreaView>
+            </SafeAreaView >
         );
     }
 }
@@ -82,4 +98,18 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DrawerView;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        logout: (accessToken) => {
+            dispatch(logout(accessToken));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerView);

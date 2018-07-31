@@ -152,7 +152,6 @@ class QRCode extends Component {
                 await this.setState({
                     barcodeCodes: [...this.state.barcodeCodes, scanResult.data]
                 }, () => {
-                    // this.props.navigation.navigate('ProductDetail', scanResult.data, this);
                     this.props.navigation.dispatch(NavigationActions.navigate({
                         routeName: 'ScannedProduct',
                         params: {
@@ -177,7 +176,6 @@ class QRCode extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-
                 <View style={styles.container}>
                     <Image style={{ position: 'absolute', top: (height-175) / 2 - 50, left: width / 2 - 50, width: 100, height: 100, alignSelf: 'center' }} source={require('../../../assets/imgs/vbh.png')} />
                     {this.props.nav.routes[0].routes[0].routes[0].index === 2 && this.state.isShow && this.props.nav.routes.length === 1 &&
@@ -193,72 +191,8 @@ class QRCode extends Component {
                             onBarCodeRead={this.onBarCodeRead.bind(this)}
                         >
                             <QRScannerRectView />
-
                         </RNCamera>
                     }
-                    {/* <TouchableOpacity onPress={() => {
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'EditDetailInfor',
-                            params: {
-                                onDone: (showBool) => {
-                                    this.setState({
-                                        isShow: showBool,
-                                        barcodeCodes: []
-                                    });
-                                },
-                            }
-                        }));
-                    }} style={{ alignSelf: 'center', padding: 10 }}>
-                        <Text>Go to edit detail infor</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'ExtractedInfor',
-                            params: {
-                                onDone: (showBool) => {
-                                    this.setState({
-                                        isShow: showBool,
-                                        barcodeCodes: []
-                                    });
-                                },
-                            }
-                        }));
-                    }} style={{ alignSelf: 'center', padding: 10 }}>
-                        <Text>Go to Extracted Infor</Text>
-                    </TouchableOpacity> */}
-                    {/* <TouchableOpacity onPress={() => {
-                        this.setState({ status: false });
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'ScannedProduct',
-                            params: {
-                                onDone: (showBool, status) => {
-                                    this.setState({
-                                        isShow: showBool,
-                                        barcodeCodes: [],
-                                        status: status
-                                    });
-                                },
-                            }
-                        }));
-                    }} style={{ alignSelf: 'center', padding: 10 }}>
-                        <Text>Go to thông tin quét</Text>
-                    </TouchableOpacity> */}
-                    {/* <TouchableOpacity onPress={() => {
-                        this.props.navigation.dispatch(NavigationActions.navigate({
-                            routeName: 'DetailProduct',
-                            params: {
-                                onDone: (showBool) => {
-                                    this.setState({
-                                        isShow: showBool,
-                                        barcodeCodes: []
-                                    });
-                                },
-                            }
-                        }));
-                    }} style={{ alignSelf: 'center', padding: 10 }}>
-                        <Text>Chi tiết sản phẩm</Text>
-                    </TouchableOpacity> */}
-
                 </View>
                 <Animated.View style={{ alignItems: 'center', justifyContent: 'flex-end', position: 'absolute', top: 0, right: 0, left: 0, bottom: this.state.marginBottomAnim, backgroundColor: priColor }}>
                     <Image style={{ width: 100, height: 50, resizeMode: 'contain' }} source={require('../../../assets/imgs/up.png')} />

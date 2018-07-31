@@ -19,10 +19,10 @@ const { width, height } = Dimensions.get('window');
 const MainDrawer = DrawerNavigator({
     MainTab: { screen: MainTab },
     Customer: { screen: Customer },
-    Support: { screen: Support },
-    Configure: { screen: Configure },
-    Order: { screen: Order },
-    Modify: { screen: Modify },
+    // Support: { screen: Support },
+    // Configure: { screen: Configure },
+    // Order: { screen: Order },
+    // Modify: { screen: Modify },
 }, {
         drawerWidth: 7 * width / 9,
         contentComponent: props => <DrawerView {...props} />,

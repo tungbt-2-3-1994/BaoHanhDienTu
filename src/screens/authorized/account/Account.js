@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Text, View, Image, TouchableOpacity, ScrollView, Modal, Platform, KeyboardAvoidingView, PixelRatio, ActivityIndicator } from 'react-native';
+import { TextInput, Text, View, Image, TouchableOpacity, ScrollView, Modal, Platform, KeyboardAvoidingView, PixelRatio, ActivityIndicator, Alert } from 'react-native';
 import TextHeader from '../../../components/TextHeader';
 import { width, height } from '../../../constants/dimensions';
 
@@ -94,7 +94,15 @@ class Account extends Component {
         this.setState({ editable: false });
     }
     onLogout = () => {
-        this.props.logout(this.props.user.token.access_token);
+        Alert.alert(
+            'Đăng xuất',
+            'Bạn có thực sự muốn đăng xuất?',
+            [
+                { text: 'Hủy', onPress: () => { }, style: 'cancel' },
+                { text: 'Đồng ý', onPress: () => this.props.logout(this.props.user.token.access_token) },
+            ],
+            { cancelable: false }
+        )
     }
 
     getDate = (time) => {
