@@ -20,7 +20,7 @@ export const normalLogin = (username, password) => {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('asas', responseData);
+                // console.log('asas', responseData);
                 if (typeof (responseData.token_type) !== 'undefined') {
                     dispatch({
                         type: Types.NORMAL_LOGIN_SUCCESS,
@@ -35,7 +35,7 @@ export const normalLogin = (username, password) => {
                     })
                         .then(res => res.json())
                         .then((resData) => {
-                            console.log('resData', resData);
+                            // console.log('resData', resData);
                             if (resData.status === 'login') {
                                 dispatch({
                                     type: Types.GET_INFOR_SUCCESS,
@@ -88,7 +88,7 @@ export const logout = (accessToken) => {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('asas', responseData);
+                // console.log('asas', responseData);
                 if (responseData.code === 200) {
                     dispatch({
                         type: Types.LOGOUT

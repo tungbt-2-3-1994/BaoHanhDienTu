@@ -66,7 +66,7 @@ class Register extends Component {
                         })
                             .then((response) => response.json())
                             .then((responseData) => {
-                                console.log('asas', responseData);
+                                // console.log('asas', responseData);
                                 if (responseData.code === 200) {
                                     this.setState({
                                         url_to_activate: responseData.confirm_url,
@@ -103,7 +103,7 @@ class Register extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('asas', responseData);
+                // console.log('asas', responseData);
                 if (responseData.code === 200) {
                     this.setState({
                         show: false

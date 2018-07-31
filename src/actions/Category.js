@@ -34,7 +34,7 @@ export const fetchAllProductsInCategory = (id_cat) => {
         fetch(`https://vatapcheck.com.vn/api/v1/products/category/${id_cat}`)
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(name, responseData);
+                // console.log(name, responseData);
                 if (responseData.code === 200) {
                     dispatch({
                         type: Types.FETCH_ALL_PRODUCTS_SUCCESS,
@@ -59,7 +59,7 @@ export const fetchAllProductsInCategory = (id_cat) => {
                 // dispatch(navigateToCompaMenu);
             })
             .catch(e => {
-                console.log(name, e);
+                // console.log(name, e);
                 dispatch({
                     type: Types.FETCH_ALL_PRODUCTS_FAIL,
                 });

@@ -12,27 +12,17 @@ import ImageSlider from 'react-native-image-slider';
 
 import { connect } from 'react-redux';
 
-import { fetchProductDetail } from '../../../actions';
-
 import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
 import Modal from 'react-native-modalbox';
 
 import IconFA from 'react-native-vector-icons/FontAwesome';
 
-import { normalLogin } from '../../../actions/index';
-import { getAgencyInfo } from '../../../actions/Agency';
-
 import { priColor, thirdColor, activeColor } from '../../../constants/colors';
 import { host } from '../../../constants/api';
 
 import HTML from 'react-native-render-html';
 
-const fake_data = [
-    { 'name': 'Táo ta', 'price': 40000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
-    { 'name': 'Cam sành', 'price': 50000, 'uri': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqJy2M6n9XjUk54XDhtetxN3eHiR8jhiM-I3-lYo8WcvRIagAAcw' },
-    { 'name': 'Chôm chôm', 'price': 60000, 'uri': 'https://lamtho.vn/wp-content/uploads/2017/11/ghep-cay-tao.jpg' },
-];
 
 const ListHeader = ({ title, size }) => {
     return (
@@ -157,7 +147,7 @@ class ScannedProduct extends Component {
     }
 
     componentWillMount() {
-        console.log('11111111', this.props.navigation.state.params.code);
+        // console.log('11111111', this.props.navigation.state.params.code);
         this.props.navigation.state.params.onDone(false, false);
         const { code } = this.props.navigation.state.params;
         var pieces = code.split('/');
@@ -210,10 +200,6 @@ class ScannedProduct extends Component {
         );
     }
 
-    componentWillReceiveProps(nextProps) {
-
-    }
-
     encodeString = (text) => {
         if (text !== null && text.length >= 1) {
             const index = text.length >= 3 ? 3 : text.length;
@@ -238,7 +224,7 @@ class ScannedProduct extends Component {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    console.log(responseData);
+                    // console.log(responseData);
                     if (responseData.code === 200) {
                         this.setState({ active_info: responseData });
                         if (responseData.can_active_warranty === 1) {
@@ -281,33 +267,56 @@ class ScannedProduct extends Component {
         })
             .then(response => response.json())
             .then(responseData => {
-                console.log('asas', responseData);
-                if (responseData.code === 200 && responseData.status === 'success' && responseData.response_message === 'Verify success!') {
-                    alert('Kích hoạt thành công');
-                    fetch(`${host}/scan-code`, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            'code': this.state.qr_code.toString()
+                // console.log('asas', responseData);
+                if (responseData.code === 200) {
+                    if (responseData.status === 0) {
+                        alert('Kích hoạt thành công');
+                        fetch(`${host}/scan-code`, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                'code': this.state.qr_code.toString()
+                            })
                         })
-                    })
-                        .then(res => res.json())
-                        .then(resData => {
-                            console.log('tungbt', resData);
-                            if (resData.code === 200) {
-                                this.setState({
-                                    data: resData.data,
-                                    loading: false,
-                                });
-                            }
-                        })
-                        .catch(e => {
-                            this.setState({ loading: false });
-                            alert('Lỗi lấy dữ liệu');
-                        });
+                            .then(res => res.json())
+                            .then(resData => {
+                                // console.log('tungbt', resData);
+                                this.refs.activateProduct.close();
+                                if (resData.code === 200) {
+                                    this.setState({
+                                        data: resData.data,
+                                        loading: false,
+                                    });
+                                }
+                            })
+                            .catch(e => {
+                                this.setState({ loading: false });
+                                alert('Lỗi lấy dữ liệu');
+                            });
+                        this.refs.activateProduct.close();
+                    } else if (responseData.status === 1) {
+                        this.refs.activateProduct.close();
+                        Alert.alert(
+                            'Không thành công',
+                            'Mã kích hoạt của bạn đã hết hạn. Mời bạn lấy mã khác để kích hoạt lại',
+                            [
+                                { text: 'OK', onPress: () => { }, style: 'cancel' },
+                            ],
+                            { cancelable: false }
+                        )
+                    } else if (responseData.status === 2) {
+                        this.refs.activateProduct.close();
+                        alert('Mã kích hoạt đã được sử dụng rồi');
+                    } else if (responseData.status === 3) {
+                        alert('Mã kích hoạt không chính xác');
+                    } else {
+                        alert('Kích hoạt không thành công');
+                    }
+                } else {
+                    alert('Kích hoạt không thành công');
                 }
             })
             .catch(e => {
@@ -435,13 +444,13 @@ class ScannedProduct extends Component {
         let customer = (
             <View style={{ padding: 10, backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', borderWidth: 1, paddingVertical: 10, paddingHorizontal: 15 }}>
-                    <CustomerView icon='user' brand='Họ và tên:' content='Bùi Tiến Tùng' />
-                    <CustomerView icon='phone' brand='Số điện thoại:' content={this.encodeString('01642525299')} />
-                    <CustomerView icon='address-card' brand='CMND:' content='145545501' />
-                    <CustomerView icon='envelope' brand='Mail:' content='tungbt1994@gmail.com' />
-                    <CustomerView icon='map-marker' brand='Địa chỉ:' content='Cầu Giấy, Hà Nội' />
+                    <CustomerView icon='user' brand='Họ và tên:' content={(typeof (this.state.data.user_active_warranty) !== 'undefined' && this.state.data.user_active_warranty !== null && typeof (this.state.data.user_active_warranty.name) !== 'undefined' && this.state.data.user_active_warranty.name !== null) && this.state.data.user_active_warranty.name} />
+                    <CustomerView icon='phone' brand='Số điện thoại:' content={(typeof (this.state.data.user_active_warranty) !== 'undefined' && this.state.data.user_active_warranty !== null && typeof (this.state.data.user_active_warranty.telephone) !== 'undefined' && this.state.data.user_active_warranty.telephone !== null) && ('+' + this.encodeString(this.state.data.user_active_warranty.telephone))} />
+                    <CustomerView icon='address-card' brand='CMND:' content={(typeof (this.state.data.user_active_warranty) !== 'undefined' && this.state.data.user_active_warranty !== null && typeof (this.state.data.user_active_warranty.people_id) !== 'undefined' && this.state.data.user_active_warranty.people_id !== null) && this.state.data.user_active_warranty.people_id} />
+                    <CustomerView icon='envelope' brand='Mail:' content={(typeof (this.state.data.user_active_warranty) !== 'undefined' && this.state.data.user_active_warranty !== null && typeof (this.state.data.user_active_warranty.email) !== 'undefined' && this.state.data.user_active_warranty.email !== null) && this.state.data.user_active_warranty.email} />
+                    <CustomerView icon='map-marker' brand='Địa chỉ:' content={(typeof (this.state.data.user_active_warranty) !== 'undefined' && this.state.data.user_active_warranty !== null && typeof (this.state.data.user_active_warranty.address) !== 'undefined' && this.state.data.user_active_warranty.address !== null) && this.state.data.user_active_warranty.address} />
                 </View>
-                <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15, marginTop: 10 }}>
+                {/* <View style={{ borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15, marginTop: 10 }}>
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin mua hàng</Text>
                     <View style={{ flexDirection: 'row', flex: 1 }}>
                         <View style={{ flex: 0.5 }}>
@@ -455,7 +464,7 @@ class ScannedProduct extends Component {
                     <CustomerInfoView brand='Địa chỉ shop' content='Cầu Giấy' />
                     <CustomerInfoView brand='Ngày mua' content='12/12/2018' />
                     <CustomerInfoView brand='Địa chỉ' content='Hà Nội' />
-                </View>
+                </View> */}
                 <View style={{ borderColor: 'white', borderWidth: 1, marginTop: 10, paddingTop: 10 }}>
                     <ListHeader title='Sản phẩm đã mua' size='1.7' />
                     <View style={{ paddingBottom: 10, paddingHorizontal: 10, }}>
@@ -496,9 +505,11 @@ class ScannedProduct extends Component {
                 <View style={{ marginTop: 10, borderColor: 'white', borderWidth: 1, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 15 }}>
                     <Text style={{ textAlign: 'center', color: 'white', fontSize: responsiveFontSize(2), marginBottom: 10, fontWeight: 'bold' }}>Thông tin bảo hành</Text>
                     {typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null &&
-                        <GuaranteeView brand='Ngày kích hoạt' content={typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null && this.getDate(this.state.data.active_warranty_date)} />
+                        <View>
+                            <GuaranteeView brand='Ngày kích hoạt' content={typeof (this.state.data.active_warranty_date) !== 'undefined' && this.state.data.active_warranty_date !== null && this.getDate(this.state.data.active_warranty_date)} />
+                            <GuaranteeView brand='Tình trạng' content='Đang trong thời gian bảo hành' />
+                        </View>
                     }
-                    <GuaranteeView brand='Tình trạng' content='Đang trong thời gian bảo hành' />
                     <View style={{ marginBottom: 10, flexDirection: 'row' }}>
                         <Text style={{ fontSize: responsiveFontSize(1.7), color: 'white', }}>Sở hữu: </Text>
                         <TouchableOpacity onPress={() => { this.setState({ activePage: 2 }) }}>
@@ -518,24 +529,28 @@ class ScannedProduct extends Component {
 
         let activate = (
             <View style={{ backgroundColor: priColor, }}>
-                <View style={{ paddingVertical: 15, paddingHorizontal: 10 }}>
-                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', }}>
-                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Họ tên: </Text>
-                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>Bùi Tiến Tùng</Text>
+                {this.props.user.isLogin === true ?
+                    <View>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', }}>
+                            <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Họ tên: </Text>
+                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>{this.props.user.infor.name}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                            <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Địa chỉ: </Text>
+                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>{this.props.user.infor.address}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                            <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>SĐT: </Text>
+                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>+{this.props.user.infor.telephone}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
+                            <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>CMND: </Text>
+                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>{this.props.user.infor.people_id}</Text>
+                        </View>
                     </View>
-                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
-                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>Địa chỉ: </Text>
-                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>Hưng Yên, Việt Nam</Text>
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
-                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>SĐT: </Text>
-                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>01642525299</Text>
-                    </View>
-                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
-                        <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>CMND: </Text>
-                        <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>19982829628</Text>
-                    </View>
-                </View>
+                    :
+                    <Text style={{ fontSize: responsiveFontSize(1.8), color: 'white', textAlign: 'center', marginTop: 20 }}>Bạn cần đăng nhập để có thể kích hoạt</Text>
+                }
 
                 <TouchableOpacity onPress={() => this.activateProduct()} style={{ borderRadius: 10, marginTop: 20, padding: 10, paddingHorizontal: 30, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
                     <Text style={{ color: priColor, fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>KÍCH HOẠT</Text>
@@ -728,9 +743,9 @@ class ScannedProduct extends Component {
                             paddingHorizontal: 10,
                         }}
                         position='center'
-                        backdrop={true}
                         swipeToClose={false}
-                        entry='top'
+                        backdrop={false}
+                        backdropPressToClose={false}
                     >
                         <View>
                             <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Nhập mã kích hoạt đã được gửi qua SMS</Text>

@@ -18,7 +18,7 @@ export const fetchProductDetail = (qr_code) => {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log(name, responseData);
+                // console.log(name, responseData);
                 // dispatch({
                 //     type: GET_COMPATIBLE_STORES,
                 //     payload: responseData.data

@@ -82,7 +82,7 @@ export default class DetailBrand extends Component {
         // We should just debounce the event listener here
 
         this.animation.addListener(({ value }) => {
-            console.log(value);
+            // console.log(value);
             let index = Math.floor(value / (CARD_WIDTH + 20) + 0.3); // animate 30% away from landing on the next item
             if (index >= this.state.markers.length) {
                 index = this.state.markers.length - 1;
