@@ -541,7 +541,7 @@ class ScannedProduct extends Component {
                         </View>
                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
                             <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>SĐT: </Text>
-                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>+{this.props.user.infor.telephone}</Text>
+                            <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>+{this.encodeString(this.props.user.infor.telephone)}</Text>
                         </View>
                         <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
                             <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>CMND: </Text>
@@ -577,15 +577,14 @@ class ScannedProduct extends Component {
                                     </View>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
-                                        <TouchableOpacity onPress={() => text('01642525299', this.state.data.sms)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                        <TouchableOpacity style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
                                             <Text style={[styles.titleStyle]}>{this.state.data.sms}</Text>
-
                                         </TouchableOpacity>
                                     </View>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
+                                    {/* <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
                                         <Text style={{ flex: 0.4 }}></Text>
                                         <Text style={{ flex: 0.6, color: 'red', fontSize: responsiveFontSize(1.7), textAlign: 'justify' }}>(Nhấn vào mã SMS để gửi tin nhắn truy xuất)</Text>
-                                    </View>
+                                    </View> */}
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 20 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>{this.state.data.type === 'product' ? 'Serial' : 'Mã vạch'}:</Text>
                                         <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.gtin) !== 'undefined') && this.state.data.product.gtin}</Text>

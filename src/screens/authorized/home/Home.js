@@ -333,7 +333,7 @@ export default class Home extends Component {
 
         return (
             <View style={styles.container}>
-                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
+                <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={0} />
                 <View style={{ flexDirection: 'row', backgroundColor: priColor, paddingVertical: 15, }}>
                     <View style={{ flex: 1 }}></View>
                     <TouchableOpacity onPress={() => this.setState({ page: 1 })} style={[{ justifyContent: 'center', alignItems: 'center', flex: 6, borderColor: 'rgba(255, 255, 255, 0.7)', borderWidth: 1, borderRadius: 15, padding: 5, }, this.state.page === 1 && { backgroundColor: activeColor, borderColor: 'white' },]}>
@@ -541,7 +541,7 @@ const styles = {
         backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopWidth: 1, 
+        borderTopWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.5)'
     },
     customImage: {

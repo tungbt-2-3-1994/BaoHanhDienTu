@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { Platform, TextInput, View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, TextInput, View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 import SearchHeader from '../../../components/SearchHeader';
 import { width, height } from '../../../constants/dimensions';
@@ -142,6 +142,7 @@ class SearchView extends Component {
     }
 
     onSearch = () => {
+        // console.log(this.state.searchKey);
         fetch(`${host}/scan-code`, {
             method: 'POST',
             headers: {
@@ -161,6 +162,8 @@ class SearchView extends Component {
                         loading: false,
                         data: responseData.data,
                     });
+                } else {
+                    alert('Mã bạn nhập không chính xác');
                 }
             })
             .catch(e => {
@@ -168,6 +171,36 @@ class SearchView extends Component {
                 alert('Có lỗi khi lấy tin tức mới nhất');
             });
     }
+
+    // onChangeProduct = (product_id) => {
+    //     fetch(`${host}/scan-code`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             'code': product_id.toString()
+    //         })
+    //     })
+    //         .then(response => response.json())
+    //         .then(responseData => {
+    //             console.log(responseData);
+    //             if (responseData.code === 200) {
+    //                 this.setState({
+    //                     type: responseData.type,
+    //                     loading: false,
+    //                     data: responseData.data,
+    //                 });
+    //             } else {
+    //                 alert('Mã bạn nhập không chính xác');
+    //             }
+    //         })
+    //         .catch(e => {
+    //             this.setState({ loading: false });
+    //             alert('Có lỗi khi lấy tin tức mới nhất');
+    //         });
+    // }
 
     onChangeText = (text) => {
         this.setState({ searchKey: text });
@@ -380,15 +413,15 @@ class SearchView extends Component {
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Nhà phân phối độc quyền: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agent) !== 'undefined' && typeof (this.state.data.agent.name) !== 'undefined' && this.state.data.agent.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agent) !== 'undefined' && this.state.data.agent !== null && typeof (this.state.data.agent.name) !== 'undefined' && this.state.data.agent.name}</Text>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Điểm bán: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agency) !== 'undefined' && typeof (this.state.data.agency.name) !== 'undefined' && this.state.data.agency.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agency) !== 'undefined' && this.state.data.agency !== null && typeof (this.state.data.agency.name) !== 'undefined' && this.state.data.agency.name}</Text>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Đại lý cấp 1: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.first_class_agent) !== 'undefined' && typeof (this.state.data.first_class_agent.name) !== 'undefined' && this.state.data.first_class_agent.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.first_class_agent) !== 'undefined' && this.state.data.first_class_agent !== null && typeof (this.state.data.first_class_agent.name) !== 'undefined' && this.state.data.first_class_agent.name}</Text>
                             </View>
                         </View>
                         <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
@@ -500,7 +533,7 @@ class SearchView extends Component {
                             </View>
                             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
                                 <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>SĐT: </Text>
-                                <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>+{this.props.user.infor.telephone}</Text>
+                                <Text style={[{ flex: 0.7 }, styles.titleActiveStyle]}>+{this.encodeString(this.props.user.infor.telephone)}</Text>
                             </View>
                             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 15, }}>
                                 <Text style={[{ flex: 0.3 }, styles.normalTitleActiveStyle]}>CMND: </Text>
@@ -539,14 +572,14 @@ class SearchView extends Component {
                                             </View>
                                             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                                 <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
-                                                <TouchableOpacity onPress={() => text('01642525299', this.state.data.sms)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                                <TouchableOpacity style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
                                                     <Text style={[styles.titleStyle]}>{this.state.data.sms}</Text>
                                                 </TouchableOpacity>
                                             </View>
-                                            <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
+                                            {/* <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
                                                 <Text style={{ flex: 0.4 }}></Text>
                                                 <Text style={{ flex: 0.6, color: 'red', fontSize: responsiveFontSize(1.7), textAlign: 'justify' }}>(Nhấn vào mã SMS để gửi tin nhắn truy xuất)</Text>
-                                            </View>
+                                            </View> */}
                                             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 20 }}>
                                                 <Text style={[{ flex: 0.4 }, styles.titleStyle]}>{this.state.data.type === 'product' ? 'Serial' : 'Mã vạch'}:</Text>
                                                 <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.gtin) !== 'undefined') && this.state.data.product.gtin}</Text>

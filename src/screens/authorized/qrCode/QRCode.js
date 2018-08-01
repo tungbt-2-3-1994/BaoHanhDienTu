@@ -201,7 +201,7 @@ class QRCode extends Component {
                     <Image style={{ width: 100, height: 50, resizeMode: 'contain' }} source={require('../../../assets/imgs/down.png')} />
                 </Animated.View>
                 <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                    <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={1} />
+                    <NormalHeader navigation={this.props.navigation} title='GIẢI PHÁP BẢO HÀNH' count={0} />
                 </View>
             </View>
         );

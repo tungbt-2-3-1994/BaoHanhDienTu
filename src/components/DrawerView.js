@@ -11,6 +11,8 @@ import { priColor } from '../constants/colors';
 
 import { connect } from 'react-redux';
 
+import { logout } from '../actions/User';
+
 class DrawerView extends Component {
 
     onLogout = () => {

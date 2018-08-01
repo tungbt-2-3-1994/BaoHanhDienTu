@@ -81,17 +81,20 @@ class Detail extends Component {
     }
 
     getDetail = (id_product) => {
+        this.setState({ loading: true });
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
                 if (resData.code === 200) {
-                    this.setState({ product: resData });
+                    this.setState({ product: resData, loading: false });
                 } else {
                     alert('Có lỗi khi lấy thông tin sản phẩm');
+                    this.setState({ loading: false });
                 }
             })
             .catch(e => {
                 alert('Có lỗi khi lấy thông tin sản phẩm');
+                this.setState({ loading: false });
             })
     }
 
@@ -246,9 +249,8 @@ class Detail extends Component {
                             </View>
                         }
                     </View>
-
                 </Modal>
-
+                {this.state.loading && <ActivityIndicator animating={true} size='large' color='red' style={{ position: 'absolute', top: height / 2 - 15, left: width / 2 - 15 }} />}
             </View>
         );
     }

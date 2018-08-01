@@ -26,7 +26,7 @@ class BackSearchHeader extends Component {
                     <Input onChangeText={this.props.onChangeText} placeholder='Nhập mã code' style={{ fontSize: responsiveFontSize(1.6) }} />
                 </Item>
                 <Right style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={this.props.onSearch} style={{ flex: 1, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity onPress={this.props.onSearch} style={{ flex: 1, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 4 }}>
                         <Text style={{ color: 'white' }}>Tìm kiếm</Text>
                     </TouchableOpacity>
                 </Right>
