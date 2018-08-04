@@ -654,7 +654,7 @@ class ScannedProduct extends Component {
                                             </View>
                                         </View>
                                     </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10, marginTop: 10 }}>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10, marginTop: 15 }}>
                                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                                             {typeof (this.state.data.products) !== 'undefined' && this.state.data.products !== null ?
                                                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
