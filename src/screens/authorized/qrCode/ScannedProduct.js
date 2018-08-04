@@ -391,11 +391,11 @@ class ScannedProduct extends Component {
         let product = (
             <View style={{ backgroundColor: priColor, }}>
                 <View style={{ borderColor: 'white', paddingVertical: 10, paddingHorizontal: 10 }}>
-                    {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.short_description) !== 'undefined' && this.state.data.product.short_description !== null) &&
+                    {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.short_description) !== 'undefined' && this.state.data.product.short_description !== null) && this.state.data.product.short_description !== "" &&
                         <View style={{ padding: 5, marginBottom: 10 }}>
                             <Text numberOfLines={3} ellipsizeMode='tail' style={{ textAlign: 'justify', color: 'white', fontSize: responsiveFontSize(1.8) }}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.short_description) !== 'undefined' && this.state.data.product.short_description !== null) && this.state.data.product.short_description}</Text>
 
-                            <TouchableOpacity onPress={() => this.refs.moreInfo.open()} style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
+                            <TouchableOpacity onPress={() => this.refs.moreInfor.open()} style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
                                 <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
                             </TouchableOpacity>
                         </View>
@@ -408,15 +408,15 @@ class ScannedProduct extends Component {
                         <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Nhà phân phối độc quyền: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agent) !== 'undefined' && typeof (this.state.data.agent.name) !== 'undefined' && this.state.data.agent.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agent) !== 'undefined' && this.state.data.agent !== null && typeof (this.state.data.agent.name) !== 'undefined' && this.state.data.agent.name !== null && this.state.data.agent.name}</Text>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Điểm bán: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agency) !== 'undefined' && typeof (this.state.data.agency.name) !== 'undefined' && this.state.data.agency.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.agency) !== 'undefined' && this.state.data.agency !== null && typeof (this.state.data.agency.name) !== 'undefined' && this.state.data.agency.name !== null && this.state.data.agency.name}</Text>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row' }}>
                                 <Text style={{ flex: 0.3, fontSize: responsiveFontSize(1.8), color: 'white', }}>Đại lý cấp 1: </Text>
-                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.first_class_agent) !== 'undefined' && typeof (this.state.data.first_class_agent.name) !== 'undefined' && this.state.data.first_class_agent.name}</Text>
+                                <Text style={{ textAlign: 'justify', flex: 0.7, fontWeight: 'bold', fontSize: responsiveFontSize(1.8), color: 'white', marginLeft: 5 }}>{typeof (this.state.data.first_class_agent) !== 'undefined' && this.state.data.first_class_agent !== null && typeof (this.state.data.first_class_agent.name) !== 'undefined' && this.state.data.first_class_agent.name !== null && this.state.data.first_class_agent.name}</Text>
                             </View>
                         </View>
                         <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
@@ -573,7 +573,7 @@ class ScannedProduct extends Component {
                                 <View style={{ backgroundColor: 'white', }}>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 20, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Sản phẩm:</Text>
-                                        <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined') && this.state.data.product.name}</Text>
+                                        <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name !== null) && this.state.data.product.name}</Text>
                                     </View>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
@@ -613,41 +613,61 @@ class ScannedProduct extends Component {
                             </View>
                         }
                         {this.state.type === 'organization' &&
-                            <View>
+                            <View style={{ backgroundColor: priColor }}>
                                 <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: this.state.data.logo }} />
                                 <View style={styles.foreground}>
                                     <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: this.state.data.logo }} />
                                 </View>
 
-                                <View style={{ backgroundColor: 'white', paddingBottom: 20 }}>
-                                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 20, marginHorizontal: 10 }}>
-                                        <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Doanh nghiệp:</Text>
-                                        <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.name) !== 'undefined' && this.state.data.name}</Text>
-                                    </View>
-                                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
-                                        <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Địa chỉ:</Text>
-                                        <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.address) !== 'undefined' && this.state.data.address}</Text>
-                                    </View>
-                                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
-                                        <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Số điện thoại:</Text>
-                                        <TouchableOpacity onPress={() => phonecall(this.state.data.phone, true)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
-                                            <Text style={[styles.titleStyle]}>{typeof (this.state.data.phone) !== 'undefined' && this.state.data.phone}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 5 }}>
-                                        <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Website:</Text>
-                                        <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.website) !== 'undefined' && this.state.data.website}</Text>
-                                    </View>
-                                    {/* <View style={{ marginTop: 1, backgroundColor: priColor }}>
-                                        <View style={{ padding: 15, width: width, backgroundColor: priColor }}>
-                                            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>THÔNG TIN CHI TIẾT</Text>
+                                <View style={{ backgroundColor: priColor, paddingBottom: 20 }}>
+                                    <View style={{ backgroundColor: 'white', paddingBottom: 10 }}>
+                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 20, marginHorizontal: 10 }}>
+                                            <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Doanh nghiệp:</Text>
+                                            <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.name) !== 'undefined' && this.state.data.name}</Text>
                                         </View>
-                                        <View style={{ padding: 10, backgroundColor: priColor, }}>
-                                            <View style={{ borderColor: 'white', borderWidth: 1, backgroundColor: priColor, padding: 15 }}>
-                                                <Text style={{color: 'white', fontSize: responsiveFontSize(1.7)}}>Thông tin chi tiết tại đây</Text>
+                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
+                                            <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Địa chỉ:</Text>
+                                            <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.address) !== 'undefined' && this.state.data.address}</Text>
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
+                                            <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Số điện thoại:</Text>
+                                            <TouchableOpacity onPress={() => phonecall(this.state.data.phone, true)} style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                                <Text style={[styles.titleStyle]}>{typeof (this.state.data.phone) !== 'undefined' && this.state.data.phone}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 5 }}>
+                                            <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Email:</Text>
+                                            <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.email) !== 'undefined' && this.state.data.email}</Text>
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10, marginBottom: 5 }}>
+                                            <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Website:</Text>
+                                            <Text style={[{ flex: 0.6 }, styles.titleStyle]}>{typeof (this.state.data.website) !== 'undefined' && this.state.data.website}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={{ marginTop: 1, backgroundColor: priColor }}>
+                                        <View style={{ padding: 15, width: width, backgroundColor: priColor }}>
+                                            <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.8) }}>THÔNG TIN DOANH NGHIỆP</Text>
+                                        </View>
+                                        <View style={{ paddingHorizontal: 10, backgroundColor: priColor, }}>
+                                            <View style={{ borderColor: 'white', borderWidth: 1, backgroundColor: 'white', padding: 15 }}>
+                                                <HTML containerStyle={{}} html={(typeof (this.state.data.description) !== 'undefined' && this.state.data.description !== null) ? this.state.data.description : ""} imagesMaxWidth={2 * width / 3} />
                                             </View>
                                         </View>
-                                    </View> */}
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10, marginTop: 10 }}>
+                                        <View style={{ borderWidth: 1, borderColor: 'white', width: '100%', padding: 10 }}>
+                                            {typeof (this.state.data.products) !== 'undefined' && this.state.data.products !== null ?
+                                                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                                    {this.state.data.products.map((product, index) => (<SameProduct key={index.toString() + 'OwnedProductsssss'} item={product} />))}
+                                                </ScrollView>
+                                                :
+                                                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7) }}>Không có sản phẩm nào</Text>
+                                            }
+                                        </View>
+                                        <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor }}>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Sản phẩm sở hữu</Text>
+                                        </View>
+                                    </View>
                                 </View>
                             </View>
                         }
@@ -695,7 +715,7 @@ class ScannedProduct extends Component {
 
                     </ScrollView>
                     <Modal
-                        ref={'moreInfo'}
+                        ref={'moreInfor'}
                         style={{
                             backgroundColor: 'white',
                             alignItems: 'center',
@@ -713,7 +733,7 @@ class ScannedProduct extends Component {
                             {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) ?
                                 <View style={{ flex: 1, padding: 5 }}>
                                     <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
-                                    <TouchableOpacity onPress={() => this.refs.moreInfo.close()} style={{ position: 'absolute', right: 10 }}>
+                                    <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
                                         <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
                                     </TouchableOpacity>
 
@@ -724,7 +744,7 @@ class ScannedProduct extends Component {
                                 </View>
                                 :
                                 <View style={{ flex: 1, padding: 5 }}>
-                                    <TouchableOpacity onPress={() => this.refs.moreInfoView.close()} style={{ position: 'absolute', right: 10 }}>
+                                    <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
                                         <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
                                     </TouchableOpacity>
                                     <View style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, marginTop: 20 }}>
