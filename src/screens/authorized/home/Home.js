@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { Text, View, Image, TouchableOpacity, WebView, TouchableHighlight, ScrollView, FlatList, ActivityIndicator, Platform, RefreshControl } from 'react-native';
 import NormalHeader from '../../../components/NormalHeader';
 
-import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
+// import { phonecall, email, text, textWithoutEncoding, web } from 'react-native-communications';
 
 import ImageSlider from 'react-native-image-slider';
 import { width, height } from '../../../constants/dimensions';
 import { responsiveFontSize } from '../../../utils/helpers';
 
-import { Card, CardItem, Left, Body, Right, Button, Icon } from 'native-base';
+import { Icon } from 'native-base';
 
-import ImageProgress from 'react-native-image-progress';
-import * as Progress from 'react-native-progress';
 import { priColor, activeColor } from '../../../constants/colors';
-import { host, host_img } from '../../../constants/api';
+import { host } from '../../../constants/api';
 
 const CrossText = ({ text }) => {
     return (
@@ -49,7 +47,8 @@ export default class Home extends Component {
         refreshing_instruction: false,
         pull_to_refresh_news: false,
         pull_to_refresh_discount: false,
-        pull_to_refresh_instruction: false
+        pull_to_refresh_instruction: false,
+        banners: []
     }
 
     componentDidMount() {
@@ -103,6 +102,21 @@ export default class Home extends Component {
             .catch(e => {
                 this.setState({ loading_instruction: false });
                 alert('Có lỗi khi lấy thông tin hướng dẫn');
+            });
+        fetch(`${host}/banners`)
+            .then(response => response.json())
+            .then(responseData => {
+                console.log('as', responseData);
+                if (responseData.code === 200 && responseData.data.length > 0) {
+                    this.setState({ banners: responseData.data });
+                } else {
+                    this.setState({ banners: [{ image: 'https://kienthucmagazine.com/raovat/wp-content/themes/classipost/images/no-banner-image.png' }] });
+                }
+            })
+            .catch(e => {
+                console.log('e', e);
+                this.setState({ banners: [{ image: 'https://kienthucmagazine.com/raovat/wp-content/themes/classipost/images/no-banner-image.png' }] });
+                // alert('Có lỗi khi lấy thông tin hướng dẫn');
             });
     }
 
@@ -351,32 +365,34 @@ export default class Home extends Component {
                 </View>
                 <View style={{ flex: 1, backgroundColor: priColor, }}>
                     <View style={{ width: width, height: 2 * width / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
-                        <ImageSlider
-                            loopBothSides
-                            autoPlayWithInterval={3000}
-                            images={images}
-                            customSlide={({ index, item, style, width }) => (
-                                <View key={index} style={[style, styles.customSlide]}>
-                                    <Image source={item} style={styles.customImage} />
-                                </View>
-                            )}
-                            customButtons={(position, move) => (
-                                <View style={styles.buttons}>
-                                    {images.map((image, index) => {
-                                        return (
-                                            <TouchableHighlight
-                                                key={index}
-                                                underlayColor="#ccc"
-                                                onPress={() => move(index)}
-                                                style={styles.button}
-                                            >
-                                                <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
-                                            </TouchableHighlight>
-                                        );
-                                    })}
-                                </View>
-                            )}
-                        />
+                        {this.state.banners.length > 0 &&
+                            <ImageSlider
+                                loopBothSides
+                                autoPlayWithInterval={3000}
+                                images={this.state.banners}
+                                customSlide={({ index, item, style, width }) => (
+                                    <View key={index} style={[style, styles.customSlide]}>
+                                        <Image source={{uri: item.image}} style={styles.customImage} />
+                                    </View>
+                                )}
+                                customButtons={(position, move) => (
+                                    <View style={styles.buttons}>
+                                        {this.state.banners.map((image, index) => {
+                                            return (
+                                                <TouchableHighlight
+                                                    key={index}
+                                                    underlayColor="#ccc"
+                                                    onPress={() => move(index)}
+                                                    style={styles.button}
+                                                >
+                                                    <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
+                                                </TouchableHighlight>
+                                            );
+                                        })}
+                                    </View>
+                                )}
+                            />
+                        }
                     </View>
 
                     {this.state.page === 1 &&

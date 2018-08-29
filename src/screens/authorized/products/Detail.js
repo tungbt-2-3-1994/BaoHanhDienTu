@@ -164,7 +164,7 @@ class Detail extends Component {
                         </View>
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng nhà sản xuất (thương hiệu)</Text>
                             <FlatList
                                 style={{ marginBottom: 5, marginTop: 15 }}
                                 data={this.state.same_products}

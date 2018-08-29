@@ -71,6 +71,9 @@ class Categories extends Component {
             loadMore: false,
             current_page: 1,
             total_page: 10000,
+            last_page: 100000,
+            cur_page: 1,
+            load_hot_more: false
         }
     }
 
@@ -107,12 +110,14 @@ class Categories extends Component {
                 alert('Có lỗi khi lấy ngành hàng mở rộng');
             });
 
-        fetch(`${host}/products?sort_by=discount&sort_type=desc&per_page=10`)
+        fetch(`${host}/products/best-selling?per_page=10`)
             .then(response => response.json())
             .then(responseData => {
+                console.log('res', responseData);
                 if (responseData.code === 200) {
                     this.setState({
                         hot_trend: responseData.data,
+                        last_page: responseData.last_page
                     });
                 }
                 this.setState({ loading_hot_products: false });
@@ -224,6 +229,37 @@ class Categories extends Component {
         );
     }
 
+    renderHotProductsFooter = () => {
+        if (!this.state.load_hot_more) return null;
+        return (
+            <View style={{ height: null, flex: 1, width: 50, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator color={priColor} animating={true} size='large' />
+            </View>
+        );
+    }
+
+    handleLoadMoreHotProducts = () => {
+        if (this.state.cur_page + 1 < this.state.last_page) {
+            this.setState({ load_hot_more: true, cur_page: this.state.cur_page + 1 }, () => {
+                fetch(`${host}/products/best-selling?per_page=10&page=${this.state.cur_page}`)
+                    .then(response => response.json())
+                    .then(responseData => {
+                        if (responseData.code === 200) {
+                            this.setState({
+                                hot_trend: [...this.state.hot_trend, ...responseData.data],
+                            });
+                        }
+                        this.setState({ load_hot_more: false });
+                    })
+                    .catch(e => {
+                        this.setState({ load_hot_more: false });
+                        // alert('Có lỗi khi lấy thêm sản phẩm');
+                    });
+            });
+        }
+
+    }
+
     render() {
 
         return (
@@ -236,6 +272,10 @@ class Categories extends Component {
                             <FlatList
                                 style={{ marginLeft: 10, marginRight: 5, backgroundColor: 'white' }}
                                 data={this.state.hot_trend}
+                                onEndReached={this.handleLoadMoreHotProducts}
+                                onEndReachedThreshold={Platform.OS === 'ios' ? -0.1 : 0.2}
+                                ListFooterComponent={this.renderHotProductsFooter}
+                                removeClippedSubviews={true}
                                 showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 renderItem={({ item }) => {
