@@ -6,14 +6,17 @@ import { width, height } from '../../../constants/dimensions';
 import { Icon, Button } from 'native-base';
 import { Input } from 'react-native-elements';
 import { responsiveFontSize } from '../../../utils/helpers';
-import { validateEmail } from '../../../utils/validateEmail';
-import { phoneNumber } from '../../../utils/validatePhoneNumber';
+
+import { SocialIcon } from 'react-native-elements';
 
 import ImagePicker from 'react-native-image-picker';
 import { priColor } from '../../../constants/colors';
 
 import { connect } from 'react-redux';
 import { normalLogin, logout } from '../../../actions/index';
+
+// import { GoogleSignin } from 'react-native-google-signin';
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 class Account extends Component {
     static navigationOptions = {
@@ -36,6 +39,19 @@ class Account extends Component {
         error_pass: ''
     }
 
+    componentWillMount() {
+        // try {
+        //     GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+        //     // google services are available
+        // } catch (err) {
+        //     console.error('play services are not available');
+        // }
+        // GoogleSignin.configure({
+        //     iosClientId: '63667254394-pa9jspkf6tq037k8velf1nibobnj5mcd.apps.googleusercontent.com',
+        //     webClientId: '63667254394-pnhhj6jvhm8teseohisb4dal6oc0cl8u.apps.googleusercontent.com'
+        // });
+    }
+
     onLogin = () => {
         this.setState({ loading: true });
         let { email, password } = this.state;
@@ -47,6 +63,81 @@ class Account extends Component {
             this.props.normalLogin(email, password);
         }
     }
+
+    _onLoginFbPress = async () => {
+        LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+            (result) => {
+                if (!result.isCancelled) {
+                    AccessToken.getCurrentAccessToken().then(
+                        (data) => {
+                            let accessToken = data.accessToken;
+                            console.log('accessToken', accessToken);
+                            const responseInfoCallback = (error, result) => {
+                                console.log('responseData', result);
+                                if (error) {
+                                    console.log(error)
+                                    alert('Login fail with Facebook!');
+                                } else {
+
+                                }
+                            }
+
+                            const infoRequest = new GraphRequest(
+                                '/me',
+                                {
+                                    accessToken: accessToken,
+                                    parameters: {
+                                        fields: {
+                                            string: 'email,name,middle_name,picture'
+                                        }
+                                    }
+                                },
+                                responseInfoCallback
+                            );
+
+                            // Start the graph request.
+                            new GraphRequestManager().addRequest(infoRequest).start()
+
+                        }
+                    )
+                } else {
+                    this.setState({ loading: false });
+                }
+            },
+            (error) => {
+                this.setState({ loading: false });
+                Alert.alert(
+                    'Oop!',
+                    'Login fail with Facebook!',
+                    [
+                        {
+                            text: 'Đồng ý',
+                        }
+                    ],
+                    { cancelable: false }
+                );
+            }
+        );
+    }
+
+    _onGoogleSignin = async () => {
+        // try {
+        //     await GoogleSignin.hasPlayServices();
+        //     const userInfo = await GoogleSignin.signIn();
+        //     console.log('userInfo', userInfo);
+        // } catch (error) {
+        //     this.setState({ loading: false });
+        //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        //         alert('user cancelled the login flow');
+        //     } else if (error.code === statusCodes.IN_PROGRESS) {
+        //         alert('operation (f.e. sign in) is in progress already');
+        //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        //         alert('play services not available or outdated');
+        //     } else {
+        //         alert('some other error happened');
+        //     }
+        // }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.user.isLogin === true && !this.state.isLogin) {
@@ -170,6 +261,11 @@ class Account extends Component {
                             <Button bordered light style={styles.btnStyle} onPress={() => this.onLogin()}>
                                 <Text style={{ color: 'white', fontWeight: 'bold' }}>Đăng nhập</Text>
                             </Button>
+                        </View>
+                        <Text style={{ marginTop: 20, color: 'white', }}>-------Hoặc Đăng nhập với-------</Text>
+                        <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-around', marginTop: 10 }}>
+                            <SocialIcon onPress={() => this._onLoginFbPress()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title='Facebook' button type='facebook' />
+                            <SocialIcon onPress={() => this._onGoogleSignin()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title=' Google ' button type='google-plus-official' />
                         </View>
                     </View >
                     <View style={{ width: width, height: width / 3, justifyContent: 'center', paddingLeft: width / 8 }}>

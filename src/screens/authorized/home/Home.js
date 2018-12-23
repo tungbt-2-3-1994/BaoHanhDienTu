@@ -22,6 +22,8 @@ const CrossText = ({ text }) => {
     );
 }
 
+// import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+
 
 export default class Home extends Component {
 
@@ -50,6 +52,19 @@ export default class Home extends Component {
         pull_to_refresh_instruction: false,
         banners: []
     }
+
+    // componentWillMount() {
+    //     try {
+    //         GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+    //         // google services are available
+    //     } catch (err) {
+    //         console.error('play services are not available');
+    //     }
+    //     GoogleSignin.configure({
+    //         iosClientId: '63667254394-pa9jspkf6tq037k8velf1nibobnj5mcd.apps.googleusercontent.com',
+    //         webClientId: '63667254394-pnhhj6jvhm8teseohisb4dal6oc0cl8u.apps.googleusercontent.com'
+    //     });
+    // }
 
     componentDidMount() {
         this.setState({ loading_discount: true, loading: true, loading_instruction: true });
@@ -372,7 +387,7 @@ export default class Home extends Component {
                                 images={this.state.banners}
                                 customSlide={({ index, item, style, width }) => (
                                     <View key={index} style={[style, styles.customSlide]}>
-                                        <Image source={{uri: item.image}} style={styles.customImage} />
+                                        <Image source={{ uri: item.image }} style={styles.customImage} />
                                     </View>
                                 )}
                                 customButtons={(position, move) => (

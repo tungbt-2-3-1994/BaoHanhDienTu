@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "63667254394",
+    "firebase_url": "https://bao-hanh-dien-tu.firebaseio.com",
+    "project_id": "bao-hanh-dien-tu",
+    "storage_bucket": "bao-hanh-dien-tu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63667254394:android:7ea9d7f0cc5f36b1",
+        "android_client_info": {
+          "package_name": "com.baohanhdientu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63667254394-40v8l7742c44k5s2vpovul8f2d7l0ma6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.baohanhdientu",
+            "certificate_hash": "7cd1752e652032d6062f079b295e581a88de6259"
+          }
+        },
+        {
+          "client_id": "63667254394-pnhhj6jvhm8teseohisb4dal6oc0cl8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDGR-g6RY5DVbOJFKTsIfxQSCULXz0fs8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63667254394-pnhhj6jvhm8teseohisb4dal6oc0cl8u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "63667254394-pa9jspkf6tq037k8velf1nibobnj5mcd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vat.jsmile.vbh"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
