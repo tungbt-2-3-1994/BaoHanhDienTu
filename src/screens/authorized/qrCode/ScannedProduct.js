@@ -332,6 +332,10 @@ class ScannedProduct extends Component {
         this.props.navigation.navigate('DetailProduct', { item: item });
     }
 
+    checkCode = () => {
+        textWithoutEncoding("8079", `VBH ${this.state.data.sms}`);
+    }
+
     render() {
 
         let productBarcode = (
@@ -587,9 +591,14 @@ class ScannedProduct extends Component {
                                     </View>
                                     <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', marginTop: 10, marginHorizontal: 10 }}>
                                         <Text style={[{ flex: 0.4 }, styles.titleStyle]}>Mã truy xuất:</Text>
-                                        <TouchableOpacity style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1 }}>
+                                        <View style={{ flex: 0.6, borderColor: priColor, borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                             <Text style={[styles.titleStyle]}>{this.state.data.sms}</Text>
-                                        </TouchableOpacity>
+                                            <TouchableOpacity onPress={() => { this.checkCode() }} style={{ backgroundColor: '#008080', paddingVertical: 7, paddingHorizontal: 10, marginBottom: 2 }}>
+                                                <Text style={{ fontSize: responsiveFontSize(2), color: 'white', fontWeight: '700' }}>KIỂM TRA</Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+
                                     </View>
                                     {/* <View style={{ flex: 1, flexDirection: 'row', marginTop: 2, marginHorizontal: 10 }}>
                                         <Text style={{ flex: 0.4 }}></Text>
@@ -812,28 +821,12 @@ class ScannedProduct extends Component {
                         entry='bottom'
                     >
                         <View>
-                            {(typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.description) !== 'undefined' && this.state.data.product.description !== null) ?
-                                <View style={{ flex: 1, padding: 5 }}>
-                                    <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
-                                    <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
-                                        <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
-                                    </TouchableOpacity>
-
-                                    <ScrollView style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, paddingTop: 25 }}>
-                                        <HTML containerStyle={{ paddingBottom: 5 }} html={this.state.data.product.description} imagesMaxWidth={2 * width / 3} />
-                                        <Text>                                                                                 </Text>
-                                    </ScrollView>
-                                </View>
-                                :
-                                <View style={{ flex: 1, padding: 5 }}>
-                                    <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
-                                        <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
-                                    </TouchableOpacity>
-                                    <View style={{ flex: 1, paddingBottom: 20, paddingHorizontal: 10, marginTop: 20 }}>
-                                        <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2) }}>Không có thông tin chi tiết cho sản phẩm này</Text>
-                                    </View>
-                                </View>
-                            }
+                            <View style={{ flex: 1, padding: 5 }}>
+                                <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
+                                <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
+                                    <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
                     </Modal>
