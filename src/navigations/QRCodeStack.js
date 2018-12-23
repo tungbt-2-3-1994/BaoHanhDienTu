@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 
 import QRCode from '../screens/authorized/qrCode/QRCode';
 import ScannedProduct from '../screens/authorized/qrCode/ScannedProduct';
+import DetailProduct from '../screens/authorized/qrCode/DetailProduct';
 
 const QRCodeStack = StackNavigator({
     QRCode: {
@@ -9,6 +10,9 @@ const QRCodeStack = StackNavigator({
     },
     ScannedProduct: {
         screen: ScannedProduct
+    },
+    DetailProduct: {
+        screen: DetailProduct
     },
 }, {
         navigationOptions: {

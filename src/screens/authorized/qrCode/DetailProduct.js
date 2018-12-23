@@ -23,7 +23,7 @@ const CrossText = ({ text }) => {
     );
 }
 
-class Detail extends Component {
+class DetailProduct extends Component {
 
     constructor(props) {
         super(props);
@@ -86,7 +86,7 @@ class Detail extends Component {
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
-                console.log('error', resData);
+                console.log('resData', resData);
                 if (resData.code === 200) {
                     this.setState({ product: resData, loading: false });
                 } else {
@@ -101,48 +101,11 @@ class Detail extends Component {
     }
 
     render() {
-        // const images = [
-        //     require('../../../assets/imgs/grape1.jpg'),
-        //     require('../../../assets/imgs/grape2.jpeg'),
-        //     require('../../../assets/imgs/grape3.jpg'),
-        //     require('../../../assets/imgs/grape4.jpeg'),
-        // ];
-
-        // const { item } = this.props.navigation.state.params;
-
         return (
             <View style={styles.container}>
                 <BackHeader navigation={this.props.navigation} title='CHI TIẾT SẢN PHẨM' />
                 <View style={{ flex: 1, paddingBottom: height / 16 }}>
                     <ScrollView ref='myScroll' style={{ backgroundColor: priColor, flex: 1 }}>
-                        {/* <View style={{ width: width, height: height / 5, borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.8)', }}>
-                            <ImageSlider
-                                loopBothSides
-                                autoPlayWithInterval={3000}
-                                images={images}
-                                customSlide={({ index, item, style, width }) => (
-                                    <View key={index} style={[style, styles.customSlide]}>
-                                        <Image source={item} style={styles.customImage} />
-                                    </View>
-                                )}
-                                customButtons={(position, move) => (
-                                    <View style={styles.buttons}>
-                                        {images.map((image, index) => {
-                                            return (
-                                                <TouchableHighlight
-                                                    key={index}
-                                                    underlayColor="#ccc"
-                                                    onPress={() => move(index)}
-                                                    style={styles.button}
-                                                >
-                                                    <View style={position === index ? styles.buttonSelected : styles.normalButton}></View>
-                                                </TouchableHighlight>
-                                            );
-                                        })}
-                                    </View>
-                                )}
-                            />
-                        </View> */}
                         <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: this.state.product.logo }} />
                         <View style={styles.foreground}>
                             <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: this.state.product.logo }} />
@@ -310,5 +273,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Detail;
+export default DetailProduct;
 

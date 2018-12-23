@@ -131,6 +131,7 @@ class Categories extends Component {
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.code === 200) {
+                    console.log('all_product', responseData);
                     this.setState({
                         all_products: responseData.data,
                         total_page: responseData.last_page
