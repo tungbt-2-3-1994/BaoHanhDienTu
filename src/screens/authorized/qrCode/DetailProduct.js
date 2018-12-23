@@ -86,7 +86,7 @@ class DetailProduct extends Component {
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
-                console.log('resData', resData);
+                console.log('error', resData);
                 if (resData.code === 200) {
                     this.setState({ product: resData, loading: false });
                 } else {
@@ -104,37 +104,48 @@ class DetailProduct extends Component {
         return (
             <View style={styles.container}>
                 <BackHeader navigation={this.props.navigation} title='CHI TIẾT SẢN PHẨM' />
-                <View style={{ flex: 1, paddingBottom: height / 16 }}>
+                <View style={{ flex: 1, }}>
                     <ScrollView ref='myScroll' style={{ backgroundColor: priColor, flex: 1 }}>
                         <Image style={{ width: width, height: height / 5, resizeMode: 'cover' }} source={{ uri: this.state.product.logo }} />
                         <View style={styles.foreground}>
                             <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: this.state.product.logo }} />
                         </View>
-                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20 }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>{this.state.product.name.toUpperCase()}</Text>
-                            {/* <Text style={{ fontSize: responsiveFontSize(1.6), color: 'white', marginTop: 10 }}>Đơn vị: Chiếc</Text> */}
-                            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', marginTop: 20 }}>
-                                <Text style={{ fontSize: responsiveFontSize(2), color: 'yellow' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} vnđ</Text>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20, }}>
+                            <View style={{ flexDirection: 'row', }}>
+                                <View style={{ flex: 0.7, paddingRight: 10 }}>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>{this.state.product.name}</Text>
+                                </View>
+                                <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 3 }}>
+                                    <Text style={{ fontSize: responsiveFontSize(1.8), color: '#cb4a46', fontWeight: '700', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
+                                    <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'center' }}>
+                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.4) }}>32.000đ</Text>
+                                        <View style={{ backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.4), fontWeight: '600' }}>-19%</Text>
+                                        </View>
+                                    </View>
+                                </View>
                             </View>
+
                             {this.state.product.short_description !== null && this.state.product.short_description !== "" && this.state.product.description !== null &&
-                                <View>
+                                <View style={{ flex: 1 }}>
                                     <View style={{ padding: 1, marginTop: 20 }}>
                                         <Text style={{ padding: 0, fontSize: responsiveFontSize(1.6), color: 'white', }}>{this.state.product.short_description}</Text>
                                     </View>
-                                    <TouchableOpacity onPress={() => this.refs.moreInfoView.open()} style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
-                                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
-                                    </TouchableOpacity>
+                                    <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
+                                        <Text></Text>
+                                        <TouchableOpacity onPress={() => this.refs.moreInfoView.open()} style={{ marginTop: 10, padding: 5, backgroundColor: '#538240', width: 100, borderRadius: 5 }}>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), textAlign: 'center' }}>Xem thêm</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             }
                         </View>
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng nhà sản xuất (thương hiệu)</Text>
-                            <FlatList
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
+                            {/* <FlatList
                                 style={{ marginBottom: 5, marginTop: 15 }}
                                 data={this.state.same_products}
-                                // refreshing={this.state.refreshing}
-                                // onRefresh={this.handleRefresh}
                                 ItemSeparatorComponent={this.separateView}
                                 renderItem={({ item }) => {
                                     return (
@@ -144,7 +155,7 @@ class DetailProduct extends Component {
                                         }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
                                             <Image source={{ uri: item.logo }} style={{ height: 2 * (width - 20) / 9 - 5, width: 2 * (width - 20) / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
                                             <View style={{ paddingHorizontal: 3, width: 7 * (width - 20) / 9, justifyContent: 'space-between', paddingBottom: (width - 20) / 27, paddingTop: 2 }}>
-                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'white', fontWeight: 'bold' }}>{item.name.toUpperCase()}</Text>
+                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
                                                 <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'yellow' }}>{item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} vnđ</Text>
                                                 <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
                                                     <CrossText text={item.price + 'vnđ'} />
@@ -159,20 +170,37 @@ class DetailProduct extends Component {
                                 }}
                                 keyExtractor={(item, index) => index + item.gtin + 'products'}
                                 ListEmptyComponent={this.renderEmpty}
-                            />
+                            /> */}
+                            <View style={{ paddingVertical: 10, marginTop: 10 }}>
+                                <FlatList
+                                    style={{ backgroundColor: priColor }}
+                                    data={this.state.same_products}
+                                    showsHorizontalScrollIndicator={false}
+                                    horizontal={true}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <TouchableOpacity style={{ paddingBottom: 10, marginRight: 5, backgroundColor: priColor, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.4)', width: (width - 30) / 3, flex: 1, height: null }} onPress={() => {
+                                                this.getDetail(item.id);
+                                                this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
+                                            }}>
+                                                <View style={{}}>
+                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) /3, height: (width - 30) / 3, resizeMode: 'contain' }} />
+                                                    {/* <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingBottom: 28, paddingTop: 10, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text> */}
+                                                    <Text ellipsizeMode='tail' numberOfLines={1} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(2), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.price} đ</Text>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingBottom: 7 }}>
+                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'white', textDecorationLine: 'line-through' }}>100.000đ</Text>
+                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'rgba(0, 0, 0, 0.7)' }}>-1%</Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableOpacity>
+                                        );
+                                    }}
+                                    keyExtractor={(item, index) => item.name + index}
+                                    ListEmptyComponent={this.renderAllProductsEmpty}
+                                />
+                            </View>
                         </View>
                     </ScrollView>
-                    <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: height / 16, flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ flex: 0.2, backgroundColor: '#9ed6de', justifyContent: 'center', alignItems: 'center' }}>
-                            <Icon type='FontAwesome' name='cart-arrow-down' style={{ color: 'white', fontSize: responsiveFontSize(4) }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ flex: 0.2, backgroundColor: '#9ed6de', justifyContent: 'center', alignItems: 'center' }}>
-                            <Icon type='Ionicons' name='ios-share-outline' style={{ color: 'white', fontSize: responsiveFontSize(4) }} />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ flex: 0.6, backgroundColor: '#ff7d2f', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(3), fontWeight: 'bold' }}>MUA NGAY</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
                 <Modal
                     ref={'moreInfoView'}

@@ -13,7 +13,7 @@ import ImagePicker from 'react-native-image-picker';
 import { priColor } from '../../../constants/colors';
 
 import { connect } from 'react-redux';
-import { normalLogin, logout } from '../../../actions/index';
+import { normalLogin, logout, loginWithSocial } from '../../../actions/index';
 
 // import { GoogleSignin } from 'react-native-google-signin';
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
@@ -55,7 +55,7 @@ class Account extends Component {
     onLogin = () => {
         this.setState({ loading: true });
         let { email, password } = this.state;
-        console.log(email);
+        // console.log(email);
         if (email.length === 0 || email === '') {
             this.setState({ error_phone: 'Bạn cần phải nhập số điện thoại' });
             this.setState({ loading: false });
@@ -78,7 +78,7 @@ class Account extends Component {
                                     console.log(error)
                                     alert('Login fail with Facebook!');
                                 } else {
-
+                                    this.props.loginWithSocial(result.name, result.name, 1, accessToken);
                                 }
                             }
 
@@ -263,10 +263,16 @@ class Account extends Component {
                             </Button>
                         </View>
                         <Text style={{ marginTop: 20, color: 'white', }}>-------Hoặc Đăng nhập với-------</Text>
-                        <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-around', marginTop: 10 }}>
-                            <SocialIcon onPress={() => this._onLoginFbPress()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title='Facebook' button type='facebook' />
-                            <SocialIcon onPress={() => this._onGoogleSignin()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title=' Google ' button type='google-plus-official' />
-                        </View>
+                        {Platform.OS === 'android' ?
+                            <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'center', marginTop: 10 }}>
+                                <SocialIcon onPress={() => this._onLoginFbPress()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title='Facebook' button type='facebook' />
+                            </View>
+                            :
+                            <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-around', marginTop: 10 }}>
+                                <SocialIcon onPress={() => this._onLoginFbPress()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title='Facebook' button type='facebook' />
+                                <SocialIcon onPress={() => this._onGoogleSignin()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title=' Google ' button type='google-plus-official' />
+                            </View>
+                        }
                     </View >
                     <View style={{ width: width, height: width / 3, justifyContent: 'center', paddingLeft: width / 8 }}>
                         <Text style={{ color: 'white', fontSize: responsiveFontSize(1.5), fontStyle: 'italic' }}>- Hotline: 0988.565.286 - 0941.375.866</Text>
@@ -456,6 +462,9 @@ const mapDispatchToProps = (dispatch, props) => {
     return {
         normalLogin: (username, password) => {
             dispatch(normalLogin(username, password));
+        },
+        loginWithSocial: (username, name, type, token) => {
+            dispatch(loginWithSocial(username, name, type, token));
         },
         logout: (accessToken) => {
             dispatch(logout(accessToken));
