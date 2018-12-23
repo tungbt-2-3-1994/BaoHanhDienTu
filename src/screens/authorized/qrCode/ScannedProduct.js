@@ -180,6 +180,10 @@ class ScannedProduct extends Component {
         });
     }
 
+    componentDidMount() {
+        this.refs.notifyForm.open();
+    }
+
     componentWillUnmount() {
         this.props.navigation.state.params.onDone(true, true);
     }
@@ -813,24 +817,32 @@ class ScannedProduct extends Component {
                             borderRadius: Platform.OS === 'ios' ? 15 : 10,
                             shadowRadius: 10,
                             width: 3 * width / 4,
-                            height: 3 * height / 5,
+                            height: null,
+                            borderColor: '#0aa3dc', borderWidth: 1.5
                         }}
                         position='center'
                         backdrop={true}
                         swipeToClose={false}
                         entry='bottom'
                     >
-                        <View>
-                            <View style={{ flex: 1, padding: 5 }}>
-                                <Text style={{ textAlign: 'center', color: priColor, fontSize: responsiveFontSize(2), marginTop: 20 }}>{typeof (this.state.data.product) !== 'undefined' && typeof (this.state.data.product.name) !== 'undefined' && this.state.data.product.name}</Text>
-                                <TouchableOpacity onPress={() => this.refs.moreInfor.close()} style={{ position: 'absolute', right: 10 }}>
-                                    <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
-                                </TouchableOpacity>
-                            </View>
+                        <View style={{ padding: 10 }}>
+                            <Text style={{ textAlign: 'center', fontSize: responsiveFontSize(2.1), marginTop: 20, fontWeight: '700' }}>
+                                <Text style={{ color: '#0aa3dc' }}>NẾU BẠN SỞ HỮU SẢN PHẨM NÀY, XIN BẤM </Text>
+                                <Text style={{ color: 'red', }} onPress={() => {
+                                    this.setState({ activePage: 2 });
+                                    this.refs.notifyForm.close();
+                                }}>"KÍCH HOẠT"</Text>
+                                <Text style={{ color: '#0aa3dc' }}> ĐỂ XÁC THỰC THÔNG TIN SỞ HỮU. THỰC HIỆN ĐIỀU NÀY GIÚP BẠN</Text>
+                                <Text style={{ color: 'red', }}> BẢO VỆ QUYỀN LỢI </Text>
+                                <Text style={{ color: '#0aa3dc' }}>CỦA BẠN VÀ </Text>
+                                <Text style={{ color: 'red', }}>THƯƠNG HIỆU DOANH NGHIỆP. </Text>
+                                <Text style={{ color: '#0aa3dc' }}>XIN CÁM ƠN.</Text>
+                            </Text>
+                            <TouchableOpacity onPress={() => this.refs.notifyForm.close()} style={{ position: 'absolute', right: 10 }}>
+                                <Icon name='close' style={{ color: activeColor, fontSize: 30 }} />
+                            </TouchableOpacity>
                         </View>
-
                     </Modal>
-
                 </View>
             </View>
         );
