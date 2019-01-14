@@ -14,15 +14,6 @@ import Modal from 'react-native-modalbox';
 
 import HTML from 'react-native-render-html';
 
-const CrossText = ({ text }) => {
-    return (
-        <View style={{}}>
-            <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(255, 255, 255, 0.6)' }}>{text}</Text>
-            <View style={{ position: 'absolute', top: responsiveFontSize(0.9), left: 0, right: 0, height: 1, width: null, flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}></View>
-        </View>
-    );
-}
-
 class Detail extends Component {
 
     constructor(props) {
@@ -86,7 +77,7 @@ class Detail extends Component {
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
-                console.log('error', resData);
+                console.log('DATA', resData);
                 if (resData.code === 200) {
                     this.setState({ product: resData, loading: false });
                 } else {
@@ -110,17 +101,17 @@ class Detail extends Component {
                         <View style={styles.foreground}>
                             <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: this.state.product.logo }} />
                         </View>
-                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20, }}>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10, }}>
                             <View style={{ flexDirection: 'row', }}>
                                 <View style={{ flex: 0.7, paddingRight: 10 }}>
-                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>{this.state.product.name}</Text>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>Sản phẩm: {this.state.product.name}</Text>
                                 </View>
-                                <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 3 }}>
-                                    <Text style={{ fontSize: responsiveFontSize(1.8), color: '#cb4a46', fontWeight: '700', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
+                                <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 2 }}>
+                                    <Text style={{ fontSize: responsiveFontSize(2.2), color: '#cb4a46', fontWeight: '800', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'center' }}>
-                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.4) }}>32.000đ</Text>
-                                        <View style={{ backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
-                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.4), fontWeight: '600' }}>-19%</Text>
+                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.3) }}>00.000đ</Text>
+                                        <View style={{ borderRadius: 3, backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.2), fontWeight: '800' }}>-19%</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -140,37 +131,43 @@ class Detail extends Component {
                                 </View>
                             }
                         </View>
+
+                        <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', height: width / 4, marginVertical: 10, borderWidth: 1, borderColor: 'white', marginHorizontal: 10 }}>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ color: 'white', fontSize: 15, textAlign: 'center' }}>Thương hiệu Doanh nghiệp</Text>
+                            </View>
+                            <View style={{ flex: 3 }}>
+                                <Image
+                                    source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }}
+                                    style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ backgroundColor: 'white', height: 1, width: width }}></View>
+
+                        <View style={{ padding: 10, }}>
+                            <Text style={{ color: 'white', fontSize: 15, marginBottom: 10 }}>Điểm bán</Text>
+                            <View style={{ paddingBottom: 10, marginRight: 5, backgroundColor: priColor, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.4)', width: (width - 30) / 2, flex: 1, height: null }} >
+                                <View style={{}}>
+                                    <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) / 2, height: (width - 30) / 5, resizeMode: 'contain' }} />
+                                    <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
+                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
+                                    </Text>
+                                    <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
+                                        <Text style={{ color: 'white' }}>Địa chỉ: </Text>
+                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>{this.state.product && this.state.product.organization && this.state.product.organization.address}</Text>
+                                    </Text>
+                                    <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
+                                        <Text style={{ color: 'white' }}>Hotline: </Text>
+                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>{this.state.product && this.state.product.organization && this.state.product.organization.phone}</Text>
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
                             <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
-                            {/* <FlatList
-                                style={{ marginBottom: 5, marginTop: 15 }}
-                                data={this.state.same_products}
-                                ItemSeparatorComponent={this.separateView}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <TouchableOpacity onPress={() => {
-                                            this.getDetail(item.id);
-                                            this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
-                                        }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
-                                            <Image source={{ uri: item.logo }} style={{ height: 2 * (width - 20) / 9 - 5, width: 2 * (width - 20) / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
-                                            <View style={{ paddingHorizontal: 3, width: 7 * (width - 20) / 9, justifyContent: 'space-between', paddingBottom: (width - 20) / 27, paddingTop: 2 }}>
-                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
-                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'yellow' }}>{item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} vnđ</Text>
-                                                <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
-                                                    <CrossText text={item.price + 'vnđ'} />
-                                                    <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -{item.discount}%</Text>
-                                                </View>
-                                                <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingVertical: 2, paddingHorizontal: 5 }}>
-                                                    <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.6) }}>Mua ngay</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </TouchableOpacity>
-                                    );
-                                }}
-                                keyExtractor={(item, index) => index + item.gtin + 'products'}
-                                ListEmptyComponent={this.renderEmpty}
-                            /> */}
                             <View style={{ paddingVertical: 10, marginTop: 10 }}>
                                 <FlatList
                                     style={{ backgroundColor: priColor }}
@@ -184,7 +181,7 @@ class Detail extends Component {
                                                 this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
                                             }}>
                                                 <View style={{}}>
-                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) /3, height: (width - 30) / 3, resizeMode: 'contain' }} />
+                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) / 3, height: (width - 30) / 3, resizeMode: 'contain' }} />
                                                     {/* <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingBottom: 28, paddingTop: 10, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text> */}
                                                     <Text ellipsizeMode='tail' numberOfLines={1} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(2), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.price} đ</Text>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingBottom: 7 }}>
