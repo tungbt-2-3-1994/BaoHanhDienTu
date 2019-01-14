@@ -109,9 +109,9 @@ class Detail extends Component {
                                 <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 2 }}>
                                     <Text style={{ fontSize: responsiveFontSize(2.2), color: '#cb4a46', fontWeight: '800', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'center' }}>
-                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.3) }}>00.000đ</Text>
+                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.3) }}>{(this.state.product.price * (1 + this.state.product.discount / 100)).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
                                         <View style={{ borderRadius: 3, backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
-                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.2), fontWeight: '800' }}>-19%</Text>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.2), fontWeight: '800' }}>-{this.state.product.discount && this.state.product.discount}%</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -140,7 +140,7 @@ class Detail extends Component {
                             <View style={{ flex: 3 }}>
                                 <Image
                                     source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }}
-                                    style={{ flex: 1, width: null, height: null, resizeMode: 'contain' }}
+                                    style={{ flex: 1, width: null, height: null, resizeMode: 'stretch' }}
                                 />
                             </View>
                         </View>
@@ -148,12 +148,10 @@ class Detail extends Component {
 
                         <View style={{ padding: 10, }}>
                             <Text style={{ color: 'white', fontSize: 15, marginBottom: 10 }}>Điểm bán</Text>
-                            <View style={{ paddingBottom: 10, marginRight: 5, backgroundColor: priColor, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.4)', width: (width - 30) / 2, flex: 1, height: null }} >
+                            <View style={{ paddingBottom: 10, backgroundColor: priColor, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 1)', width: (width - 30) / 2, flex: 1, height: null }} >
                                 <View style={{}}>
-                                    <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) / 2, height: (width - 30) / 5, resizeMode: 'contain' }} />
-                                    <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
-                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
-                                    </Text>
+                                    <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ alignSelf: 'center', width: (width - 30) / 2, height: (width - 30) / 5, resizeMode: 'stretch', paddingHorizontal: 1 }} />
+                                    <Text ellipsizeMode='tail' numberOfLines={2} style={{ marginVertical: 7, fontSize: 15, paddingHorizontal: 3, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
                                     <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
                                         <Text style={{ color: 'white' }}>Địa chỉ: </Text>
                                         <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>{this.state.product && this.state.product.organization && this.state.product.organization.address}</Text>
@@ -182,10 +180,9 @@ class Detail extends Component {
                                             }}>
                                                 <View style={{}}>
                                                     <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) / 3, height: (width - 30) / 3, resizeMode: 'contain' }} />
-                                                    {/* <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingBottom: 28, paddingTop: 10, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text> */}
-                                                    <Text ellipsizeMode='tail' numberOfLines={1} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(2), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.price} đ</Text>
+                                                    <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(1.8), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.name} đ</Text>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingBottom: 7 }}>
-                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'white', textDecorationLine: 'line-through' }}>100.000đ</Text>
+                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'white', textDecorationLine: 'underline' }}>{item.price}</Text>
                                                         <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'rgba(0, 0, 0, 0.7)' }}>-1%</Text>
                                                     </View>
                                                 </View>
