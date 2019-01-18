@@ -53,6 +53,7 @@ const UppperLabel = ({ title, content }) => {
         </View>
     );
 }
+
 const UppperScroolView = ({ title, content }) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 5, paddingVertical: 10 }}>

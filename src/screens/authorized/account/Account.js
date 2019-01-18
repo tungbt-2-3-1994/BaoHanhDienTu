@@ -71,14 +71,13 @@ class Account extends Component {
                     AccessToken.getCurrentAccessToken().then(
                         (data) => {
                             let accessToken = data.accessToken;
-                            console.log('accessToken', accessToken);
                             const responseInfoCallback = (error, result) => {
                                 console.log('responseData', result);
                                 if (error) {
                                     console.log(error)
                                     alert('Login fail with Facebook!');
                                 } else {
-                                    this.props.loginWithSocial(result.name, result.name, 1, accessToken);
+                                    this.props.loginWithSocial(result.email ? result.email : '', result.name, 1, result.id);
                                 }
                             }
 
@@ -270,7 +269,7 @@ class Account extends Component {
                             :
                             <View style={{ flexDirection: 'row', width: 3 * width / 4, justifyContent: 'space-around', marginTop: 10 }}>
                                 <SocialIcon onPress={() => this._onLoginFbPress()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title='Facebook' button type='facebook' />
-                                <SocialIcon onPress={() => this._onGoogleSignin()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title=' Google ' button type='google-plus-official' />
+                                {/* <SocialIcon onPress={() => this._onGoogleSignin()} style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 7, paddingBottom: 7 }} title=' Google ' button type='google-plus-official' /> */}
                             </View>
                         }
                     </View >
@@ -297,12 +296,6 @@ class Account extends Component {
                     <View style={styles.contentContainer}>
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Điện thoại</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.phoneNumber}
-                                onChangeText={(text) => { this.setState({ phoneNumber: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>+{this.props.user.infor.telephone !== null ? this.props.user.infor.telephone : ' '}</Text>
                             </View>
@@ -310,12 +303,6 @@ class Account extends Component {
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Họ tên</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.name}
-                                onChangeText={(text) => { this.setState({ name: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>{this.props.user.infor.name !== null ? this.props.user.infor.name : ' '}</Text>
                             </View>
@@ -323,12 +310,6 @@ class Account extends Component {
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Email</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.email}
-                                onChangeText={(text) => { this.setState({ email: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>{this.props.user.infor.email !== null ? this.props.user.infor.email : ' '}</Text>
                             </View>
@@ -336,12 +317,6 @@ class Account extends Component {
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Địa chỉ</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.address}
-                                onChangeText={(text) => { this.setState({ address: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>{this.props.user.infor.address !== null ? this.props.user.infor.address : ' '}</Text>
                             </View>
@@ -349,12 +324,6 @@ class Account extends Component {
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Ngày sinh</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dob}
-                                onChangeText={(text) => { this.setState({ dob: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>{this.props.user.infor.birthday !== null ? this.props.user.infor.birthday : ' '}</Text>
                             </View>
@@ -362,12 +331,6 @@ class Account extends Component {
 
                         <View style={styles.rowInput}>
                             <Text style={[{ flex: 0.3, }, styles.textStyle]}>Tham gia</Text>
-                            {/* <TextInput
-                                underlineColorAndroid='transparent'
-                                editable={this.state.editable}
-                                style={[{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }, styles.textStyle]} value={this.state.dos}
-                                onChangeText={(text) => { this.setState({ dos: text }) }}
-                            /> */}
                             <View style={{ paddingLeft: 10, flex: 0.7, borderLeftWidth: 1, borderColor: 'rgba(0, 0, 0, 0.5)' }}>
                                 <Text style={[styles.textStyle]}>{this.getDate(this.props.user.infor.created_at !== null ? this.props.user.infor.created_at : ' ')}</Text>
                             </View>
@@ -379,37 +342,6 @@ class Account extends Component {
                                 <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Đăng xuất</Text>
                             </View>
                         </TouchableOpacity>
-
-                        {/* <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', paddingHorizontal: 20, marginTop: 30 }}>
-                            {
-                                !this.state.editable ?
-                                    (<TouchableOpacity onPress={() => this.onEdit()}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Icon type='MaterialIcons' name='settings' style={{ color: 'red' }} />
-                                            <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Chỉnh sửa</Text>
-                                        </View>
-                                    </TouchableOpacity>)
-                                    :
-                                    <View></View>
-                            }
-                            {this.state.editable &&
-                                <TouchableOpacity style={{ backgroundColor: 'white', padding: 10, borderRadius: 5 }} onPress={() => this.onSubmit()}>
-                                    <Text style={{ fontSize: responsiveFontSize(1.9), fontWeight: 'bold', color: '#277dad', }}>Xác nhận</Text>
-                                </TouchableOpacity>}
-
-                            {
-                                !this.state.editable ?
-                                    (<TouchableOpacity onPress={() => this.onLogout()}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Icon type='MaterialIcons' name='power-settings-new' style={{ color: 'red' }} />
-                                            <Text style={{ marginLeft: 5, color: 'white', fontSize: responsiveFontSize(1.7) }}>Đăng xuất</Text>
-                                        </View>
-                                    </TouchableOpacity>)
-                                    :
-                                    <View></View>
-                            }
-
-                        </View> */}
                     </View>
                 </View>
             );

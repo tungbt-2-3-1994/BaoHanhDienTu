@@ -26,28 +26,21 @@ class NormalHeader extends Component {
                 <Body style={{ flex: 8, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: 'white', fontWeight: 'bold', fontSize: responsiveFontSize(1.9) }}>{this.props.title}</Text>
                 </Body>
-                <Right style={{ flex: 2, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cart') }}>
+                <Right style={{ flex: 2, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+                    {/* <TouchableOpacity onPress={() => { this.props.navigation.navigate('Cart') }}>
                         <Icon name='ios-cart' style={{ color: 'white', fontSize: responsiveFontSize(2.8) }} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <TouchableOpacity>
                         <IconBadge
                             MainElement={
-                                <View style={{ width: 20, height: 20, margin: 6, }}>
+                                <View style={{ width: 20, height: 20, }}>
                                     <Icon name='ios-notifications' style={{ color: 'white', fontSize: responsiveFontSize(2.4) }} />
                                 </View>
                             }
                             BadgeElement={
                                 <Text style={{ color: 'white' }}>{this.props.count}</Text>
                             }
-                            // IconBadgeStyle={
-                            //     {
-                            //         width: 20,
-                            //         height: 20,
-                            //         backgroundColor: 'white'
-                            //     }
-                            // }
                             Hidden={this.props.count === 0}
                         />
                     </TouchableOpacity>

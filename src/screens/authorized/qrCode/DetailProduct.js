@@ -14,11 +14,13 @@ import Modal from 'react-native-modalbox';
 
 import HTML from 'react-native-render-html';
 
-const CrossText = ({ text }) => {
+const UppperLabel = ({ title, url }) => {
     return (
-        <View style={{}}>
-            <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(255, 255, 255, 0.6)' }}>{text}</Text>
-            <View style={{ position: 'absolute', top: responsiveFontSize(0.9), left: 0, right: 0, height: 1, width: null, flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)' }}></View>
+        <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
+            <Image style={{ borderWidth: 1, borderColor: 'white', width: width - 20, flex: 1, padding: 10, resizeMode: 'stretch', height: width / 3 }} source={{ uri: url }} />
+            <View style={{ position: 'absolute', top: 5, left: 15, backgroundColor: priColor }}>
+                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), padding: 5 }}>{title}</Text>
+            </View>
         </View>
     );
 }
@@ -86,7 +88,7 @@ class DetailProduct extends Component {
         fetch(`${host}/products/${id_product}`)
             .then(res => res.json())
             .then(resData => {
-                console.log('error', resData);
+                console.log('DATA', resData);
                 if (resData.code === 200) {
                     this.setState({ product: resData, loading: false });
                 } else {
@@ -110,17 +112,17 @@ class DetailProduct extends Component {
                         <View style={styles.foreground}>
                             <Image style={{ width: width, height: height / 5, resizeMode: 'contain' }} source={{ uri: this.state.product.logo }} />
                         </View>
-                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 20, }}>
+                        <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10, }}>
                             <View style={{ flexDirection: 'row', }}>
                                 <View style={{ flex: 0.7, paddingRight: 10 }}>
-                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>{this.state.product.name}</Text>
+                                    <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textAlign: 'justify' }}>Sản phẩm: {this.state.product.name}</Text>
                                 </View>
-                                <View style={{ backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 3 }}>
-                                    <Text style={{ fontSize: responsiveFontSize(1.8), color: '#cb4a46', fontWeight: '700', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
+                                <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', justifyContent: 'center', alignItems: 'center', flex: 0.3, paddingBottom: 2, borderRadius: 3 }}>
+                                    <Text style={{ fontSize: responsiveFontSize(2.2), color: '#cb4a46', fontWeight: '800', textAlign: 'center' }}>{this.state.product.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
                                     <View style={{ flexDirection: 'row', marginTop: 3, alignItems: 'center' }}>
-                                        <Text style={{ color: '#9ba49a', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.4) }}>32.000đ</Text>
-                                        <View style={{ backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
-                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.4), fontWeight: '600' }}>-19%</Text>
+                                        <Text style={{ color: 'rgba(0, 0, 0, 0.6)', textDecorationLine: 'line-through', fontSize: responsiveFontSize(1.4) }}>{(this.state.product.price * (1 + this.state.product.discount / 100)).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')}đ</Text>
+                                        <View style={{ borderRadius: 3, backgroundColor: '#cb4a46', marginLeft: 5, paddingVertical: 3, paddingHorizontal: 5 }}>
+                                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.2), fontWeight: '800' }}>-{this.state.product.discount && this.state.product.discount}%</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -140,37 +142,36 @@ class DetailProduct extends Component {
                                 </View>
                             }
                         </View>
+
+                        <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
+                        <UppperLabel title='Thương hiệu Doanh nghiệp' url={this.state.product && this.state.product.organization && this.state.product.organization.cover} />
+
+
+                        <View style={{ paddingTop: 10, marginBottom: 10, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.6)', marginHorizontal: 10 }}>
+                            <ScrollView horizontal={true} style={{}} contentContainerStyle={{ padding: 10 }}>
+                                <View style={{ paddingBottom: 7, flex: 1, height: null, width: width / 2, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)' }}>
+                                    <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ width: width / 2, height: width / 4, resizeMode: 'stretch', paddingHorizontal: 1 }} />
+                                    <View style={{ flex: 1 }}>
+                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ marginVertical: 7, fontSize: 15, paddingHorizontal: 3, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
+                                        <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
+                                            <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Địa chỉ</Text>
+                                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.address}</Text>
+                                        </Text>
+                                        <Text style={{ fontSize: 15, paddingHorizontal: 3, marginTop: 3 }}>
+                                            <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Hotline</Text>
+                                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.phone}</Text>
+                                        </Text>
+                                    </View>
+                                </View>
+                            </ScrollView>
+                            <View style={{ position: 'absolute', top: -10, left: 15, backgroundColor: priColor, paddingHorizontal: 5, }}>
+                                <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Điểm bán</Text>
+                            </View>
+                        </View>
+
                         <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
-                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold' }}>Sản phẩm cùng loại</Text>
-                            {/* <FlatList
-                                style={{ marginBottom: 5, marginTop: 15 }}
-                                data={this.state.same_products}
-                                ItemSeparatorComponent={this.separateView}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <TouchableOpacity onPress={() => {
-                                            this.getDetail(item.id);
-                                            this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
-                                        }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width - 10, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
-                                            <Image source={{ uri: item.logo }} style={{ height: 2 * (width - 20) / 9 - 5, width: 2 * (width - 20) / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center' }} />
-                                            <View style={{ paddingHorizontal: 3, width: 7 * (width - 20) / 9, justifyContent: 'space-between', paddingBottom: (width - 20) / 27, paddingTop: 2 }}>
-                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
-                                                <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.6), color: 'yellow' }}>{item.price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} vnđ</Text>
-                                                <View style={{ paddingHorizontal: 3, flexDirection: 'row' }}>
-                                                    <CrossText text={item.price + 'vnđ'} />
-                                                    <Text style={{ fontSize: responsiveFontSize(1.3), color: 'rgba(0, 0, 0, 0.6)' }}> -{item.discount}%</Text>
-                                                </View>
-                                                <TouchableOpacity onPress={() => { }} style={{ position: 'absolute', right: 0, bottom: 0, borderColor: 'yellow', borderWidth: 1, paddingVertical: 2, paddingHorizontal: 5 }}>
-                                                    <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.6) }}>Mua ngay</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </TouchableOpacity>
-                                    );
-                                }}
-                                keyExtractor={(item, index) => index + item.gtin + 'products'}
-                                ListEmptyComponent={this.renderEmpty}
-                            /> */}
+                            <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textDecorationLine: 'underline' }}>Sản phẩm liên quan:</Text>
                             <View style={{ paddingVertical: 10, marginTop: 10 }}>
                                 <FlatList
                                     style={{ backgroundColor: priColor }}
@@ -184,11 +185,10 @@ class DetailProduct extends Component {
                                                 this.refs.myScroll.scrollTo({ x: 0, y: 0, animated: true });
                                             }}>
                                                 <View style={{}}>
-                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) /3, height: (width - 30) / 3, resizeMode: 'contain' }} />
-                                                    {/* <Text ellipsizeMode='tail' numberOfLines={3} style={{ paddingBottom: 28, paddingTop: 10, fontSize: responsiveFontSize(1.7), textAlign: 'center', padding: 1 }}>{item.name}</Text> */}
-                                                    <Text ellipsizeMode='tail' numberOfLines={1} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(2), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.price} đ</Text>
+                                                    <Image source={{ uri: item.logo }} style={{ alignSelf: 'center', padding: 3, width: (width - 30) / 3, height: (width - 30) / 3, resizeMode: 'contain' }} />
+                                                    <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 7, paddingTop: 5, fontSize: responsiveFontSize(1.8), textAlign: 'center', padding: 1, color: 'yellow', fontWeight: '700' }}>{item.name} đ</Text>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingBottom: 7 }}>
-                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'white', textDecorationLine: 'line-through' }}>100.000đ</Text>
+                                                        <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'white', textDecorationLine: 'underline' }}>{item.price}</Text>
                                                         <Text ellipsizeMode='tail' numberOfLines={1} style={{ fontSize: responsiveFontSize(1.6), textAlign: 'center', padding: 1, color: 'rgba(0, 0, 0, 0.7)' }}>-1%</Text>
                                                     </View>
                                                 </View>

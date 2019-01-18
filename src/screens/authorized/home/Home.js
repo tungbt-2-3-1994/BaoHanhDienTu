@@ -510,7 +510,7 @@ export default class Home extends Component {
                             removeClippedSubviews={true}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('DetailProduct', { item: item }) }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, }}>
+                                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('DetailProduct', { item: item }) }} style={{ flexDirection: 'row', backgroundColor: priColor, width: width, height: null, flex: 1, marginBottom: 5, backgroundColor: priColor, borderBottomColor: 'rgba(255, 255, 255, 0.3)', borderBottomWidth: 1, paddingBottom: 5 }}>
                                         <Image source={{ uri: item.logo }} style={{ height: 2 * width / 9 - 5, width: 2 * width / 9 - 5, borderColor: 'rgba(255, 255, 255, 0.5)', borderWidth: 1, alignSelf: 'center', marginLeft: 5 }} />
                                         <View style={{ paddingHorizontal: 3, paddingLeft: 10, width: 7 * width / 9, justifyContent: 'space-between', paddingBottom: width / 27 }}>
                                             <Text numberOfLines={1} ellipsizeMode='tail' style={{ paddingHorizontal: 3, fontSize: responsiveFontSize(1.8), color: 'white', fontWeight: 'bold' }}>{item.name}</Text>
@@ -519,9 +519,9 @@ export default class Home extends Component {
                                                 <CrossText text={(item.price * (100 + item.discount) / 100).toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')} />
                                                 <Text style={{ fontSize: responsiveFontSize(1.3), color: '#E42217' }}> -{item.discount}%</Text>
                                             </View>
-                                            <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 0, borderColor: 'yellow', borderWidth: 1, padding: 2 }}>
+                                            {/* <TouchableOpacity style={{ position: 'absolute', right: 5, bottom: 0, borderColor: 'yellow', borderWidth: 1, padding: 2 }}>
                                                 <Text style={{ color: 'yellow', fontSize: responsiveFontSize(1.8) }}>Mua ngay</Text>
-                                            </TouchableOpacity>
+                                            </TouchableOpacity> */}
                                         </View>
                                     </TouchableOpacity>
                                 );

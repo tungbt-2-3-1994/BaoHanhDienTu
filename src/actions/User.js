@@ -73,6 +73,7 @@ export const normalLogin = (username, password) => {
 }
 
 export const loginWithSocial = (username, name, type, token) => {
+    console.log(username, name, type, token);
     return (dispatch) => {
         fetch(`${host}/signin`, {
             method: 'POST',
