@@ -3,8 +3,7 @@ package com.baohanhdientu;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
+// import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -19,8 +18,8 @@ import java.util.List;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,7 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNGoogleSigninPackage(),
+            // new RNGoogleSigninPackage(),
             new FBSDKPackage(mCallbackManager),
             new MapsPackage(),
             new RNCameraPackage(),
