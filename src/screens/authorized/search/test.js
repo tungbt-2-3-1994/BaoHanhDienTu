@@ -126,9 +126,9 @@
                         this.refs.modal.close();
                     }}>
                         {/* <Icon name='home' style={{ color: priColor, marginRight: 10 }} /> */}
-<Text style={[{ fontSize: responsiveFontSize(2), color: 'rgba(0, 0, 0, 0.7)' }, this.state.index_picker === index && { color: priColor, fontSize: responsiveFontSize(2.2), fontWeight: 'bold' }]}>{value.title}</Text>
+{/* <Text style={[{ fontSize: responsiveFontSize(2), color: 'rgba(0, 0, 0, 0.7)' }, this.state.index_picker === index && { color: priColor, fontSize: responsiveFontSize(2.2), fontWeight: 'bold' }]}>{value.title}</Text>
                     </TouchableOpacity >
                 );
             })}
         </ScrollView >
-    </ModalBox > * /}
+    </ModalBox > * /} */}

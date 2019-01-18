@@ -143,11 +143,10 @@ class DetailProduct extends Component {
                             }
                         </View>
 
-                        <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
+                        <View style={{ backgroundColor: 'white', height: 2, width: width, marginVertical: 10 }}></View>
                         <UppperLabel title='Thương hiệu Doanh nghiệp' url={this.state.product && this.state.product.organization && this.state.product.organization.cover} />
 
-
-                        <View style={{ paddingTop: 10, marginBottom: 10, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.6)', marginHorizontal: 10 }}>
+                        <View style={{ marginTop: 5, paddingTop: 10, marginBottom: 10, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.6)', marginHorizontal: 10 }}>
                             <ScrollView horizontal={true} style={{}} contentContainerStyle={{ padding: 10 }}>
                                 <View style={{ paddingBottom: 7, flex: 1, height: null, width: width / 2, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)' }}>
                                     <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ width: width / 2, height: width / 4, resizeMode: 'stretch', paddingHorizontal: 1 }} />
@@ -169,7 +168,7 @@ class DetailProduct extends Component {
                             </View>
                         </View>
 
-                        <View style={{ backgroundColor: 'white', height: 2, width: width }}></View>
+                        <View style={{ backgroundColor: 'white', height: 2, width: width, marginTop: 15, marginBottom: 10 }}></View>
                         <View style={{ paddingHorizontal: 10, paddingTop: 10, paddingBottom: 10 }}>
                             <Text style={{ color: 'white', fontSize: responsiveFontSize(1.8), fontWeight: 'bold', textDecorationLine: 'underline' }}>Sản phẩm liên quan:</Text>
                             <View style={{ paddingVertical: 10, marginTop: 10 }}>
