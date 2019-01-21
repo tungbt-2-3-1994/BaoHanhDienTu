@@ -16,8 +16,10 @@ import HTML from 'react-native-render-html';
 
 const UppperLabel = ({ title, url }) => {
     return (
-        <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-            <Image style={{ borderWidth: 1, borderColor: 'white', width: width - 20, flex: 1, padding: 10, resizeMode: 'stretch', height: width / 3 }} source={{ uri: url }} />
+        <View style={{ paddingHorizontal: 10, paddingVertical: 20, }}>
+            <View style={{ width: width - 20, borderWidth: 1, borderColor: 'white', height: width / 3, borderRadius: 10, overflow: 'hidden' }}>
+                <Image style={{ flex: 1, resizeMode: 'stretch', }} source={{ uri: url }} />
+            </View>
             <View style={{ position: 'absolute', top: 5, left: 15, backgroundColor: priColor }}>
                 <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), padding: 5 }}>{title}</Text>
             </View>
@@ -146,24 +148,26 @@ class Detail extends Component {
                         <View style={{ backgroundColor: 'white', height: 2, width: width, marginVertical: 10 }}></View>
                         <UppperLabel title='Thương hiệu Doanh nghiệp' url={this.state.product && this.state.product.organization && this.state.product.organization.cover} />
 
-                        <View style={{ marginTop: 5, paddingTop: 10, marginBottom: 10, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.6)', marginHorizontal: 10 }}>
-                            <ScrollView horizontal={true} style={{}} contentContainerStyle={{ padding: 10 }}>
-                                <View style={{ paddingBottom: 7, flex: 1, height: null, width: width / 2, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)' }}>
-                                    <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ width: width / 2, height: width / 4, resizeMode: 'stretch', paddingHorizontal: 1 }} />
-                                    <View style={{ flex: 1 }}>
-                                        <Text ellipsizeMode='tail' numberOfLines={2} style={{ marginVertical: 7, fontSize: 15, paddingHorizontal: 3, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
-                                        <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
-                                            <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Địa chỉ</Text>
-                                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.address}</Text>
-                                        </Text>
-                                        <Text style={{ fontSize: 15, paddingHorizontal: 3, marginTop: 3 }}>
-                                            <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Hotline</Text>
-                                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.phone}</Text>
-                                        </Text>
+                        <View style={{ marginTop: 5, paddingTop: 10, marginBottom: 10, marginHorizontal: 10, overflow: 'visible' }}>
+                            <View style={{ flex: 1, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.6)', overflow: 'visible', borderRadius: 7, }}>
+                                <ScrollView horizontal={true} style={{}} contentContainerStyle={{ padding: 10 }}>
+                                    <View style={{ paddingBottom: 7, flex: 1, height: null, width: width / 2, borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)', borderRadius: 7, overflow: 'hidden' }}>
+                                        <Image source={{ uri: this.state.product && this.state.product.organization && this.state.product.organization.cover }} style={{ width: width / 2, height: width / 4, resizeMode: 'stretch', paddingHorizontal: 1 }} />
+                                        <View style={{ flex: 1 }}>
+                                            <Text ellipsizeMode='tail' numberOfLines={2} style={{ marginVertical: 7, fontSize: 15, paddingHorizontal: 3, color: 'yellow', fontWeight: '700' }}>{this.state.product && this.state.product.organization && this.state.product.organization.name}</Text>
+                                            <Text style={{ fontSize: 15, paddingHorizontal: 3 }}>
+                                                <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Địa chỉ</Text>
+                                                <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.address}</Text>
+                                            </Text>
+                                            <Text style={{ fontSize: 15, paddingHorizontal: 3, marginTop: 3 }}>
+                                                <Text style={{ color: 'white', textDecorationLine: 'underline' }}>-Hotline</Text>
+                                                <Text ellipsizeMode='tail' numberOfLines={2} style={{ paddingBottom: 5, paddingTop: 5, color: 'white' }}>: {this.state.product && this.state.product.organization && this.state.product.organization.phone}</Text>
+                                            </Text>
+                                        </View>
                                     </View>
-                                </View>
-                            </ScrollView>
-                            <View style={{ position: 'absolute', top: -10, left: 15, backgroundColor: priColor, paddingHorizontal: 5, }}>
+                                </ScrollView>
+                            </View>
+                            <View style={{ position: 'absolute', top: 0, left: 15, backgroundColor: priColor, paddingHorizontal: 5, }}>
                                 <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7), }}>Điểm bán</Text>
                             </View>
                         </View>

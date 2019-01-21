@@ -778,7 +778,7 @@ class SearchView extends Component {
                         <View style={{ flex: 1 }}>
                             <KeyboardAvoidingView behavior='padding' style={{ flex: 1, backgroundColor: priColor, padding: 15 }}>
                                 <ScrollView style={{ flex: 1, backgroundColor: priColor, paddingBottom: 50 }}>
-                                    <ListHeader title='Thông tin khách hàng' size='1.8'/>
+                                    <ListHeader title='Thông tin khách hàng' size='1.8' />
                                     <Input
                                         containerStyle={{ borderRadius: 30, width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
                                         inputContainerStyle={{ borderColor: 'transparent' }}
@@ -820,12 +820,13 @@ class SearchView extends Component {
                                         onSubmitEditing={() => this.serial.focus()}
                                         onChangeText={(text) => this.setState({ email: text })}
                                     />
-                                    <ListHeader title='Thông tin sản phẩm' size='1.8'/>
+                                    <ListHeader title='Thông tin sản phẩm' size='1.8' />
                                     <Input
                                         containerStyle={{ borderRadius: 30, width: '100%', backgroundColor: 'white', marginBottom: 20, padding: 5 }}
                                         inputContainerStyle={{ borderColor: 'transparent' }}
                                         inputStyle={{ color: 'black', fontSize: responsiveFontSize(1.8) }}
                                         leftIcon={<IconFA name='barcode' style={{ fontSize: responsiveFontSize(1.8), color: '#969696' }} />}
+                                        rightIcon={<Text style={{ color: 'red', fontSize: 30, alignSelf: 'center', marginRight: 5 }}>*</Text>}
                                         placeholder='Serial'
                                         placeholderTextColor='#969696'
                                         underlineColorAndroid='transparent'
@@ -868,6 +869,11 @@ class SearchView extends Component {
                                     <TouchableOpacity onPress={() => this.onSearch()} style={{ alignSelf: 'center', borderWidth: 1, borderColor: 'white', backgroundColor: 'transparent', borderRadius: 10, padding: 10, marginTop: 5, marginBottom: 30 }}>
                                         <Text style={{ fontWeight: 'bold', color: 'white', fontSize: responsiveFontSize(2) }}>Tìm kiếm</Text>
                                     </TouchableOpacity>
+
+                                    <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                                        <Text style={{ color: 'red', fontSize: 30 }}>*</Text>
+                                        <Text style={{ color: 'white', fontSize: responsiveFontSize(1.7) }}>: Những trường bắt buộc phải điền.</Text>
+                                    </View>
                                 </ScrollView>
                             </KeyboardAvoidingView>
                             <Modal ref={'modal'} swipeToClose={false} style={[styles.modal,]} backdrop={true} position={"bottom"} >
